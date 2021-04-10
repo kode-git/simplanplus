@@ -34,5 +34,44 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
         return res;
 
     }
+    /*
+    @Override
+    public Node visitStatement(SimpLanPlusParser.StatementContext ctx) {
 
+        return null;
+    } */
+/*
+    @Override
+    public Node visitDeclaration(SimpLanPlusParser.DeclarationContext ctx) {
+
+        return null;
+    }
+*/
+
+
+    @Override
+    public Node visitDecVar(SimpLanPlusParser.DecVarContext ctx) {
+        Node typeNode = visit(ctx.type());
+        String id = ctx.ID().getText();
+        Node expNode;
+        if (ctx.exp()!=null){
+            expNode = visit(ctx.exp());
+            return new DecVarNode(typeNode,id,expNode);
+        }
+        return new DecVarNode(typeNode,id);
+
+    }
+
+    @Override
+    public Node visitType(SimpLanPlusParser.TypeContext ctx) {
+        if(ctx.getText().equals("int"))
+            return new IntTypeNode();
+        else if(ctx.getText().equals("bool"))
+            return new BoolTypeNode();
+        if(ctx.type()!= null){
+            //TODO pointer type
+        }
+        //this will never happen thanks to the parser
+        return null;
+    }
 }

@@ -18,17 +18,17 @@ public class BlockNode implements Node {
     public String toPrint(String s) {
         System.out.println(s);
 
-        /*
+
         String declstr="";
         for (Node dec:declarations)
             declstr += dec.toPrint(s+"  ");
+            /*
         for (Node dec:statements)
             declstr += dec.toPrint(s+"  ");
 
         */
         
-        //TO-DO: Define it better
-        String declstr = "->";
+
         return s+"BlockNode\n" + declstr ;
     }
 
