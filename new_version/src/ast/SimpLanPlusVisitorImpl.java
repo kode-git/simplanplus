@@ -24,8 +24,8 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node> {
             declarations.add( visit(dc) );
         }
 
-        for (SimpLanPlusParser.StatementContext dc : ctx.statement()){
-            declarations.add( visit(dc) );
+        for (SimpLanPlusParser.StatementContext st : ctx.statement()){
+            statements.add( visit(st) );
         }
 
         //build @res accordingly with the result of the visits to its content
