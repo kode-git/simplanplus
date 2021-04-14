@@ -15,6 +15,10 @@ public class BlockNode implements Node {
         statements=s;
     }
 
+    public BlockNode(){
+        declarations = new ArrayList<Node>();
+        statements = new ArrayList<Node>();
+    }
     public String toPrint(String s) {
         System.out.println(s);
 

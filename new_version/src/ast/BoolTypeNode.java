@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class BoolTypeNode implements Node {
+public class BoolTypeNode implements Node, GenericTypeNode {
   
   public BoolTypeNode () {
   }
@@ -14,7 +14,7 @@ public class BoolTypeNode implements Node {
 	return s+"BoolType\n";  
   }
     
-  //non utilizzato
+  //not used
   public Node typeCheck() {
     return null;
   }
@@ -25,7 +25,7 @@ public class BoolTypeNode implements Node {
  	  return new ArrayList<SemanticError>();
  	}
   
-  //non utilizzato
+  //not used
   public String codeGeneration() {
 		return "";
   }

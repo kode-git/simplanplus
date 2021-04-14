@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class IntTypeNode implements Node {
+public class IntTypeNode implements Node, GenericTypeNode {
   
   public IntTypeNode () {
   }

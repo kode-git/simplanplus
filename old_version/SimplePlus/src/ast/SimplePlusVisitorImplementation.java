@@ -201,7 +201,7 @@ public class SimplePlusVisitorImplementation extends SimplePlusBaseVisitor<Simpl
 	
 	@Override
 	public SimplePlusBaseElement visitValExp(SimplePlusParser.ValExpContext ctx) {
-		return new SimplePlusValExp(Integer.parseInt(ctx.NUMBER().getText()));
+		return new IntNode(Integer.parseInt(ctx.NUMBER().getText()));
 	}
 	
 	@Override
@@ -211,7 +211,7 @@ public class SimplePlusVisitorImplementation extends SimplePlusBaseVisitor<Simpl
 
 	@Override
 	public SimplePlusBaseElement visitBoolExp(SimplePlusParser.BoolExpContext ctx) {
-		return new SimplePlusBoolExp(Boolean.parseBoolean(ctx.BOOL().getText()));
+		return new BoolNode(Boolean.parseBoolean(ctx.BOOL().getText()));
 	}
 	
 	@Override
