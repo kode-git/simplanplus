@@ -5,19 +5,10 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class ArgNode implements Node {
-
-    private Node type;
-    private String id;
-
-    public ArgNode(Node type, String id) {
-        this.type = type;
-        this.id = id;
-    }
-
+public class NewExpNode implements Node{
     @Override
-    public String toPrint(String s) {
-        return s+"Arg:" + type.toPrint(s+"") + id +"\n";
+    public String toPrint(String indent) {
+        return null;
     }
 
     @Override

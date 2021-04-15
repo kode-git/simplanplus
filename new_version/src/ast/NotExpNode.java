@@ -5,10 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class NotExpNode implements Node {
-    public NotExpNode(ExpNode visit) {
-    }
-
+public class NotExpNode implements Node{
     @Override
     public String toPrint(String indent) {
         return null;

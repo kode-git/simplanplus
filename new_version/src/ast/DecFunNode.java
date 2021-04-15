@@ -6,6 +6,12 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class DecFunNode implements Node {
+
+    private Node type;
+    private String id;
+    private ArrayList<ArgNode> args;
+    private BlockNode block;
+
     public DecFunNode(Node type, String id, ArrayList<ArgNode> args, BlockNode block) {
     }
 
