@@ -5,10 +5,15 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class LhsNode implements Node{
+public class LhsNode<T>implements Node{
+    T lhVar;
+    public LhsNode(T myNode){
+        this.lhVar=myNode;
+    }
+
     @Override
     public String toPrint(String indent) {
-        return null;
+        return indent;
     }
 
     @Override
