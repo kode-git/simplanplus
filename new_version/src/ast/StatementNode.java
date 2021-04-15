@@ -6,9 +6,13 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class StatementNode implements Node{
+    private Node st;
+    public StatementNode(Node st){
+        this.st=st;
+    }
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+        return s+"Statement:" + st.toPrint(s + " ") + "\n";
     }
 
     @Override

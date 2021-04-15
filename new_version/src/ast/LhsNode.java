@@ -8,13 +8,21 @@ import java.util.ArrayList;
 public class LhsNode<T>implements Node{
     T lhVar;
     public LhsNode(T myNode){
+
         this.lhVar=myNode;
     }
 
     @Override
-    public String toPrint(String indent) {
-        return indent;
+    public String toPrint(String s) {
+        if(lhVar instanceof Node){
+            return s+ ((Node) lhVar).toPrint(s+ "") + "^ \n";
+        }else {
+            return s+ lhVar +"\n";
+        }
+
     }
+
+
 
     @Override
     public Node typeCheck() {

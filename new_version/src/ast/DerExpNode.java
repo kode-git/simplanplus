@@ -5,13 +5,15 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class DerExpNode implements Node {
-    public DerExpNode(ExpNode lhs) {
+public class DerExpNode implements ExpNode {
+    Node derExp;
+    public DerExpNode(Node derExp) {
+        this.derExp=derExp;
     }
 
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+        return s+"" + derExp.toPrint(s + " ") + "\n";
     }
 
     @Override

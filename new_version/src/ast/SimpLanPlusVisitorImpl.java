@@ -136,7 +136,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
             statements.add( visit(st) );
         }
 
-        return new IteNode(expN,statements);
+        return new IteNode(statements,expN);
     }
 
     @Override

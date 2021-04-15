@@ -5,10 +5,16 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class NotExpNode implements Node{
+public class NotExpNode implements ExpNode{
+    private ExpNode expNode;
+    public NotExpNode(ExpNode expNode){
+        this.expNode= expNode;
+    }
+
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+
+        return s+"!" + expNode.toPrint(s+" ") + "\n";
     }
 
     @Override
