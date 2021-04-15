@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpEqNode implements Node {
+public class BinExpEqNode implements ExpNode {
 
     private ExpNode left;
     private ExpNode right;

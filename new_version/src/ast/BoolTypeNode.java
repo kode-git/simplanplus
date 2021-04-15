@@ -6,7 +6,7 @@ import util.Environment;
 import util.SemanticError;
 
 public class BoolTypeNode implements Node, GenericTypeNode {
-  
+
   public BoolTypeNode () {
   }
   

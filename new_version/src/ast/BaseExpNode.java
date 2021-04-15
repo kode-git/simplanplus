@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BaseExpNode implements Node{
+public class BaseExpNode implements ExpNode{
 
     Node exp;
 

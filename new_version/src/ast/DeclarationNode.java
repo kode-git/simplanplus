@@ -29,7 +29,7 @@ public class DeclarationNode implements Node{
 
     @Override
     public String toPrint(String s) {
-        if(this.decFun == null){
+        if(this.decFun != null){
             // It is a decFun
             return s+"Fun:" + decFun.toPrint(s + " ") + "\n";
         } else {

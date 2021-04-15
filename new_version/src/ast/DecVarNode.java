@@ -14,6 +14,7 @@ public class DecVarNode implements Node {
     public DecVarNode (Node myType, String id) {
         this.typeNode = myType;
         this.id = id;
+        this.exp = null;
     }
     public DecVarNode (Node myType, String id, Node exp) {
         this.typeNode = myType;
@@ -22,9 +23,16 @@ public class DecVarNode implements Node {
     }
 
     public String toPrint(String s) {
-        return s+"Var:" + id +"\n"
-                +typeNode.toPrint(s+"  ");
-               // + exp.toPrint(s+"  ");
+
+        if (this.exp != null){
+            return s+"DecVar:" + typeNode.toPrint(s+"  ") + id +" = "
+                    + exp.toPrint(s+"  ") + "\n";
+        }
+        else {
+            return s+"DecVar:"
+                    + typeNode.toPrint(s+"  ")
+                    + id + "\n";
+        }
     }
 
     @Override

@@ -14,12 +14,12 @@ public class IntTypeNode implements Node, GenericTypeNode {
 	return s+"IntType\n";  
   }
   
-  //non utilizzato
+
   public Node typeCheck() {
     return null;
   }
 
-  //non utilizzato
+
   public String codeGeneration() {
 		return "";
   }

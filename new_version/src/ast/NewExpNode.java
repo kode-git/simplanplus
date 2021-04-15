@@ -11,7 +11,7 @@ public class NewExpNode implements ExpNode{
     }
     @Override
     public String toPrint(String s) {
-        return s+ "NEW"+"\n";
+        return s+ "new"+"\n";
     }
 
     @Override
