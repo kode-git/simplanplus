@@ -24,7 +24,7 @@ public class DecVarNode implements Node {
     public String toPrint(String s) {
         return s+"Var:" + id +"\n"
                 +typeNode.toPrint(s+"  ");
-            //    +exp.toPrint(s+"  ");
+               // + exp.toPrint(s+"  ");
     }
 
     @Override

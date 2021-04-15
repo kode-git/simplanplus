@@ -19,6 +19,7 @@ public class BlockNode implements Node {
         declarations = new ArrayList<Node>();
         statements = new ArrayList<Node>();
     }
+
     public String toPrint(String s) {
         System.out.println(s);
 
@@ -26,12 +27,10 @@ public class BlockNode implements Node {
         String declstr="";
         for (Node dec:declarations)
             declstr += dec.toPrint(s+"  ");
-            /*
-        for (Node dec:statements)
-            declstr += dec.toPrint(s+"  ");
 
-        */
-        
+        for (Node st:statements)
+            declstr += st.toPrint(s+"  ");
+
 
         return s+"BlockNode\n" + declstr ;
     }
