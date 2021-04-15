@@ -5,13 +5,13 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class NewExpNode implements ExpNode{
+public class NewExpNode implements Node {
  
     public NewExpNode(){
     }
     @Override
     public String toPrint(String s) {
-        return s+ "new"+"\n";
+        return s+ "new"+" ";
     }
 
     @Override

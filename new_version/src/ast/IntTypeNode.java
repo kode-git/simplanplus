@@ -11,7 +11,7 @@ public class IntTypeNode implements Node, GenericTypeNode {
   }
   
   public String toPrint(String s) {
-	return s+"IntType\n";  
+	return s+"IntType ";
   }
   
 

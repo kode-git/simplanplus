@@ -190,9 +190,9 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 
     @Override
     public Node visitBinExp(SimpLanPlusParser.BinExpContext ctx) {
-        ExpNode left = (ExpNode) visit(ctx.left);
+        Node left = (Node) visit(ctx.left);
 
-        ExpNode right = (ExpNode) visit(ctx.right);
+        Node right = (Node) visit(ctx.right);
 
         switch(ctx.op.getText()) {
             case "*":
@@ -226,7 +226,8 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 
     @Override
     public Node visitDerExp(SimpLanPlusParser.DerExpContext ctx) {
-        return new DerExpNode((ExpNode) visit(ctx.lhs()));
+
+        return new DerExpNode( visit(ctx.lhs()));
     }
 
     @Override
@@ -241,7 +242,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 
     @Override
     public Node visitNegExp(SimpLanPlusParser.NegExpContext ctx) {
-        return new NegExpNode((ExpNode) visit(ctx.exp()));
+        return new NegExpNode(visit(ctx.exp()));
     }
 
     @Override
@@ -251,12 +252,12 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 
     @Override
     public Node visitCallExp(SimpLanPlusParser.CallExpContext ctx) {
-        return new CallExpNode((ExpNode) visitCall(ctx.call()));
+        return new CallExpNode(visitCall(ctx.call()));
     }
 
     @Override
     public Node visitNotExp(SimpLanPlusParser.NotExpContext ctx) {
-        return new NotExpNode((ExpNode) visit(ctx.exp()));
+        return new NotExpNode( visit(ctx.exp()));
     }
 
 }

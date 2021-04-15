@@ -6,12 +6,12 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 
-public class BinExpOrNode implements ExpNode {
+public class BinExpOrNode implements Node {
 
-    private ExpNode left;
-    private ExpNode right;
+    private Node left;
+    private Node right;
 
-    public BinExpOrNode(ExpNode left, ExpNode right) {
+    public BinExpOrNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
@@ -19,7 +19,7 @@ public class BinExpOrNode implements ExpNode {
     @Override
     public String toPrint(String s) {
 
-        return s + "Or: " + left.toPrint(s + " ") + "||" + right.toPrint(s + " ") + "\n";
+        return s + "Or: " + left.toPrint(s + "") + "||" + right.toPrint(s + "") + "";
     }
 
     @Override

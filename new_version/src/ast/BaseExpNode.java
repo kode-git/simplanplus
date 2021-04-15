@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BaseExpNode implements ExpNode{
+public class BaseExpNode implements Node {
 
     Node exp;
 
@@ -15,7 +15,7 @@ public class BaseExpNode implements ExpNode{
 
     @Override
     public String toPrint(String s) {
-        return s+ "BaseExp: (" + exp.toPrint(s + " ")+ ")\n";
+        return s+ "BaseExp: (" + exp.toPrint(s + "")+ ")";
     }
 
     @Override

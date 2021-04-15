@@ -31,9 +31,9 @@ public class DeclarationNode implements Node{
     public String toPrint(String s) {
         if(this.decFun != null){
             // It is a decFun
-            return s+"Fun:" + decFun.toPrint(s + " ") + "\n";
+            return s+"\n Declaration:" + decFun.toPrint(s + "") + "";
         } else {
-            return s+"Var:" + decVar.toPrint(s + " ") + "\n";
+            return s+"\n Declaration:" + decVar.toPrint(s + "") + "";
         }
     }
 

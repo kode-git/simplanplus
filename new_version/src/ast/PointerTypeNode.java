@@ -14,7 +14,7 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
     }
 
     public String toPrint(String s) {
-        return s+"^" + val.toPrint("") +"\n";
+        return s+"^" + val.toPrint("") +"";
     }
 
     public Node typeCheck() {

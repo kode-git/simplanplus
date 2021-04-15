@@ -14,8 +14,8 @@ public class BoolNode implements Node {
   }
   
   public String toPrint(String s) {
-    if (val) return s+"Boolean: True\n";
-    else return s+"Boolean: False\n";
+    if (val) return s+"Boolean: True";
+    else return s+"Boolean: False";
   }
   
   public Node typeCheck() {

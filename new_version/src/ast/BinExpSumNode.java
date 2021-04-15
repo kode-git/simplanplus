@@ -5,20 +5,20 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpSumNode implements ExpNode {
+public class BinExpSumNode implements Node {
 
-    private ExpNode left;
-    private ExpNode right;
+    private Node left;
+    private Node right;
 
-    public BinExpSumNode(ExpNode left, ExpNode right) {
+    public BinExpSumNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public String toPrint(String s) {
-        return s + "Sum: " + left.toPrint(s + " ") + "+"
-                + right.toPrint(s + " ") + "\n";
+        return s + "Sum: " + left.toPrint(s + "") + "+"
+                + right.toPrint(s + "") + "";
     }
 
     @Override

@@ -5,16 +5,16 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class CallExpNode implements ExpNode {
+public class CallExpNode implements Node {
 
-    private ExpNode call;
-    public CallExpNode(ExpNode node) {
+    private Node call;
+    public CallExpNode(Node node) {
         this.call = call;
     }
 
     @Override
     public String toPrint(String s) {
-        return s + "CallExp: " + call.toPrint(s + " ") + "\n";
+        return s + "CallExp: " + call.toPrint(s + "") + "";
     }
 
     @Override

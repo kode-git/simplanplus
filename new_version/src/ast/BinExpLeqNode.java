@@ -5,19 +5,19 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpLeqNode implements ExpNode {
+public class BinExpLeqNode implements Node {
 
-    private ExpNode left;
-    private ExpNode right;
+    private Node left;
+    private Node right;
 
-    public BinExpLeqNode(ExpNode left, ExpNode right) {
+    public BinExpLeqNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public String toPrint(String s) {
-        return s + "Leq: " + left.toPrint(s + " ") + "<=" + right.toPrint(s + " ") + "\n";
+        return s + "Leq: " + left.toPrint(s + "") + "<=" + right.toPrint(s + "") + "";
     }
 
     @Override

@@ -25,13 +25,13 @@ public class DecVarNode implements Node {
     public String toPrint(String s) {
 
         if (this.exp != null){
-            return s+"DecVar:" + typeNode.toPrint(s+"  ") + id +" = "
-                    + exp.toPrint(s+"  ") + "\n";
+            return s+"DecVar:" + typeNode.toPrint(s+"") + id +"="
+                    + exp.toPrint(s+"") + "";
         }
         else {
             return s+"DecVar:"
-                    + typeNode.toPrint(s+"  ")
-                    + id + "\n";
+                    + typeNode.toPrint(s+"")
+                    + id + "";
         }
     }
 

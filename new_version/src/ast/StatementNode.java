@@ -12,7 +12,7 @@ public class StatementNode implements Node{
     }
     @Override
     public String toPrint(String s) {
-        return s+"Statement:" + st.toPrint(s + " ") + "\n";
+        return s+"\n Statement:" + st.toPrint(s + "") ;
     }
 
     @Override

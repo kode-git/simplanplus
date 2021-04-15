@@ -24,12 +24,12 @@ public class CallNode implements Node {
 
 public String toPrint(String s) {  //
       String first = s + "CallNode: " + id + " ( ";
-      String last =  ")" + "\n";
+      String last =  ")" + "";
       String exp = "";
 
       // if exp is void the string in return is first + last = id + "( )\n"
       for(Node expNode : this.exp){
-            exp += expNode.toPrint(s + " ");
+            exp += expNode.toPrint(s + "");
       }
 
       return first + exp + last;

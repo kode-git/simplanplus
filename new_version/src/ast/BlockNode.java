@@ -26,13 +26,13 @@ public class BlockNode implements Node {
 
         String declstr="";
         for (Node dec:declarations)
-            declstr += dec.toPrint(s+"  ");
+            declstr += dec.toPrint(s+"");
 
         for (Node st:statements)
-            declstr += st.toPrint(s+"  ");
+            declstr += st.toPrint(s+"");
 
 
-        return s+"BlockNode\n" + declstr ;
+        return s+"\nBlockNode:" + declstr ;
     }
 
     @Override

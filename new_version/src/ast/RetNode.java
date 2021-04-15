@@ -18,8 +18,14 @@ public class RetNode implements Node{
     }
 
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+        String first =  s + "Ret:" + "return";
+        if(this.exp == null){
+            return first + "";
+        } else {
+            return first + " " + exp.toPrint(s + "") +
+                     "";
+        }
     }
 
     @Override

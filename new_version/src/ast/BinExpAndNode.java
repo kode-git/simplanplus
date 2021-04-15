@@ -5,21 +5,21 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpAndNode implements ExpNode {
+public class BinExpAndNode implements Node {
 
 
-    ExpNode left;
-    ExpNode right;
+    Node left;
+    Node right;
 
-    public BinExpAndNode(ExpNode left, ExpNode right) {
+    public BinExpAndNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public String toPrint(String s) {
-        return s + "BinAndExp: " + left.toPrint(s + " ") + "&&" +
-                right.toPrint(s +" ") + "\n";
+        return s + "BinAndExp: " + left.toPrint(s + "") + "&&" +
+                right.toPrint(s +" ") + "";
     }
 
     @Override

@@ -46,18 +46,18 @@ public class DecFunNode implements Node {
     }
     @Override
     public String toPrint(String s) {
-        if(type == null){
+        if(type != null){
             // type is not void
             if(args.size() == 0){
                 // no args
-                return s + "DecFun: " + type.toPrint(s + " ") + id + "( )" + block.toPrint(s + " ") + "\n";
+                return s + "\nDecFun:\n\t " + type.toPrint(s + "") + id + "( )" + block.toPrint(s + "") + "\n";
             } else {
                 // some args
-                String first =  s + "DecFun: " + type.toPrint(s + " ") + id + "(";
-                String last = ")" + block.toPrint(s + " ") + "\n";
-                String argsPrint = this.args.get(0).toPrint(s + " ");
+                String first =  s + "\nDecFun: " + type.toPrint(s + "") + id + "(";
+                String last = ")" + block.toPrint(s + "") + "\n";
+                String argsPrint = this.args.get(0).toPrint(s + "");
                 for(int i = 1; i < this.args.size(); i++){
-                    argsPrint += "," + this.args.get(i).toPrint(s + " ");
+                    argsPrint += "," + this.args.get(i).toPrint(s + "");
                 }
                 return first + argsPrint + last;
             }
@@ -65,14 +65,14 @@ public class DecFunNode implements Node {
             // type is void
             if (args.size() == 0){
                 // no args
-                return s + "DecFun: " + "void " + id + "( )" + block.toPrint(s + " ") + "\n";
+                return s + "\nDecFun: " + "void " + id + "( )" + block.toPrint(s + "") + "\n";
             } else {
                 // some args
-                String first =  s + "DecFun: " + "void " + id + "(";
+                String first =  s + "\nDecFun: " + "void " + id + "(";
                 String last = ")" + block.toPrint(s + " ") + "\n";
-                String argsPrint = this.args.get(0).toPrint(s + " ");
+                String argsPrint = this.args.get(0).toPrint(s + "");
                 for(int i = 1; i < this.args.size(); i++){
-                    argsPrint += "," + this.args.get(i).toPrint(s + " ");
+                    argsPrint += "," + this.args.get(i).toPrint(s + "");
                 }
                 return first + argsPrint + last;
             }

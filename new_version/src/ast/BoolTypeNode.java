@@ -11,7 +11,7 @@ public class BoolTypeNode implements Node, GenericTypeNode {
   }
   
   public String toPrint(String s) {
-	return s+"BoolType\n";  
+	return s+"BoolType ";
   }
     
   //not used

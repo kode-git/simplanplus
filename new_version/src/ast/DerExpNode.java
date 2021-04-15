@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class DerExpNode implements ExpNode {
+public class DerExpNode implements Node {
     Node derExp;
     public DerExpNode(Node derExp) {
         this.derExp=derExp;
@@ -13,7 +13,7 @@ public class DerExpNode implements ExpNode {
 
     @Override
     public String toPrint(String s) {
-        return s+"" + derExp.toPrint(s + " ") + "\n";
+        return s+"" + derExp.toPrint(s + "") + "";
     }
 
     @Override

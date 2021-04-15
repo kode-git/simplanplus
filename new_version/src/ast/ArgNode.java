@@ -17,7 +17,7 @@ public class ArgNode implements Node {
 
     @Override
     public String toPrint(String s) {
-        return s+"Arg:" + type.toPrint(s+"") + id +"\n";
+        return s+"Arg:" + type.toPrint(s+"") + id +"";
     }
 
     @Override

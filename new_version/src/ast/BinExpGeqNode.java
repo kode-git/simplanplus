@@ -5,12 +5,12 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpGeqNode implements ExpNode {
+public class BinExpGeqNode implements Node {
 
-    private ExpNode left;
-    private ExpNode right;
+    private Node left;
+    private Node right;
 
-    public BinExpGeqNode(ExpNode left, ExpNode right) {
+    public BinExpGeqNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
@@ -18,7 +18,7 @@ public class BinExpGeqNode implements ExpNode {
     @Override
     public String toPrint(String s) {
 
-        return s + "Geq: " + left.toPrint(s + " ") + ">=" + right.toPrint(s + " ") + "\n";
+        return s + "Geq: " + left.toPrint(s + "") + ">=" + right.toPrint(s + "") + "";
     }
 
     @Override

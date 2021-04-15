@@ -5,19 +5,19 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpMultNode implements ExpNode {
+public class BinExpMultNode implements Node {
 
-    private ExpNode left;
-    private ExpNode right;
+    private Node left;
+    private Node right;
 
-    public BinExpMultNode(ExpNode left, ExpNode right) {
+    public BinExpMultNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public String toPrint(String s) {
-        return s + "Mult:" + left.toPrint(s + " ") + "*" + right.toPrint(s + " ") + "\n";
+        return s + "Mult:" + left.toPrint(s + "") + "*" + right.toPrint(s + "") + "";
     }
 
     @Override

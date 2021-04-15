@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import ast.STentry;
 
 public class Environment {
 	

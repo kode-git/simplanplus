@@ -5,20 +5,20 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BinExpSubNode implements ExpNode {
+public class BinExpSubNode implements Node {
 
-    private ExpNode left;
-    private ExpNode right;
+    private Node left;
+    private Node right;
 
-    public BinExpSubNode(ExpNode left, ExpNode right) {
+    public BinExpSubNode(Node left, Node right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public String toPrint(String s) {
-        return s + "Sub: " + left.toPrint(s + " ") +
-                "-" + right.toPrint(s + " ") + "\n";
+        return s + "Sub: " + left.toPrint(s + "") +
+                "-" + right.toPrint(s + "") + "";
     }
 
     @Override

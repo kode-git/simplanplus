@@ -5,17 +5,17 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class NegExpNode implements ExpNode{
+public class NegExpNode implements Node {
 
-    private ExpNode negExp;
+    private Node negExp;
 
-    public NegExpNode(ExpNode negExp) {
+    public NegExpNode(Node negExp) {
         this.negExp=negExp;
     }
 
     @Override
     public String toPrint(String s) {
-        return s+ "-"+ negExp.toPrint(s+ " ") +"\n";
+        return s+ "-"+ negExp.toPrint(s+ "") +" ";
 
     }
 

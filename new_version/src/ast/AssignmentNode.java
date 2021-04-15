@@ -17,8 +17,8 @@ public class AssignmentNode implements Node{
 
     @Override
     public String toPrint(String s) {
-        return s+"Assignment:" + lhs.toPrint(s + " ") + " = "
-                + exp.toPrint(s+"  ") + "\n";
+        return s+"Assignment:" + lhs.toPrint(s + "") + " = "
+                + exp.toPrint(s+"") + "";
     }
 
     @Override
