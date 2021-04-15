@@ -8,16 +8,17 @@ import util.SimpLanlib;
 public class CallNode implements Node {
 
   private String id;
-  private ArrayList<ExpNode> exp;
+  private ArrayList<Node> exp;
 
   
-  public CallNode(String id, ArrayList<ExpNode> exp){
+  public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
     this.exp = exp;
   }
-  public CallNode(String id, ArrayList<Node> expL){
+
+  public CallNode(String id){
       this.id = id;
-      this.exp = new ArrayList<ExpNode>();
+      this.exp = new ArrayList<Node>();
   }
 
 
@@ -27,7 +28,7 @@ public String toPrint(String s) {  //
       String exp = "";
 
       // if exp is void the string in return is first + last = id + "( )\n"
-      for(ExpNode expNode : this.exp){
+      for(Node expNode : this.exp){
             exp += expNode.toPrint(s + " ");
       }
 
