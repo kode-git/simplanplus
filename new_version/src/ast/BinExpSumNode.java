@@ -6,6 +6,10 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class BinExpSumNode implements Node {
+
+    private ExpNode left;
+    private ExpNode right;
+
     public BinExpSumNode(ExpNode left, ExpNode right) {
     }
 

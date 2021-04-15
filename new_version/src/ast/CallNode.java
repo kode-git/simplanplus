@@ -19,6 +19,10 @@ public class CallNode implements Node {
     parlist = p;
     nestinglevel=nl;
   }
+
+  public CallNode(String id){
+      this.id = id;
+  }
   
   public CallNode(String text, ArrayList<Node> args) {
 	id=text;

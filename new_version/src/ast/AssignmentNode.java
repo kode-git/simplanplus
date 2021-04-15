@@ -6,9 +6,19 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class AssignmentNode implements Node{
+
+    private Node lhs;
+    private Node exp;
+
+    public AssignmentNode(Node lhs, Node exp){
+        this.lhs = lhs;
+        this.exp = exp;
+    }
+
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+        return s+"Assignment:" + lhs.toPrint(s + " ") + " = "
+                + exp.toPrint(s+"  ") + "\n";
     }
 
     @Override

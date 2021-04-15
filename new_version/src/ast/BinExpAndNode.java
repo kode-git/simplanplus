@@ -6,12 +6,20 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class BinExpAndNode implements Node {
+
+
+    ExpNode left;
+    ExpNode right;
+
     public BinExpAndNode(ExpNode left, ExpNode right) {
+        this.left = left;
+        this.right = right;
     }
 
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+        return s + "BinAndExp: " + left.toPrint(s + " ") + "&&" +
+                right.toPrint(s +" ") + "\n";
     }
 
     @Override

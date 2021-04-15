@@ -6,12 +6,18 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class BinExpMultNode implements Node {
+
+    private ExpNode left;
+    private ExpNode right;
+
     public BinExpMultNode(ExpNode left, ExpNode right) {
+        this.left = left;
+        this.right = right;
     }
 
     @Override
-    public String toPrint(String indent) {
-        return null;
+    public String toPrint(String s) {
+        return s + "Mult:" + left.toPrint(s + " ") + "*" + right.toPrint(s + " ") + "\n";
     }
 
     @Override

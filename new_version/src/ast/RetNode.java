@@ -6,6 +6,17 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 public class RetNode implements Node{
+
+
+    Node exp;
+    public RetNode(Node exp){
+        this.exp = exp;
+    }
+
+    public RetNode(){
+        this.exp = null;
+    }
+
     @Override
     public String toPrint(String indent) {
         return null;
