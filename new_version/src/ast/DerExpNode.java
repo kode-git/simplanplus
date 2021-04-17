@@ -5,11 +5,9 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
+
 public class DerExpNode implements Node {
-=======
-public class DerExpNode implements ExpNode {
->>>>>>> 0e998b4 (Class Definition 1/2)
+
     Node derExp;
     public DerExpNode(Node derExp) {
         this.derExp=derExp;
@@ -17,11 +15,10 @@ public class DerExpNode implements ExpNode {
 
     @Override
     public String toPrint(String s) {
-<<<<<<< HEAD
+
         return s+"" + derExp.toPrint(s + "") + "";
-=======
-        return s+"" + derExp.toPrint(s + " ") + "\n";
->>>>>>> 0e998b4 (Class Definition 1/2)
+
+
     }
 
     @Override
