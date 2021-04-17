@@ -17,14 +17,24 @@ public class IteNode implements Node{
         String declstr="";
         for (int i=0;i<st.size();i++) {
             if (i==0) {
+<<<<<<< HEAD
                 declstr +=  st.get(i).toPrint(s + "") + "}";
             }else {
                 declstr += "else{" + st.get(i).toPrint(s + "") + "}";
+=======
+                declstr +=  st.get(i).toPrint(s + "  ");
+            }else {
+                declstr += "else \n" + st.get(i).toPrint(s + "  ");
+>>>>>>> 0e998b4 (Class Definition 1/2)
             }
 
         }
 
+<<<<<<< HEAD
         return s+"\nIf" + "("+ exp.toPrint(s+"")+"){" + declstr + "" ;
+=======
+        return s+"If \n" + "("+ exp.toPrint(s+"  ")+")" + declstr + "\n" ;
+>>>>>>> 0e998b4 (Class Definition 1/2)
     }
 
     @Override

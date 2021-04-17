@@ -15,9 +15,15 @@ public class LhsNode<T>implements Node{
     @Override
     public String toPrint(String s) {
         if(lhVar instanceof Node){
+<<<<<<< HEAD
             return s+ ((Node) lhVar).toPrint(s+ "") + "^ ";
         }else {
             return s+ lhVar +"";
+=======
+            return s+ ((Node) lhVar).toPrint(s+ "") + "^ \n";
+        }else {
+            return s+ lhVar +"\n";
+>>>>>>> 0e998b4 (Class Definition 1/2)
         }
 
     }
