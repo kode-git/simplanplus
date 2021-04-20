@@ -43,17 +43,19 @@ public class Test {
         } else {
 
             System.out.println(ast.toPrint(""));
-/*
+
 			Environment env = new Environment();
 			ArrayList<SemanticError> err = ast.checkSemantics(env);
+
 			if(err.size()>0){
 				System.out.println("You had: " +err.size()+" errors:");
 				for(SemanticError e : err)
 					System.out.println("\t" + e);
 			} else {
-				System.out.println("Visualizing AST...");
-				System.out.println(ast.toPrint(""));
-
+                System.out.println("Visualizing AST...");
+                System.out.println(ast.toPrint(""));
+            }//DA CANCElLARE
+/*
 				Node type = ast.typeCheck(); //type-checking bottom-up
 				System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 

@@ -4,6 +4,7 @@ import util.Environment;
 import util.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DecVarNode implements Node {
 
@@ -38,7 +39,17 @@ public class DecVarNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
-        return null;
+        ArrayList<SemanticError> res = new ArrayList();
+        int offset=env.getOffset();
+        STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset);
+        env.setOffset(--offset);
+        SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
+        if (err!=null){
+            res.add(err);
+        }else{
+            if (this.exp!=null)res.addAll(this.exp.checkSemantics(env));
+        }
+        return res;
     }
 
     public Node typeCheck() {

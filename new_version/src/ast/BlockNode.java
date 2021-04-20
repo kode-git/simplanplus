@@ -4,6 +4,8 @@ import util.Environment;
 import util.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class BlockNode implements Node {
 
@@ -38,7 +40,27 @@ public class BlockNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
-        return null;
+        env.setNestingLevel(env.getNestingLevel()+1);
+        env.addTable(new HashMap());
+        ArrayList<SemanticError> res = new ArrayList();
+        if (this.declarations.size() > 0) {
+            env.setOffset(env.getOffset()-2);
+            Iterator decV = this.declarations.iterator();
+            while(decV.hasNext()) {
+                Node n = (Node)decV.next();
+                res.addAll(n.checkSemantics(env));
+            }
+        }
+        if (this.statements.size() > 0) {
+            env.setOffset(env.getOffset()-2);
+            Iterator staT = this.statements.iterator();
+            while(staT.hasNext()) {
+                Node n = (Node)staT.next();
+                res.addAll(n.checkSemantics(env));
+            }
+        }
+        env.removeTable();
+        return res;
     }
 
     public Node typeCheck() {

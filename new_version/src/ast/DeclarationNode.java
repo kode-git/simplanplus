@@ -4,6 +4,8 @@ import util.Environment;
 import util.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class DeclarationNode implements Node{
 
@@ -49,6 +51,15 @@ public class DeclarationNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList();
+
+           if (decVar!=null){
+               res.addAll(decVar.checkSemantics(env));
+           }else {
+               res.addAll(decFun.checkSemantics(env));
+           }
+
+        return res;
     }
 }
