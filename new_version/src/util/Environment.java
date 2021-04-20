@@ -25,7 +25,7 @@ public class Environment {
 		}
 
 		if (tmp == null) {
-			return null;//TODO da creare semantic error su nodo id
+			return null;//TODO making SemanticError when call this method
 		} else {
 			return tmp;
 

@@ -4,6 +4,7 @@ import util.Environment;
 import util.SemanticError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DecFunNode implements Node {
 
@@ -92,6 +93,26 @@ public class DecFunNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList();
+        int offset = env.getOffset();
+        STentry entry = new STentry(env.getNestingLevel(), offset - 1);
+        env.setOffset(offset - 1);
+        SemanticError err = env.newVarNode(env.getNestingLevel(), this.id, entry);
+
+        if (err != null) {
+            res.add(err);
+        } else {
+            env.setNestingLevel(env.getNestingLevel() + 1);
+            env.addTable(new HashMap<String, STentry>());
+
+            for(ArgNode arg : this.args){
+                res.addAll(arg.checkSemantics(env));
+            }
+            env.setNestingLevel(env.getNestingLevel() - 1); // this is because in BlockNode checkSemantics we have NestingLevel + 1
+            res.addAll(this.block.checkSemantics(env));
+        }
+
+        return res;
     }
 }

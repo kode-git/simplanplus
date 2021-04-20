@@ -32,6 +32,15 @@ public class ArgNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList();
+        int offset=env.getOffset();
+        STentry entry = new STentry(env.getNestingLevel(), this.type, offset);
+        env.setOffset(--offset);
+        SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
+        if (err!=null){
+            res.add(err);
+        }
+        return res;
     }
 }
