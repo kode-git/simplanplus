@@ -33,7 +33,6 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
         return res;
 
     }
-    //decfun decvar
     @Override
     public Node visitDeclaration(SimpLanPlusParser.DeclarationContext ctx) {
         if(ctx.decFun()!=null){

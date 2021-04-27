@@ -28,6 +28,11 @@ public class DeletionNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+       STentry entry = env.checkId(env.getNestingLevel(), id);
+        if(entry == null){
+            res.add(new SemanticError("Id " +this.id + " not declared"));
+        }
+        return res;
     }
 }

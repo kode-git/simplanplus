@@ -43,11 +43,11 @@ public class DecVarNode implements Node {
         int offset=env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset);
         env.setOffset(--offset);
+        if (this.exp!=null)
+            res.addAll(this.exp.checkSemantics(env));
         SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
-        if (err!=null){
+        if (err!=null) {
             res.add(err);
-        }else{
-            if (this.exp!=null)res.addAll(this.exp.checkSemantics(env));
         }
         return res;
     }

@@ -33,6 +33,16 @@ public class DerExpNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        if(derExp instanceof LhsNode) {
+            // lhs
+            res.addAll(derExp.checkSemantics(env));
+        } else {
+            // id
+            env.checkId(env.getNestingLevel(), derExp + "");
+        }
+
+        return res;
     }
 }

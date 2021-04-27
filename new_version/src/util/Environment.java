@@ -19,11 +19,10 @@ public class Environment {
 	}
 
 	public STentry checkId(int nestingLevelIntern,String id){
-		int j = nestingLevelIntern;
 		STentry tmp;
 		for(tmp = null; nestingLevelIntern >= 0 && tmp == null; tmp = (STentry)((HashMap)this.symTable.get(nestingLevelIntern--)).get(id)) {
+			// lookup
 		}
-
 		if (tmp == null) {
 			return null;//TODO making SemanticError when call this method
 		} else {
@@ -56,8 +55,6 @@ public class Environment {
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
-
-
 
 	public int getNestingLevel(){
 		return nestingLevel;

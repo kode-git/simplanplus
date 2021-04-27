@@ -26,6 +26,33 @@ public class LhsNode<T>implements Node{
     }
 
 
+    // getter and setter
+
+    public T getLhVar() {
+        return lhVar;
+    }
+
+    public void setLhVar(T lhVar) {
+        this.lhVar = lhVar;
+    }
+
+    public STentry getEntry() {
+        return entry;
+    }
+
+    public void setEntry(STentry entry) {
+        this.entry = entry;
+    }
+
+    public int getNestingLevel() {
+        return nestingLevel;
+    }
+
+    public void setNestingLevel(int nestingLevel) {
+        this.nestingLevel = nestingLevel;
+    }
+
+    // typeCheck, CodeGeneration, CheckSemantics
 
     @Override
     public Node typeCheck() {
@@ -41,9 +68,8 @@ public class LhsNode<T>implements Node{
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList();
         if (lhVar instanceof String) {
-
             int j = env.getNestingLevel();
-           STentry myEntry = env.checkId( env.getNestingLevel(), (String)lhVar);
+            STentry myEntry = env.checkId( env.getNestingLevel(), (String)lhVar);
 
 
             if (myEntry == null) {
@@ -53,12 +79,11 @@ public class LhsNode<T>implements Node{
                 this.nestingLevel = env.getNestingLevel();
             }
 
-            return res;
         }else{
             Node myVar = (Node) lhVar;
             res.addAll(myVar.checkSemantics(env));
-            return res;
         }
+        return res;
 
 
     }

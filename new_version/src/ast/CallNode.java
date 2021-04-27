@@ -36,7 +36,20 @@ public String toPrint(String s) {  //
   }
 
   public ArrayList<SemanticError> checkSemantics(Environment env) {
-		return null;
+
+      ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+      int nestingLevel = env.getNestingLevel();
+      STentry entry = env.checkId(nestingLevel, this.id);
+      if(entry == null){
+          res.add(new SemanticError("Id " +this.id + " not declared"));
+      } else{
+          for(Node e : this.exp){
+              res.addAll(e.checkSemantics(env));
+          }
+      }
+
+      return res;
+
   }
   
   public Node typeCheck () {  //                           

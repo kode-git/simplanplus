@@ -32,7 +32,7 @@ public class StatementNode implements Node{
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList();
-            res.addAll(st.checkSemantics(env));
+        res.addAll(st.checkSemantics(env));
        return res;
 
     }

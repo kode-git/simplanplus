@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.VoidBlockCase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +65,25 @@ public class BlockNode implements Node {
     }
 
     public Node typeCheck() {
-        return null;
+
+        ArrayList<Node> genericTypeNode = new ArrayList<Node>();
+
+        // adding typeCheck of declarations
+        for (Node dec : declarations)
+            genericTypeNode.add(dec.typeCheck());
+
+        // adding typeCheck of statements
+        for (Node st : statements)
+            genericTypeNode.add(st.typeCheck());
+
+        if(genericTypeNode.size() > 0){
+            // return the last declaration or statement of the block
+            return genericTypeNode.get(genericTypeNode.size() -1 );
+
+        } else {
+            // if there is not declarations and statements (void block), return null
+            return new VoidBlockCase(); // void block
+        }
     }
 
     public String codeGeneration() {

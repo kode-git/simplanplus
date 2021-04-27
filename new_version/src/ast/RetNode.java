@@ -40,6 +40,14 @@ public class RetNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        if(this.exp == null) {
+            // do nothing
+        } else {
+            res.addAll(exp.checkSemantics(env));
+        }
+
+        return res;
     }
 }

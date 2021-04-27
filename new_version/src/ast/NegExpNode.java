@@ -19,6 +19,18 @@ public class NegExpNode implements Node {
 
     }
 
+    // getter and setter
+
+    public Node getNegExp() {
+        return negExp;
+    }
+
+    public void setNegExp(Node negExp) {
+        this.negExp = negExp;
+    }
+
+    // TypeCheck, codeGeneration, checkSemantics
+    
     @Override
     public Node typeCheck() {
         return null;
@@ -31,6 +43,10 @@ public class NegExpNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+
+        res.addAll(negExp.checkSemantics(env));
+        return res;
+
     }
 }

@@ -24,7 +24,9 @@ public class PrintNode implements Node {
   @Override
  	public ArrayList<SemanticError> checkSemantics(Environment env) {
 
- 	  return val.checkSemantics(env);
+      ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+      res.addAll(val.checkSemantics(env));
+ 	  return res;
  	}
   
   public String codeGeneration() {

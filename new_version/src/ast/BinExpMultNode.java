@@ -32,6 +32,11 @@ public class BinExpMultNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        res.addAll(left.checkSemantics(env));
+        res.addAll(right.checkSemantics(env));
+
+        return res;
     }
 }

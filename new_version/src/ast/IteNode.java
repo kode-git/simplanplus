@@ -39,6 +39,13 @@ public class IteNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+
+        res.addAll(exp.checkSemantics(env));
+        for(Node stat : st){
+            res.addAll(stat.checkSemantics(env));
+        }
+
+        return res;
     }
 }

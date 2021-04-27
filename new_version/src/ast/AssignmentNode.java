@@ -33,6 +33,12 @@ public class AssignmentNode implements Node{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        // lhs
+        res.addAll(lhs.checkSemantics(env));
+        // exp
+        res.addAll(exp.checkSemantics(env));
+        return res;
+
     }
 }

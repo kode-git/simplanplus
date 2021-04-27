@@ -1,22 +1,24 @@
-package ast;
+package util;
 
+import ast.Node;
 import util.Environment;
 import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class NewExpNode implements Node {
- 
-    public NewExpNode(){
-    }
+// Service Class
+public class VoidBlockCase implements Node {
+
+    public VoidBlockCase(){}
+
     @Override
-    public String toPrint(String s) {
-        return s+ "new"+" ";
+    public String toPrint(String indent) {
+        return indent + "(void) BlockNode";
     }
 
     @Override
     public Node typeCheck() {
-        return null;
+        return this;
     }
 
     @Override
