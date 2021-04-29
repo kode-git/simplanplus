@@ -41,7 +41,13 @@ public class DeclarationNode implements Node{
 
     @Override
     public Node typeCheck() {
-        return null;
+        if(decVar==null){
+            // It is a DecFunNode
+           return decFun.typeCheck();
+        } else {
+            // else is a DecFunNode
+            return  decVar.typeCheck();
+        }
     }
 
     @Override

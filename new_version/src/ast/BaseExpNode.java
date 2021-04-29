@@ -19,9 +19,7 @@ public class BaseExpNode implements Node {
     }
 
     @Override
-    public Node typeCheck() {
-        return null;
-    }
+    public Node typeCheck() { return exp.typeCheck(); }
 
     @Override
     public String codeGeneration() {

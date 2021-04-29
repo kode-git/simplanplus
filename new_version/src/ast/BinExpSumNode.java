@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.SimpLanlib;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,11 @@ public class BinExpSumNode implements Node {
 
     @Override
     public Node typeCheck() {
-
+        if (!(SimpLanlib.isSubtype(left.typeCheck(), new IntTypeNode()) &&
+                SimpLanlib.isSubtype(right.typeCheck(), new IntTypeNode()))) {
+            System.out.println("Non integers in sum");
+            System.exit(0);
+        }
         return new IntTypeNode();
     }
 

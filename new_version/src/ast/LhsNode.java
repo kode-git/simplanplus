@@ -11,7 +11,6 @@ public class LhsNode<T>implements Node{
     private STentry entry;
     private int nestingLevel;
     public LhsNode(T myNode){
-
         this.lhVar=myNode;
     }
 
@@ -56,7 +55,16 @@ public class LhsNode<T>implements Node{
 
     @Override
     public Node typeCheck() {
-        return null;
+        System.out.println((entry.getType() instanceof BoolTypeNode) +" stampa decvarnode");
+        if(! (lhVar instanceof LhsNode) ){
+            if (entry.getType() instanceof ArrowTypeNode) { //
+                System.out.println("Wrong usage of function identifier");
+                System.exit(0);
+            }
+            return entry.getType();
+        }else{
+                return ((LhsNode)lhVar).typeCheck();
+        }
     }
 
     @Override

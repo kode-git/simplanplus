@@ -16,7 +16,7 @@ public class NewExpNode implements Node {
 
     @Override
     public Node typeCheck() {
-        return null;
+        return new PointerTypeNode<GenericTypeNode>();
     }
 
     @Override

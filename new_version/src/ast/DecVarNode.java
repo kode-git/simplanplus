@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.SimpLanlib;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +54,13 @@ public class DecVarNode implements Node {
     }
 
     public Node typeCheck() {
-        return null;
+        if(exp != null) {
+            if (!(SimpLanlib.isSubtype( typeNode, exp.typeCheck() ))) {
+                System.out.println("incompatible value for variable " + id);
+                System.exit(0);
+            }
+        }
+        return typeNode;
     }
 
     public String codeGeneration() {

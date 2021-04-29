@@ -13,12 +13,23 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
         val=n;
     }
 
+    public PointerTypeNode () {val=null; }
+
     public String toPrint(String s) {
-        return s+"^" + val.toPrint("") +"";
+        if(val!=null){
+            return s+"^" + val.toPrint("") +"";
+        }else{ return s+"new";}
     }
 
     public Node typeCheck() {
-        return new IntTypeNode();
+
+        if(val instanceof IntTypeNode){
+            return new IntTypeNode();
+        } else if(val instanceof BoolTypeNode){
+            return new BoolTypeNode();
+        }
+        return val.typeCheck();
+
     }
 
     @Override
