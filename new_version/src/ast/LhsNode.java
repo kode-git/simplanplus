@@ -14,6 +14,10 @@ public class LhsNode<T>implements Node,Cloneable{
         this.lhVar=myNode;
     }
 
+
+    // used only on clone
+    public LhsNode(){}
+
     @Override
     public String toPrint(String s) {
         if(lhVar instanceof Node){
@@ -88,7 +92,7 @@ public class LhsNode<T>implements Node,Cloneable{
             }
 
         }else{
-            Node myVar = (Node) lhVar.clone();
+            Node myVar = (Node) lhVar;//.clone();
             res.addAll(myVar.checkSemantics(env));
 
             while(((LhsNode)myVar).getEntry()==null){
@@ -101,9 +105,5 @@ public class LhsNode<T>implements Node,Cloneable{
 
 
     }
-    @Override
-    public Object clone() throws CloneNotSupportedException
-    {
-        return super.clone();
-    }
+
 }
