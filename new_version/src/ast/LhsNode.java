@@ -92,13 +92,24 @@ public class LhsNode<T>implements Node,Cloneable{
             }
 
         }else{
-            Node myVar = (Node) lhVar;//.clone();
+
+            /*
+            Entry Problem:
+            - We need to setup the entry of the last level on the rest of LhsNode
+            - Can't do it because miss clone() or other method to save the current reference on lhVar
+             */
+            T currentVarLevel = lhVar;
+            Node myVar = (Node) lhVar;
             res.addAll(myVar.checkSemantics(env));
 
             while(((LhsNode)myVar).getEntry()==null){
               myVar= (Node) ((LhsNode<?>) myVar).getLhVar();
             }
+
+            System.out.println(lhVar == (myVar));
             this.entry=((LhsNode<?>) myVar).getEntry();
+            this.lhVar = currentVarLevel;
+
 
         }
         return res;

@@ -54,7 +54,7 @@ public class Test {
 			} else {
                 System.out.println("Visualizing AST...");
                 System.out.println(ast.toPrint(""));
-            }// TODO delete this
+            }
 
 				Node type = ast.typeCheck(); //type-checking bottom-up
 				System.out.println(type.toPrint("Type checking ok! Type of the program is: "));

@@ -1,4 +1,4 @@
 {
 ^bool x;
-x^=true;
+x^=true; // this don't work
 }
