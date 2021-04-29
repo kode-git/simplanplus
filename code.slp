@@ -1,4 +1,4 @@
 {
-^bool x= new;
-x=true;
+^bool x;
+x^=true;
 }

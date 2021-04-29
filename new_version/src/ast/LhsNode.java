@@ -6,7 +6,7 @@ import util.SemanticError;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LhsNode<T>implements Node{
+public class LhsNode<T>implements Node,Cloneable{
     private T lhVar;
     private STentry entry;
     private int nestingLevel;
@@ -55,7 +55,7 @@ public class LhsNode<T>implements Node{
 
     @Override
     public Node typeCheck() {
-        System.out.println((entry.getType() instanceof BoolTypeNode) +" stampa decvarnode");
+        System.out.println(entry.getType()  +" stampa decvarnode");
         if(! (lhVar instanceof LhsNode) ){
             if (entry.getType() instanceof ArrowTypeNode) { //
                 System.out.println("Wrong usage of function identifier");
@@ -88,11 +88,22 @@ public class LhsNode<T>implements Node{
             }
 
         }else{
-            Node myVar = (Node) lhVar;
+            Node myVar = (Node) lhVar.clone();
             res.addAll(myVar.checkSemantics(env));
+
+            while(((LhsNode)myVar).getEntry()==null){
+              myVar= (Node) ((LhsNode<?>) myVar).getLhVar();
+            }
+            this.entry=((LhsNode<?>) myVar).getEntry();
+
         }
         return res;
 
 
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }
