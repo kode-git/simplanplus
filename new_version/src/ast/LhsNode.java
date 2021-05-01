@@ -60,7 +60,6 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public Node typeCheck() {
-        System.out.println(entry.getType()  +" stampa decvarnode");
         if(! (lhVar instanceof LhsNode) ){
             if (entry.getType() instanceof ArrowTypeNode) { //
                 System.out.println("Wrong usage of function identifier");
@@ -71,24 +70,26 @@ public class LhsNode<T>implements Node,Cloneable{
             if(!(entry.getType() instanceof IntTypeNode||entry.getType() instanceof BoolTypeNode)) {
                 System.out.println("this type"+ entry.getType().typeCheck() );
                 return entry.getType().typeCheck();
-            } */
-            /*
-            if((entry.getType() instanceof PointerTypeNode)) {
+            }
+
+                if((entry.getType() instanceof PointerTypeNode)) {
                 System.out.println("this type"+ entry.getType().typeCheck() );
                 return entry.getType().typeCheck();
-            } */
+            }
+        */
 
             return entry.getType();
         }else{
             System.out.println("else statement");
             System.out.println("is it recursive?  "+((LhsNode)lhVar).typeCheck());
-        /*    if((entry.getType() instanceof PointerTypeNode)) {
-                System.out.println("this type"+ entry.getType().typeCheck() );
-                return entry.getType().typeCheck();
-            } */
+
+            // if((entry.getType() instanceof PointerTypeNode)) {
+            //    System.out.println("this type"+ entry.getType().typeCheck() );
+            //    return entry.getType().typeCheck();
+            }
                 return ((LhsNode)lhVar).typeCheck();
         }
-    }
+
 
     @Override
     public String codeGeneration() {
@@ -113,12 +114,11 @@ public class LhsNode<T>implements Node,Cloneable{
         }else{
 
             /*
-            Entry Problem:
-            - We need to setup the entry of the last level on the rest of LhsNode
-            - Can't do it because miss clone() or other method to save the current reference on lhVar
-             */
-            //We assign to the pointer the entry type to which it is referred
-
+                Entry Problem:
+                - We need to setup the entry of the last level on the rest of LhsNode
+                - Can't do it because miss clone() or other method to save the current reference on lhVar
+                We assign to the pointer the entry type to which it is referred
+            */
             Node myVar = (Node) lhVar;
             res.addAll(((Node)lhVar).checkSemantics(env));
 

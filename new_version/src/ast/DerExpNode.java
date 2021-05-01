@@ -23,6 +23,7 @@ public class DerExpNode implements Node {
 
     @Override
     public Node typeCheck() {
+        // LhsNode.typeCheck() calling
         return derExp.typeCheck();
     }
 
