@@ -1,5 +1,6 @@
 package ast;
 
+import com.sun.source.tree.ReturnTree;
 import util.Environment;
 import util.SemanticError;
 
@@ -65,8 +66,17 @@ public class LhsNode<T>implements Node,Cloneable{
                 System.out.println("Wrong usage of function identifier");
                 System.exit(0);
             }
+
+
+            if(!(entry.getType() instanceof IntTypeNode||entry.getType() instanceof BoolTypeNode)) {
+                System.out.println("this type"+ entry.getType().typeCheck() );
+                return entry.getType().typeCheck();
+            }
+
             return entry.getType();
         }else{
+            System.out.println("else statement");
+            System.out.println("is it recursive?  "+((LhsNode)lhVar).typeCheck());
                 return ((LhsNode)lhVar).typeCheck();
         }
     }
@@ -98,18 +108,16 @@ public class LhsNode<T>implements Node,Cloneable{
             - We need to setup the entry of the last level on the rest of LhsNode
             - Can't do it because miss clone() or other method to save the current reference on lhVar
              */
-            T currentVarLevel = lhVar;
-            Node myVar = (Node) lhVar;
-            res.addAll(myVar.checkSemantics(env));
+            //We assign to the pointer the entry type to which it is referred
 
-            while(((LhsNode)myVar).getEntry()==null){
+            Node myVar = (Node) lhVar;
+            res.addAll(((Node)lhVar).checkSemantics(env));
+
+           while(((LhsNode)myVar).getEntry()==null){
               myVar= (Node) ((LhsNode<?>) myVar).getLhVar();
             }
 
-            System.out.println(lhVar == (myVar));
             this.entry=((LhsNode<?>) myVar).getEntry();
-            this.lhVar = currentVarLevel;
-
 
         }
         return res;

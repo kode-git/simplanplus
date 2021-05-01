@@ -1,4 +1,11 @@
 {
-^bool x;
-x^=true; // this don't work
+^^bool x=new;
+bool y=true;
+//bool z=false;
+y=false;
+x=false;
+x^=true;
+x^^=true;
+
+
 }
