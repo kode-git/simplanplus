@@ -67,16 +67,25 @@ public class LhsNode<T>implements Node,Cloneable{
                 System.exit(0);
             }
 
-
+        /*
             if(!(entry.getType() instanceof IntTypeNode||entry.getType() instanceof BoolTypeNode)) {
                 System.out.println("this type"+ entry.getType().typeCheck() );
                 return entry.getType().typeCheck();
-            }
+            } */
+            /*
+            if((entry.getType() instanceof PointerTypeNode)) {
+                System.out.println("this type"+ entry.getType().typeCheck() );
+                return entry.getType().typeCheck();
+            } */
 
             return entry.getType();
         }else{
             System.out.println("else statement");
             System.out.println("is it recursive?  "+((LhsNode)lhVar).typeCheck());
+        /*    if((entry.getType() instanceof PointerTypeNode)) {
+                System.out.println("this type"+ entry.getType().typeCheck() );
+                return entry.getType().typeCheck();
+            } */
                 return ((LhsNode)lhVar).typeCheck();
         }
     }
