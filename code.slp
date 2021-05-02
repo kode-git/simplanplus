@@ -1,6 +1,6 @@
 {
 ^^bool x=new;
-x^=true;
+x^=new;
 /*
 ^bool y=new;
 

@@ -11,11 +11,20 @@ public class LhsNode<T>implements Node,Cloneable{
     private T lhVar;
     private STentry entry;
     private int nestingLevel;
+    private int counter;
     public LhsNode(T myNode){
         this.lhVar=myNode;
+        counter=count(lhVar);
     }
 
-
+    private int count(T var){
+        if(var instanceof String){
+            return 1;
+        }else {
+            var = (T)((LhsNode<?>)var).getLhVar();
+            return count(var)+1;
+        }
+    }
     // used only on clone
     public LhsNode(){}
 
@@ -60,6 +69,7 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public Node typeCheck() {
+        System.out.println("my counter is at "+ counter);
         if(! (lhVar instanceof LhsNode) ){
             if (entry.getType() instanceof ArrowTypeNode) { //
                 System.out.println("Wrong usage of function identifier");
