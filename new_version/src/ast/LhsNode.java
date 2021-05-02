@@ -69,8 +69,8 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public Node typeCheck() {
-        System.out.println("my counter is at "+ counter);
-        if(! (lhVar instanceof LhsNode) ){
+        System.out.println("my counter is at " + counter + lhVar);
+        if (!(lhVar instanceof LhsNode)) {
             if (entry.getType() instanceof ArrowTypeNode) { //
                 System.out.println("Wrong usage of function identifier");
                 System.exit(0);
@@ -89,16 +89,17 @@ public class LhsNode<T>implements Node,Cloneable{
         */
 
             return entry.getType();
-        }else{
-            System.out.println("else statement");
-            System.out.println("is it recursive?  "+((LhsNode)lhVar).typeCheck());
+        } else {
+            if (counter > 2) return entry.getType();
+            System.out.println("else statement " + ((LhsNode) lhVar).typeCheck());
 
-            // if((entry.getType() instanceof PointerTypeNode)) {
-            //    System.out.println("this type"+ entry.getType().typeCheck() );
-            //    return entry.getType().typeCheck();
+            if ((entry.getType() instanceof PointerTypeNode)) {
+                System.out.println("this type" + entry.getType().typeCheck());
+                return entry.getType().typeCheck();
             }
-                return ((LhsNode)lhVar).typeCheck();
+            return ((LhsNode) lhVar).typeCheck();
         }
+    }
 
 
     @Override
@@ -129,6 +130,7 @@ public class LhsNode<T>implements Node,Cloneable{
                 - Can't do it because miss clone() or other method to save the current reference on lhVar
                 We assign to the pointer the entry type to which it is referred
             */
+
             Node myVar = (Node) lhVar;
             res.addAll(((Node)lhVar).checkSemantics(env));
 
@@ -137,6 +139,7 @@ public class LhsNode<T>implements Node,Cloneable{
             }
 
             this.entry=((LhsNode<?>) myVar).getEntry();
+
 
         }
         return res;

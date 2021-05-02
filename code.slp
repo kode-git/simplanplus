@@ -1,12 +1,10 @@
 {
-^^bool x=new;
-x^=new;
-/*
-^bool y=new;
+^bool x=new;
+^bool y = new;
 
-x^=y;
-x^^=5;
-*/
+x^^=y;
+
+
 
 
 }
