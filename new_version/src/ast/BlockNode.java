@@ -2,7 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
-import util.VoidBlockCase;
+import util.VoidNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +82,7 @@ public class BlockNode implements Node {
 
         } else {
             // if there is not declarations and statements (void block), return null
-            return new VoidBlockCase(); // void block
+            return new VoidNode(); // void block
         }
     }
 

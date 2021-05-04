@@ -2,6 +2,7 @@ package ast;
 import parser.SimpLanPlusBaseVisitor;
 import parser.SimpLanPlusParser;
 import parser.SimpLanPlusVisitor;
+import util.VoidNode;
 
 import java.util.ArrayList;
 
@@ -73,6 +74,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
             expNode = visit(ctx.exp());
             return new DecVarNode(typeNode,id,expNode);
         }
+     
         return new DecVarNode(typeNode,id);
 
     }
@@ -82,7 +84,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
         Node type;
         if(ctx.type() == null){
             // void case
-            type = null;
+            type = new VoidNode();
         } else {
             // type case
             type = visit(ctx.type());

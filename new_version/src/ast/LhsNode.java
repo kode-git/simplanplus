@@ -69,7 +69,7 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public Node typeCheck() {
-        System.out.println("my counter is at " + counter + lhVar);
+        System.out.println("My counter is at " + counter + lhVar);
         if (!(lhVar instanceof LhsNode)) {
             if (entry.getType() instanceof ArrowTypeNode) { //
                 System.out.println("Wrong usage of function identifier");

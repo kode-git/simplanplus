@@ -6,14 +6,19 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-// Service Class
-public class VoidBlockCase implements Node {
+/*
+This class is used for.
+1. Case of void block
+2. Case of void type for CallNode
 
-    public VoidBlockCase(){}
+ */
+public class VoidNode implements Node {
+
+    public VoidNode(){}
 
     @Override
     public String toPrint(String indent) {
-        return indent + "(void) BlockNode";
+        return indent + "VoidNode";
     }
 
     @Override

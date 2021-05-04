@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.VoidNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class DecFunNode implements Node {
 
     // void id (args) {}
     public DecFunNode(String id,  ArrayList<ArgNode> args, BlockNode block){
-        this.type = null;
+        this.type = new VoidNode();
         this.id = id;
         this.args = args;
         this.block = block;
@@ -32,7 +33,7 @@ public class DecFunNode implements Node {
 
     // void id ( ) {}
     public DecFunNode(String id, BlockNode block){
-        this.type = null;
+        this.type = new VoidNode();
         this.id = id;
         this.args = new ArrayList<ArgNode>();
         this.block = block;
@@ -47,7 +48,7 @@ public class DecFunNode implements Node {
     }
     @Override
     public String toPrint(String s) {
-        if(type != null){
+        if(!(this.type instanceof VoidNode)){
             // type is not void
             if(args.size() == 0){
                 // no args
@@ -96,9 +97,20 @@ public class DecFunNode implements Node {
 
         ArrayList<SemanticError> res = new ArrayList();
         int offset = env.getOffset();
-        STentry entry = new STentry(env.getNestingLevel(), offset - 1);
+        STentry entry = new STentry(env.getNestingLevel(), offset );
+
+        if(!(type instanceof GenericTypeNode)){
+            // is void
+            System.out.println(type);
+            entry.addType(new ArrowTypeNode(args, new VoidNode()));
+        }
+        else {
+            entry.addType(new ArrowTypeNode(args, type));
+        }
         env.setOffset(offset - 1);
+
         SemanticError err = env.newVarNode(env.getNestingLevel(), this.id, entry);
+
 
         if (err != null) {
             res.add(err);

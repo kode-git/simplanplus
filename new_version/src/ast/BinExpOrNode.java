@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.SimpLanlib;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,12 @@ public class BinExpOrNode implements Node {
 
     @Override
     public Node typeCheck() {
-        return null;
+        if (!(SimpLanlib.isSubtype(left.typeCheck(), new BoolTypeNode()) &&
+                SimpLanlib.isSubtype(right.typeCheck(), new BoolTypeNode()))) {
+            System.out.println("error: bad operand types for binary operator '||'");
+            System.exit(0);
+        }
+        return new BoolTypeNode();
     }
 
     @Override

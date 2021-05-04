@@ -1,10 +1,7 @@
 {
-^bool x=new;
-^bool y = new;
+void f(int x){
+    int y = x;
+}
 
-x^^=y;
-
-
-
-
+int x = f(10);
 }

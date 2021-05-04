@@ -6,27 +6,28 @@ import util.SemanticError;
 
 public class ArrowTypeNode implements Node {
 
-  private ArrayList<Node> parlist; 
+  private ArrayList<ArgNode> argList;
   private Node ret;
   
-  public ArrowTypeNode (ArrayList<Node> p, Node r) {
-    parlist=p;
+  public ArrowTypeNode (ArrayList<ArgNode> p, Node r) {
+    argList=p;
     ret=r;
   }
     
   public String toPrint(String s) { //
 	String parlstr="";
-    for (Node par:parlist)
+    for (Node par:argList)
       parlstr+=par.toPrint(s+"");
 	return s+"ArrowType: \n" + parlstr + ret.toPrint(s+"->") ;
   }
   
   public Node getRet () { //
-    return ret;
+      System.out.println(ret);
+      return ret;
   }
   
-  public ArrayList<Node> getParList () { //
-    return parlist;
+  public ArrayList<ArgNode> getArgList () { //
+    return argList;
   }
 
   @Override
@@ -35,12 +36,12 @@ public class ArrowTypeNode implements Node {
 		return new ArrayList<SemanticError>();
 	}
   
-  //non utilizzato
+  //not used
   public Node typeCheck () {
     return null;
   }
 
-  //non utilizzato
+  //not used
   public String codeGeneration() {
 		return "";
   }

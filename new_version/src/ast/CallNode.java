@@ -9,11 +9,17 @@ public class CallNode implements Node {
 
   private String id;
   private ArrayList<Node> exp;
-
+  private STentry entry;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
     this.exp = exp;
+  }
+
+  public CallNode(String id, ArrayList<Node> exp, STentry entry){
+      this.id = id;
+      this.exp = exp;
+      this.entry = entry;
   }
 
   public CallNode(String id){
@@ -39,7 +45,7 @@ public String toPrint(String s) {  //
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
       int nestingLevel = env.getNestingLevel();
-      STentry entry = env.checkId(nestingLevel, this.id);
+      this.entry = env.checkId(nestingLevel, this.id);
       if(entry == null){
           res.add(new SemanticError("Id " +this.id + " not declared"));
       } else{
@@ -51,9 +57,29 @@ public String toPrint(String s) {  //
       return res;
 
   }
-  
+
+
   public Node typeCheck () {  //                           
-	 return null;
+
+      ArrowTypeNode t=null;
+      if (entry.getType() instanceof ArrowTypeNode) t=(ArrowTypeNode) entry.getType();
+      else {
+          System.out.println("Invocation of a non-function "+id);
+          System.exit(0);
+      }
+      ArrayList<ArgNode> p = t.getArgList();
+
+      // Checking of number of arguments equals to the number of parameters in DecFun
+      if ( !(p.size() == exp.size()) ) {
+          System.out.println("Wrong number of parameters in the invocation of "+id);
+          System.exit(0);
+      }
+      for (int i=0; i<exp.size(); i++)
+          if ( !(SimpLanlib.isSubtype( (exp.get(i)).typeCheck(), p.get(i).getType()) ) ) {
+              System.out.println("Wrong type for "+(i+1)+"-th parameter in the invocation of "+id);
+              System.exit(0);
+          }
+      return t.getRet(); //TODO if NullPointerException, check this
   }
   
   public String codeGeneration() {

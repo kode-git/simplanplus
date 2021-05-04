@@ -20,9 +20,27 @@ public class ArgNode implements Node {
         return s+"Arg:" + type.toPrint(s+"") + id +"";
     }
 
+
+    // not used
     @Override
     public Node typeCheck() {
         return null;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public Node getType() {
+        return type;
+    }
+
+    public void setType(Node type) {
+        this.type = type;
     }
 
     @Override

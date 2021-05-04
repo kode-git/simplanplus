@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.SimpLanlib;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,13 @@ public class BinExpNeqNode implements Node {
 
     @Override
     public Node typeCheck() {
-        return null;
+        GenericTypeNode typeLeft = (GenericTypeNode) left.typeCheck();
+        if (!SimpLanlib.isSubtype(typeLeft, right.typeCheck())){
+            System.out.println("error: bad pair statements types for binary operator '!='");
+            System.exit(0);
+        }
+        return typeLeft;
+
     }
 
     @Override

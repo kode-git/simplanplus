@@ -30,7 +30,9 @@ public class RetNode implements Node{
 
     @Override
     public Node typeCheck() {
-        return null;
+
+        // Type checking for return and decFun checking?
+        return exp.typeCheck();
     }
 
     @Override
