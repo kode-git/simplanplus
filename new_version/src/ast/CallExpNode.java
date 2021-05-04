@@ -9,7 +9,7 @@ public class CallExpNode implements Node {
 
     private Node call;
     public CallExpNode(Node node) {
-        this.call = call;
+        this.call = node;
     }
 
     @Override

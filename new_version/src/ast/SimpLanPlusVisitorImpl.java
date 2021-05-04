@@ -253,7 +253,7 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
 
     @Override
     public Node visitCallExp(SimpLanPlusParser.CallExpContext ctx) {
-        return new CallExpNode(visitCall(ctx.call()));
+        return new CallExpNode(visit(ctx.call()));
     }
 
     @Override
