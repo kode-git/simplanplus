@@ -5,11 +5,24 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
+
+
 public class StatementNode implements Node{
     private Node st;
+    private Boolean hasRet=false;
     public StatementNode(Node st){
         this.st=st;
+        checkRet();
     }
+    public void checkRet(){
+        if(st instanceof RetNode){
+            this.hasRet=true;
+        }
+    }
+    public Boolean getChRet(){
+        return this.hasRet;
+    }
+
     @Override
     public String toPrint(String s) {
 

@@ -12,15 +12,27 @@ public class BlockNode implements Node {
 
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
-
+    private Boolean hasRet=false;
     public BlockNode (ArrayList<Node> d, ArrayList<Node> s) {
         declarations=d;
         statements=s;
+        checkRet();
     }
 
     public BlockNode(){
         declarations = new ArrayList<Node>();
         statements = new ArrayList<Node>();
+        checkRet();
+    }
+
+    public Boolean checkRet(){
+        for (Node st:statements){
+            if(((StatementNode)st).getChRet()){
+                this.hasRet=true;
+                return true;
+            }
+        }return false;
+
     }
 
     public String toPrint(String s) {
