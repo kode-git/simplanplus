@@ -38,9 +38,13 @@ public class Test {
 
 
         // SIMPLE CHECK FOR LEXER ERRORS
+        // TODO FIND A BETTE WAY TO CHECK LEXICAL ERRORS IN ANTLR GUIDE
+        // TODO IMPLEMENT ERROR LISTENER
         if (lexer.lexicalErrors > 0){
             System.out.println("The program was not in the right format. Exiting the compilation process now");
+            System.exit(0);
         } else {
+
 
             System.out.println(ast.toPrint(""));
 
@@ -51,12 +55,14 @@ public class Test {
 				System.out.println("You had: " +err.size()+" errors:");
 				for(SemanticError e : err)
 					System.out.println("\t" + e);
+				System.exit(0);
 			} else {
                 System.out.println("Visualizing AST...");
                 System.out.println(ast.toPrint(""));
             }
 
 				Node type = ast.typeCheck(); //type-checking bottom-up
+
 				System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
 /*

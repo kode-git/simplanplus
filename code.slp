@@ -1,7 +1,11 @@
 {
-void f(int x){
-    int y = x;
+
+intf(int x){
+    return x;
+    int x;
+
+
 }
 
-int x = f(10);
+int x = f(5);
 }

@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.VoidNode;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,10 @@ public class DeletionNode implements Node{
         return s+"Delete: " + id + "\n";
     }
 
+
     @Override
     public Node typeCheck() {
-        return null;
+        return new VoidNode(); // called only in case of delete as last statement of block
     }
 
     @Override

@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.SimpLanlib;
 import util.VoidNode;
 
 import java.util.ArrayList;
@@ -82,10 +83,32 @@ public class DecFunNode implements Node {
 
     }
 
+    // TODO BugFix
     @Override
     public Node typeCheck() {
-        return null;
+
+        // case: void with return in function
+        if(this.type instanceof VoidNode && this.block.checkRet()) {
+            // return error - case of return in void func
+            System.out.println("Function " + id + " is void and can't have return statement");
+            System.exit(0);
+        }
+
+        // here if type is not void, need to check if return statement is present
+        else if(!this.block.checkRet() && !(this.type instanceof VoidNode)){
+            // no return statement in type != void
+            System.out.println("Function " + id + " don't have return statement");
+            System.exit(0);
+        }
+        // here type != void and there is return as block.typeCheck()
+        if (!(SimpLanlib.isSubtype(block.typeCheck(), type))) {
+            System.out.println("Wrong return type for function " + id);
+            System.exit(0);
+        }
+
+        return block.typeCheck();
     }
+
 
     @Override
     public String codeGeneration() {
@@ -119,7 +142,8 @@ public class DecFunNode implements Node {
             env.addTable(new HashMap<String, STentry>());
 
             for(ArgNode arg : this.args){
-                res.addAll(arg.checkSemantics(env));
+                res.addAll(arg.checkSemantics(env)); // adding in table inside the args checkSemantics
+
             }
             env.setNestingLevel(env.getNestingLevel() - 1); // this is because in BlockNode checkSemantics we have NestingLevel + 1
             res.addAll(this.block.checkSemantics(env));

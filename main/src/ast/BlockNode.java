@@ -12,28 +12,38 @@ public class BlockNode implements Node {
 
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
-    private Boolean hasRet=false;
+
     public BlockNode (ArrayList<Node> d, ArrayList<Node> s) {
         declarations=d;
         statements=s;
-        checkRet();
     }
 
     public BlockNode(){
         declarations = new ArrayList<Node>();
         statements = new ArrayList<Node>();
-        checkRet();
     }
 
-    public Boolean checkRet(){
-        for (Node st:statements){
-            if(((StatementNode)st).getChRet()){
-                this.hasRet=true;
-                return true;
+
+
+    // TODO we need to check it and statements.size() has an error
+    // TODO BugFix after lexical error handling
+    public Boolean checkRet() {
+        if (statements.size() > 0) { // if the block is void
+
+            for (int i = 0; i < statements.size(); i++) {
+                if (((StatementNode) statements.get(i)).getChRet()) {
+                    System.out.println("Occurences " + i + " " + statements.size());
+
+                    if (i != statements.size() - 1) {
+                        System.out.println("Mutiple return");
+                        System.exit(0);
+                    } else return true;
+                }
             }
-        }return false;
-
+        }
+                return false;
     }
+
 
     public String toPrint(String s) {
         System.out.println(s);
