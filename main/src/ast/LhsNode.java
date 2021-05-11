@@ -13,21 +13,21 @@ public class LhsNode<T>implements Node,Cloneable{
     private int nestingLevel;
     private int counter;
     private int counterST;
+
+
     public LhsNode(T myNode){
         this.lhVar=myNode;
         counter=count(lhVar);
     }
 
-    private int count(T var){
-        if(var instanceof String){
+    private int count(T var) {
+        if (var instanceof String) {
             return 0;
-        }else {
-            var = (T)((LhsNode<?>)var).getLhVar();
-            return count(var)+1;
+        } else {
+            var = (T) ((LhsNode<?>) var).getLhVar();
+            return count(var) + 1;
         }
     }
-    // used only on clone
-    public LhsNode(){}
 
     @Override
     public String toPrint(String s) {
@@ -68,12 +68,9 @@ public class LhsNode<T>implements Node,Cloneable{
 
     // typeCheck, CodeGeneration, CheckSemantics
 
-
-
-    //TODO DA COMPLETARE TYPE CHECKING
+    //TODO We need to complete typeCheck()
     @Override
     public Node typeCheck() {
-        System.out.println("My counter is at " + counter + lhVar);
         if (!(lhVar instanceof LhsNode)) {
             if (entry.getType() instanceof ArrowTypeNode) { //
                 System.out.println("Wrong usage of function identifier");
@@ -82,7 +79,8 @@ public class LhsNode<T>implements Node,Cloneable{
 
             return entry.getType();
         } else {
-            //TODO HERE
+            //TODO we need to redo it
+            // Note: we have counterST for DecVar Pointer levels and counter for LhsNode inside AssignmentNode
             if (counter > 2) return entry.getType();
             System.out.println("else statement " + ((LhsNode) lhVar).typeCheck());
 
@@ -128,7 +126,7 @@ public class LhsNode<T>implements Node,Cloneable{
             } else {
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();
-                counterST= myEntry.getPointerCounter();
+                this.counterST= myEntry.getPointerCounter();
             }
         }
         return res;

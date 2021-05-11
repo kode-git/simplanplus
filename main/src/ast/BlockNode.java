@@ -33,7 +33,6 @@ public class BlockNode implements Node {
             for (int i = 0; i < statements.size(); i++) {
                 StatementNode temp = (StatementNode)(statements.get(i));
                 if ( temp.getSt() instanceof IteNode) {
-                    System.out.println("Occurences " + i + " Enter " );
                     hasIteRet= ((IteNode)temp.getSt()).getFg();
                     if(((IteNode)temp.getSt()).getSize()>1){
                         hasElse=true;
@@ -41,10 +40,10 @@ public class BlockNode implements Node {
                 }
                     if (((StatementNode) statements.get(i)).getChRet()) {
                         if(hasIteRet && hasElse){  // hasIteRet is the return inside IteNode and hasElse is if IteNode has an else statement
-                            System.out.println("AAAAAAA " + i + " Enter " );
+                            System.out.println("Multiple return conflicts with iteration statement" );
                             System.exit(0);
                         }
-                        System.out.println("Occurences " + i + " " + statements.size());
+
 
                         if (i != statements.size() - 1) {
                             System.out.println("Mutiple return");
