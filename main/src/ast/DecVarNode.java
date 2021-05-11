@@ -12,16 +12,28 @@ public class DecVarNode implements Node {
     private Node typeNode;
     private String id;
     private Node exp;
+    private int counter=0;
 
     public DecVarNode (Node myType, String id) {
         this.typeNode = myType;
         this.id = id;
         this.exp = null;
+       this.counter= count(this.typeNode);
     }
+
+
     public DecVarNode (Node myType, String id, Node exp) {
         this.typeNode = myType;
         this.id = id;
         this.exp = exp;
+        this.counter= count(this.typeNode);
+    }
+    private int count(Node t){
+        if(t instanceof PointerTypeNode){
+            return 1+count(((PointerTypeNode<?>) t).getVal());
+        }else {
+            return 0;
+        }
     }
 
     public String toPrint(String s) {
@@ -42,7 +54,7 @@ public class DecVarNode implements Node {
 
         ArrayList<SemanticError> res = new ArrayList();
         int offset=env.getOffset();
-        STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset);
+        STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset,counter);
         System.out.println(" semantic declaration control for variables "+this.typeNode);
         env.setOffset(--offset);
         if (this.exp!=null)

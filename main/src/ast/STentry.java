@@ -4,6 +4,7 @@ public class STentry {
     private int nl;
     private Node type;
     private int offset;
+    private int pointerCounter;
 
     public STentry (int n, int os)
     {nl=n;
@@ -13,12 +14,22 @@ public class STentry {
     {nl=n;
         type=t;
         offset=os;}
+    public STentry (int n, Node t, int os, int pointerCounter)
+    {nl=n;
+        type=t;
+        offset=os;
+    this.pointerCounter=pointerCounter;
+    }
 
     public void addType (Node t)
     {type=t;}
 
     public Node getType ()
     {return type;}
+
+    public int getPointerCounter(){
+        return pointerCounter;
+    }
 
     public int getOffset ()
     {return offset;}

@@ -12,6 +12,7 @@ public class LhsNode<T>implements Node,Cloneable{
     private STentry entry;
     private int nestingLevel;
     private int counter;
+    private int counterST;
     public LhsNode(T myNode){
         this.lhVar=myNode;
         counter=count(lhVar);
@@ -19,7 +20,7 @@ public class LhsNode<T>implements Node,Cloneable{
 
     private int count(T var){
         if(var instanceof String){
-            return 1;
+            return 0;
         }else {
             var = (T)((LhsNode<?>)var).getLhVar();
             return count(var)+1;
@@ -67,6 +68,9 @@ public class LhsNode<T>implements Node,Cloneable{
 
     // typeCheck, CodeGeneration, CheckSemantics
 
+
+
+    //TODO DA COMPLETARE TYPE CHECKING
     @Override
     public Node typeCheck() {
         System.out.println("My counter is at " + counter + lhVar);
@@ -76,20 +80,9 @@ public class LhsNode<T>implements Node,Cloneable{
                 System.exit(0);
             }
 
-        /*
-            if(!(entry.getType() instanceof IntTypeNode||entry.getType() instanceof BoolTypeNode)) {
-                System.out.println("this type"+ entry.getType().typeCheck() );
-                return entry.getType().typeCheck();
-            }
-
-                if((entry.getType() instanceof PointerTypeNode)) {
-                System.out.println("this type"+ entry.getType().typeCheck() );
-                return entry.getType().typeCheck();
-            }
-        */
-
             return entry.getType();
         } else {
+            //TODO HERE
             if (counter > 2) return entry.getType();
             System.out.println("else statement " + ((LhsNode) lhVar).typeCheck());
 
@@ -111,7 +104,6 @@ public class LhsNode<T>implements Node,Cloneable{
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList();
         if (lhVar instanceof String) {
-            int j = env.getNestingLevel();
             STentry myEntry = env.checkId( env.getNestingLevel(), (String)lhVar);
 
 
@@ -124,23 +116,20 @@ public class LhsNode<T>implements Node,Cloneable{
 
         }else{
 
-            /*
-                Entry Problem:
-                - We need to setup the entry of the last level on the rest of LhsNode
-                - Can't do it because miss clone() or other method to save the current reference on lhVar
-                We assign to the pointer the entry type to which it is referred
-            */
 
-            Node myVar = (Node) lhVar;
-            res.addAll(((Node)lhVar).checkSemantics(env));
-
-           while(((LhsNode)myVar).getEntry()==null){
-              myVar= (Node) ((LhsNode<?>) myVar).getLhVar();
+            T myVar =  lhVar;
+            while ((myVar instanceof LhsNode)){
+                myVar= (T) ((LhsNode<?>) myVar).getLhVar();
             }
-
-            this.entry=((LhsNode<?>) myVar).getEntry();
-
-
+            System.out.println(myVar);
+            STentry myEntry = env.checkId( env.getNestingLevel(), (String)myVar);
+            if (myEntry == null) {
+                res.add(new SemanticError("Id " + (String)lhVar + " not declared"));
+            } else {
+                this.entry = myEntry;
+                this.nestingLevel = env.getNestingLevel();
+                counterST= myEntry.getPointerCounter();
+            }
         }
         return res;
 

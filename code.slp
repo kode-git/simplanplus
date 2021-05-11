@@ -1,14 +1,4 @@
 {
-
-int f(int x){
-    if(true)
-        if(true)
-            return x;
-        else
-            return x;
-    return x;
-}
-
-
-int x = f(5);
+^int x;
+x^^=3;
 }
