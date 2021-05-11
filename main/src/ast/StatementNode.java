@@ -19,6 +19,11 @@ public class StatementNode implements Node{
             this.hasRet=true;
         }
     }
+
+    public Node getSt() {
+        return st;
+    }
+
     public Boolean getChRet(){
         return this.hasRet;
     }
