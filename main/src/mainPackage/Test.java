@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 //import Interpreter.ExecuteVM;
 
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
 //import parser.SVMLexer;
@@ -20,6 +21,7 @@ import util.Environment;
 import util.SemanticError;
 import ast.SimpLanPlusVisitorImpl;
 import ast.Node;
+import util.ThrowingErrorListener;
 // import ast.SVMVisitorImpl;
 
 
@@ -29,41 +31,51 @@ public class Test {
         String fileName = "code.slp";
         FileInputStream is = new FileInputStream(fileName);
         ANTLRInputStream input = new ANTLRInputStream(is);
+
+        // lexer
         SimpLanPlusLexer lexer = new SimpLanPlusLexer(input);
+
+        // Adding our ErrorListener
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
+
+        // tokens
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
+        // parser
         SimpLanPlusParser parser = new SimpLanPlusParser(tokens);
+
+
+        // Adding our ErrorListener to the parser
+        parser.removeErrorListeners();
+        parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+
+        // visitor
         SimpLanPlusVisitorImpl visitor = new SimpLanPlusVisitorImpl();
-        Node ast = visitor.visit(parser.block()); //generazione AST
 
+        Node ast;
 
-        // SIMPLE CHECK FOR LEXER ERRORS
-        // TODO FIND A BETTE WAY TO CHECK LEXICAL ERRORS IN ANTLR GUIDE
-        // TODO IMPLEMENT ERROR LISTENER
-        if (lexer.lexicalErrors > 0){
-            System.out.println("The program was not in the right format. Exiting the compilation process now");
-            System.exit(0);
-        } else {
-
+        try {
+            ast = visitor.visit(parser.block()); //generazione AST
 
             System.out.println(ast.toPrint(""));
 
-			Environment env = new Environment();
-			ArrayList<SemanticError> err = ast.checkSemantics(env);
+            Environment env = new Environment();
+            ArrayList<SemanticError> err = ast.checkSemantics(env);
 
-			if(err.size()>0){
-				System.out.println("You had: " +err.size()+" errors:");
-				for(SemanticError e : err)
-					System.out.println("\t" + e);
-				System.exit(0);
-			} else {
-                System.out.println("Visualizing AST...");
-                System.out.println(ast.toPrint(""));
-            }
+        if (err.size() > 0) {
+            System.out.println("You had: " + err.size() + " errors:");
+            for (SemanticError e : err)
+                System.out.println("\t" + e);
+            System.exit(0);
+        } else {
+            System.out.println("Visualizing AST...");
+            System.out.println(ast.toPrint(""));
+        }
 
-				Node type = ast.typeCheck(); //type-checking bottom-up
+        Node type = ast.typeCheck(); //type-checking bottom-up
 
-				System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+        System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
 /*
 				// CODE GENERATION  prova.SimpLanPlus.asm
@@ -91,8 +103,11 @@ public class Test {
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();
 			}    */
+
+        } catch(ParseCancellationException e){
+            System.out.println("The program was not in the right format. Exiting the compilation process now");
+            System.out.println(e.getMessage());
+            System.exit(0);
         }
-
-
     }
 }

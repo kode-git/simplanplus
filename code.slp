@@ -1,8 +1,9 @@
 {
 
-intf(int x){
+int f(int x){
     return x;
     int x;
+    return x;
 
 
 }

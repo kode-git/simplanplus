@@ -1,9 +1,5 @@
 grammar SimpLanPlus;
 
-@lexer::members {
-   //there is a much better way to do this, check the ANTLR guide
-   public int lexicalErrors=0;
-}
 
 // THIS IS THE PARSER INPUT
 
@@ -80,4 +76,3 @@ LINECOMMENTS 	: '//' (~('\n'|'\r'))* -> skip;
 BLOCKCOMMENTS   : '/*'( ~('/'|'*')|'/'~'*'|'*'~'/'|BLOCKCOMMENTS)* '*/' -> skip;
 
 
-ERR     : . { System.out.println("Invalid char: "+ getText()); lexicalErrors++; } -> channel(HIDDEN); 
