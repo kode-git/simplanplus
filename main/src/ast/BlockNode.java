@@ -12,10 +12,14 @@ public class BlockNode implements Node {
 
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
+    private Boolean returnExp=false;
+    private Boolean hasElse=false;
+    private ArrayList<IteNode> iteNode= new ArrayList<IteNode>();
 
     public BlockNode (ArrayList<Node> d, ArrayList<Node> s) {
         declarations=d;
         statements=s;
+        returnExp = hasExpRet();
     }
 
     public BlockNode(){
@@ -23,18 +27,61 @@ public class BlockNode implements Node {
         statements = new ArrayList<Node>();
     }
 
+    public ArrayList<IteNode> getIteNode(){
+        return iteNode;
+    }
+
+    public Boolean getReturnExp(){
+        return this.returnExp;
+    }
 
 
 
+    public Boolean hasExpRet(){
+        boolean hasRtExp=false;
+        for (int i = 0; i < statements.size(); i++) {
+            StatementNode temp = (StatementNode)(statements.get(i));
+            if(temp.getSt() instanceof RetNode){
+                hasRtExp= temp.getHasExp();
+                if (temp.getHasExp()==false) return false;
+            }
+        }
+        returnExp=true;
+        return hasRtExp;
+    }
+public Boolean getHasElse(){
+        return hasElse;
+}
+public Boolean checkRetExternal(){
+    if (statements.size() > 0) {
+           return ((StatementNode) statements.get(statements.size()-1)).getChRet();
+    }else return false;
+}
     public Boolean checkRet() {
         boolean hasIteRet=false;
         boolean hasElse=false;
-        if (statements.size() > 0) { // if the block is void
+        boolean hasExpRet=false;
+        if (statements.size() > 0) {
             for (int i = 0; i < statements.size(); i++) {
                 StatementNode temp = (StatementNode)(statements.get(i));
                 if ( temp.getSt() instanceof IteNode) {
-                    hasIteRet= ((IteNode)temp.getSt()).getFg();
+                    ArrayList<StatementNode> iteSt= new ArrayList<>();
+                           iteSt.add((StatementNode) temp.getSt());
+                    while (iteSt instanceof IteNode){
+                        iteSt= ((IteNode)iteSt).getSt();
+                    }
+                    hasIteRet= ((IteNode)temp.getSt()).getFg(); //return true if ite has return statement
+
+                    ////////////////////////////////////////////////   test
+                    System.out.println(hasIteRet+"AA!434");
+                     if(hasIteRet){
+                         hasExpRet=((IteNode) temp.getSt()).getExpFg();
+                         this.iteNode.add((IteNode) temp.getSt());
+                     }
+                     this.returnExp=hasExpRet;
+                    //////////////////////////////////////////////////
                     if(((IteNode)temp.getSt()).getSize()>1){
+                        this.hasElse=true;
                         hasElse=true;
                     }
                 }

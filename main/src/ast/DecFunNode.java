@@ -89,9 +89,11 @@ public class DecFunNode implements Node {
 
         // case: void with return in function
         if(this.type instanceof VoidNode && this.block.checkRet()) {
-            // return error - case of return in void func
-            System.out.println("Function " + id + " is void and can't have return statement");
-            System.exit(0);
+            if(this.block.getReturnExp()) {
+                // return error - case of return in void func
+                System.out.println("Function " + id + " is void and can't have return statement");
+                System.exit(0);
+            }
         }
 
         // here if type is not void, need to check if return statement is present
@@ -99,6 +101,17 @@ public class DecFunNode implements Node {
             // no return statement in type != void
             System.out.println("Function " + id + " don't have return statement");
             System.exit(0);
+        }else if (!this.block.checkRetExternal()&&!block.getHasElse()&&block.checkRet()){
+            System.out.println("Missed last return statement");
+            System.exit(0);
+        }else if (!block.getHasElse()&& block.checkRet()&&this.block.checkRetExternal()&&(block.getIteNode().size()!=0)){
+            System.out.println("AAAAAAAAAAAAAAAA5555"+block.getIteNode());
+            for(IteNode i: block.getIteNode()){
+               if( !SimpLanlib.isSubtype(i.typeCheck(), type)){
+                   System.out.println("Wrong return statement inside ite");
+                   System.exit(0);
+               }
+            }
         }
         // here type != void and there is return as block.typeCheck()
         if (!(SimpLanlib.isSubtype(block.typeCheck(), type))) {

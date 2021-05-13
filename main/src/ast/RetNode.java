@@ -2,6 +2,7 @@ package ast;
 
 import util.Environment;
 import util.SemanticError;
+import util.VoidNode;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,9 @@ public class RetNode implements Node{
 
     public RetNode(){
         this.exp = null;
+    }
+    public Node getExp(){
+        return this.exp;
     }
 
     @Override
@@ -30,7 +34,9 @@ public class RetNode implements Node{
 
     @Override
     public Node typeCheck() {
-        return exp.typeCheck();
+        if(exp!=null) {
+            return exp.typeCheck();
+        }else return new VoidNode();
     }
 
     @Override

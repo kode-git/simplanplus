@@ -9,19 +9,28 @@ import java.util.ArrayList;
 
 public class IteNode implements Node{
     ArrayList<Node> st;
-    Node exp;
-    Boolean fg;
+    private Node exp;
+    private Boolean fg;
+    private Boolean expFg;
     public IteNode(ArrayList<Node> st, Node exp){
         this.st=st;
         this.exp=exp;
         this.fg=checkRet();
     }
+    public Boolean getExpFg(){
+        return this.expFg;
+    }
+    public ArrayList<Node> getSt(){
+        return st;
+    }
+
 
     public Boolean checkRet(){
         boolean fg=false;
         for( Node s:st ){
             if(((StatementNode)s).getChRet()){
                 fg=true;
+                expFg= ((StatementNode) s).getHasExp();
             }else{
                 fg=false;
             }

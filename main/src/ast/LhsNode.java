@@ -79,16 +79,26 @@ public class LhsNode<T>implements Node,Cloneable{
 
             return entry.getType();
         } else {
-            //TODO we need to redo it
-            // Note: we have counterST for DecVar Pointer levels and counter for LhsNode inside AssignmentNode
-            if (counter > 2) return entry.getType();
-            System.out.println("else statement " + ((LhsNode) lhVar).typeCheck());
 
+            if (counter == counterST){
+                T val=(T)((PointerTypeNode<GenericTypeNode>)entry.getType()).getVal();
+                while ( val instanceof PointerTypeNode){
+                    val= (T)((PointerTypeNode<?>) val).getVal();
+                }
+                return ((Node)val);
+            }
+            if(counter>counterST){
+                System.out.println("Incompatible pointer type error, you haven't declared enough pointers");
+                System.exit(0);
+            }
+            return entry.getType();
+
+        /*
             if ((entry.getType() instanceof PointerTypeNode)) {
                 System.out.println("this type" + entry.getType().typeCheck());
                 return entry.getType().typeCheck();
             }
-            return ((LhsNode) lhVar).typeCheck();
+            return ((LhsNode) lhVar).typeCheck();  */
         }
     }
 

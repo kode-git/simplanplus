@@ -1,4 +1,10 @@
 {
-^int x;
-x^^=3;
+void f(int x){
+        if(true)
+             if(true) return 5;
+       return ;
+
+
+ }
+f(5);
 }

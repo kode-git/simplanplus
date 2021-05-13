@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class StatementNode implements Node{
     private Node st;
     private Boolean hasRet=false;
+    private Boolean hasExp=false;
     public StatementNode(Node st){
         this.st=st;
         checkRet();
@@ -17,7 +18,11 @@ public class StatementNode implements Node{
     public void checkRet(){
         if(st instanceof RetNode){
             this.hasRet=true;
+            if(((RetNode) st).getExp()!=null)hasExp=true;
         }
+    }
+    public Boolean getHasExp(){
+        return hasExp;
     }
 
     public Node getSt() {
