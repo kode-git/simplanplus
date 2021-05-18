@@ -29,7 +29,7 @@ public class BinExpNeqNode implements Node {
             System.out.println("error: bad pair statements types for binary operator '!='");
             System.exit(0);
         }
-        return typeLeft;
+        return new BoolTypeNode();
 
     }
 
