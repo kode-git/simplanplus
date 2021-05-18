@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import util.Environment;
 import util.SemanticError;
+import util.VoidNode;
 
 public class PrintNode implements Node {
 
@@ -18,7 +19,7 @@ public class PrintNode implements Node {
   }
   
   public Node typeCheck() {
-    return val.typeCheck();
+    return new VoidNode();
   }  
   
   @Override
