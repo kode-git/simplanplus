@@ -29,11 +29,12 @@ public class BlockNode implements Node {
     public Boolean checkRet() {
         boolean hasIteRet=false;
         boolean hasElse=false;
-        if (statements.size() > 0) { // if the block is void
+        if (statements.size() > 0) { // if the block is  not void
             for (int i = 0; i < statements.size(); i++) {
                 StatementNode temp = (StatementNode)(statements.get(i));
                 if ( temp.getSt() instanceof IteNode) {
                     hasIteRet= ((IteNode)temp.getSt()).getFg();
+                    System.out.println(hasIteRet+" TEST");
                     if(((IteNode)temp.getSt()).getSize()>1){
                         hasElse=true;
                     }

@@ -9,15 +9,25 @@ import java.util.ArrayList;
 
 public class StatementNode implements Node{
     private Node st;
-    private Boolean hasRet=false;
+    private Boolean hasRet;
     public StatementNode(Node st){
         this.st=st;
-        checkRet();
+        //checkRet();
     }
     public void checkRet(){
-        if(st instanceof RetNode){
-            this.hasRet=true;
-        }
+        if(st instanceof BlockNode) {
+            this.hasRet = ((BlockNode) st).checkRet();
+        }else {
+            if (st instanceof RetNode) {
+                this.hasRet = true;
+                System.out.println(this + "test second");
+            } else {
+                this.hasRet = false;
+                System.out.println(this + "test second");
+            }
+         }
+
+
     }
 
     public Node getSt() {
@@ -25,6 +35,7 @@ public class StatementNode implements Node{
     }
 
     public Boolean getChRet(){
+        checkRet();
         return this.hasRet;
     }
 

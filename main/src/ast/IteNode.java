@@ -20,7 +20,8 @@ public class IteNode implements Node{
     public Boolean checkRet(){
         boolean fg=false;
         for( Node s:st ){
-            if(((StatementNode)s).getChRet()){
+            StatementNode temp = ((StatementNode)s);
+            if(temp.getChRet()){
                 fg=true;
             }else{
                 fg=false;
