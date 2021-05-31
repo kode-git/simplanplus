@@ -5,6 +5,7 @@ public class STentry {
     private Node type;
     private int offset;
     private int pointerCounter;
+    private int effectState;
 
     public STentry (int n, int os)
     {nl=n;
