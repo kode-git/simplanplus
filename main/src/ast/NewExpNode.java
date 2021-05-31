@@ -25,6 +25,11 @@ public class NewExpNode implements Node {
     }
 
     @Override
+    public void checkEffects() {
+
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return new ArrayList<SemanticError>();
     }

@@ -46,4 +46,9 @@ public class ArrowTypeNode implements Node {
 		return "";
   }
 
+  @Override
+  public void checkEffects() {
+
+  }
+
 }  

@@ -125,4 +125,15 @@ public class BlockNode implements Node {
         return null;
     }
 
+    @Override
+    public void checkEffects() {
+        // adding effects of declarations
+        for (Node dec : declarations)
+            dec.checkEffects();
+
+        // adding effects of statements
+        for (Node st : statements)
+            st.checkEffects();
+    }
+
 }

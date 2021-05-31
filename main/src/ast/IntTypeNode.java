@@ -23,8 +23,13 @@ public class IntTypeNode implements Node, GenericTypeNode {
   public String codeGeneration() {
 		return "";
   }
-  
-  @Override
+
+    @Override
+    public void checkEffects() {
+
+    }
+
+    @Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 
 	  return new ArrayList<SemanticError>();

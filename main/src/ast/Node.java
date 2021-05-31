@@ -13,6 +13,8 @@ public interface Node {
   Node typeCheck();
   
   String codeGeneration();
+
+  void checkEffects();
   
   ArrayList<SemanticError> checkSemantics(Environment env);
   

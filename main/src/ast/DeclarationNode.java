@@ -56,6 +56,18 @@ public class DeclarationNode implements Node{
     }
 
     @Override
+    public void checkEffects() {
+        if(decVar==null){
+            // It is a DecFunNode
+             decFun.checkEffects();
+        } else {
+            // else is a DecFunNode
+              decVar.checkEffects();
+        }
+
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList();

@@ -58,6 +58,11 @@ public class StatementNode implements Node{
     }
 
     @Override
+    public void checkEffects() {
+
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList();

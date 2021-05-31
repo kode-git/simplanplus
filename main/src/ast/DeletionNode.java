@@ -29,6 +29,11 @@ public class DeletionNode implements Node{
     }
 
     @Override
+    public void checkEffects() {
+
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
        STentry entry = env.checkId(env.getNestingLevel(), id);

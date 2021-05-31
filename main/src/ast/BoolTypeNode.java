@@ -30,5 +30,10 @@ public class BoolTypeNode implements Node, GenericTypeNode {
 		return "";
   }
 
-    
+    @Override
+    public void checkEffects() {
+
+    }
+
+
 }  

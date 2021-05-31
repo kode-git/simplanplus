@@ -86,5 +86,10 @@ public String toPrint(String s) {  //
 	    return null;
   }
 
-    
+    @Override
+    public void checkEffects() {
+
+    }
+
+
 }  

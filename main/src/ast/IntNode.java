@@ -31,4 +31,9 @@ public class IntNode implements Node {
 	return "push "+val+"\n";
   }
 
+    @Override
+    public void checkEffects() {
+
+    }
+
 }  

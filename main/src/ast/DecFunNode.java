@@ -105,6 +105,8 @@ public class DecFunNode implements Node {
             System.out.println("Wrong return type for function " + id);
             System.exit(0);
         }
+        
+
 
         return block.typeCheck();
     }
@@ -113,6 +115,11 @@ public class DecFunNode implements Node {
     @Override
     public String codeGeneration() {
         return null;
+    }
+
+    @Override
+    public void checkEffects() {
+
     }
 
     @Override

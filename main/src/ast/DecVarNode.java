@@ -59,6 +59,7 @@ public class DecVarNode implements Node {
         env.setOffset(--offset);
         if (this.exp!=null)
             res.addAll(this.exp.checkSemantics(env));
+            entry.setEffectState(1);
         SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
         if (err!=null) {
             res.add(err);
@@ -78,6 +79,11 @@ public class DecVarNode implements Node {
 
     public String codeGeneration() {
         return null;
+    }
+
+    @Override
+    public void checkEffects() {
+
     }
 
 }

@@ -109,6 +109,11 @@ public class LhsNode<T>implements Node,Cloneable{
     }
 
     @Override
+    public void checkEffects() {
+
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList();
         if (lhVar instanceof String) {
