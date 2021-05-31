@@ -9,10 +9,21 @@ public class ArgNode implements Node {
 
     private Node type;
     private String id;
+    private int counter=0;
 
     public ArgNode(Node type, String id) {
         this.type = type;
         this.id = id;
+        this.counter= count(this.type);
+    }
+
+    private int count(Node t){
+        System.out.println(t.getClass() + "is it arg?");
+        if(t instanceof PointerTypeNode){
+            return 1+count(((PointerTypeNode<?>) t).getVal());
+        }else {
+            return 0;
+        }
     }
 
     @Override
@@ -24,6 +35,7 @@ public class ArgNode implements Node {
     // not used
     @Override
     public Node typeCheck() {
+
         return null;
     }
 
@@ -53,7 +65,7 @@ public class ArgNode implements Node {
 
         ArrayList<SemanticError> res = new ArrayList();
         int offset=env.getOffset();
-        STentry entry = new STentry(env.getNestingLevel(), this.type, offset);
+        STentry entry = new STentry(env.getNestingLevel(), this.type, offset,counter);
         env.setOffset(--offset);
         SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
         if (err!=null){

@@ -12,12 +12,12 @@ public class DecFunNode implements Node {
 
     private Node type;
     private String id;
-    private ArrayList<ArgNode> args;
+    private ArrayList<Node> args;
     private BlockNode block;
 
 
     // type id (args) {}
-    public DecFunNode(Node type, String id, ArrayList<ArgNode> args, BlockNode block) {
+    public DecFunNode(Node type, String id, ArrayList<Node> args, BlockNode block) {
         this.type = type;
         this.id = id;
         this.args = args;
@@ -25,7 +25,7 @@ public class DecFunNode implements Node {
     }
 
     // void id (args) {}
-    public DecFunNode(String id,  ArrayList<ArgNode> args, BlockNode block){
+    public DecFunNode(String id,  ArrayList<Node> args, BlockNode block){
         this.type = new VoidNode();
         this.id = id;
         this.args = args;
@@ -36,7 +36,7 @@ public class DecFunNode implements Node {
     public DecFunNode(String id, BlockNode block){
         this.type = new VoidNode();
         this.id = id;
-        this.args = new ArrayList<ArgNode>();
+        this.args = new ArrayList<Node>();
         this.block = block;
     }
 
@@ -44,7 +44,7 @@ public class DecFunNode implements Node {
     public DecFunNode(Node type, String id, BlockNode block){
         this.type = type;
         this.id = id;
-        this.args = new ArrayList<ArgNode>();
+        this.args = new ArrayList<Node>();
         this.block = block;
     }
     @Override
@@ -100,6 +100,8 @@ public class DecFunNode implements Node {
             System.out.println("Function " + id + " don't have return statement");
             System.exit(0);
         }
+
+
         // here type != void and there is return as block.typeCheck()
         if (!(SimpLanlib.isSubtype(block.typeCheck(), type))) {
             System.out.println("Wrong return type for function " + id);
@@ -141,7 +143,7 @@ public class DecFunNode implements Node {
             env.setNestingLevel(env.getNestingLevel() + 1);
             env.addTable(new HashMap<String, STentry>());
 
-            for(ArgNode arg : this.args){
+            for(Node arg : this.args){
                 res.addAll(arg.checkSemantics(env)); // adding in table inside the args checkSemantics
 
             }

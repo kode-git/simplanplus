@@ -90,9 +90,9 @@ public class SimpLanPlusVisitorImpl extends SimpLanPlusBaseVisitor<Node>{
             type = visit(ctx.type());
         }
         String id = ctx.ID().getText();
-        ArrayList<ArgNode> args = new ArrayList<ArgNode>();
+        ArrayList<Node> args = new ArrayList<Node>();
         for(SimpLanPlusParser.ArgContext arg : ctx.arg()){
-            args.add((ArgNode) visit(arg));
+            args.add( visit(arg));
         }
 
         BlockNode block = (BlockNode) visitBlock(ctx.block());

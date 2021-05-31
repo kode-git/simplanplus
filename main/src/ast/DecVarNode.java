@@ -29,6 +29,7 @@ public class DecVarNode implements Node {
         this.counter= count(this.typeNode);
     }
     private int count(Node t){
+        System.out.println(t.getClass() + "is it arg?");
         if(t instanceof PointerTypeNode){
             return 1+count(((PointerTypeNode<?>) t).getVal());
         }else {

@@ -6,10 +6,10 @@ import util.SemanticError;
 
 public class ArrowTypeNode implements Node {
 
-  private ArrayList<ArgNode> argList;
+  private ArrayList<Node> argList;
   private Node ret;
   
-  public ArrowTypeNode (ArrayList<ArgNode> p, Node r) {
+  public ArrowTypeNode (ArrayList<Node> p, Node r) {
     argList=p;
     ret=r;
   }
@@ -26,7 +26,7 @@ public class ArrowTypeNode implements Node {
       return ret;
   }
   
-  public ArrayList<ArgNode> getArgList () { //
+  public ArrayList<Node> getArgList () { //
     return argList;
   }
 

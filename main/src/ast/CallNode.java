@@ -67,18 +67,19 @@ public String toPrint(String s) {  //
           System.out.println("Invocation of a non-function "+id);
           System.exit(0);
       }
-      ArrayList<ArgNode> p = t.getArgList();
+      ArrayList<Node> p = t.getArgList();
 
       // Checking of number of arguments equals to the number of parameters in DecFun
       if ( !(p.size() == exp.size()) ) {
           System.out.println("Wrong number of parameters in the invocation of "+id);
           System.exit(0);
       }
-      for (int i=0; i<exp.size(); i++)
-          if ( !(SimpLanlib.isSubtype( (exp.get(i)).typeCheck(), p.get(i).getType()) ) ) {
-              System.out.println("Wrong type for "+(i+1)+"-th parameter in the invocation of "+id);
+      for (int i=0; i<exp.size(); i++) {
+          if (!(SimpLanlib.isSubtype((exp.get(i)).typeCheck(), ((ArgNode)p.get(i)).getType()))) {
+              System.out.println("Wrong type for " + (i + 1) + "-th parameter in the invocation of " + id);
               System.exit(0);
           }
+      }
       return t.getRet(); //TODO if NullPointerException, check this
   }
   

@@ -88,7 +88,7 @@ public class LhsNode<T>implements Node,Cloneable{
                 return ((Node)val);
             }
             if(counter>counterST){
-                System.out.println("Incompatible pointer type error, you haven't declared enough pointers");
+                System.out.println("Incompatible pointer type error, you haven't declared enough pointers" + counter + " " + counterST);
                 System.exit(0);
             }
             return entry.getType();
