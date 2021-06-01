@@ -125,4 +125,12 @@ public class BlockNode implements Node {
         return null;
     }
 
+
+    //Not used
+    @Override
+    public int checkEffects(Environment env)
+    {
+        return 0;
+    }
+
 }

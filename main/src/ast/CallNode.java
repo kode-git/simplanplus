@@ -87,5 +87,10 @@ public String toPrint(String s) {  //
 	    return null;
   }
 
-    
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+
 }  

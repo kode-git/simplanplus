@@ -56,7 +56,6 @@ public class DecVarNode implements Node {
         ArrayList<SemanticError> res = new ArrayList();
         int offset=env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset,counter);
-        System.out.println(" semantic declaration control for variables "+this.typeNode);
         env.setOffset(--offset);
         if (this.exp!=null)
             res.addAll(this.exp.checkSemantics(env));
@@ -79,6 +78,11 @@ public class DecVarNode implements Node {
 
     public String codeGeneration() {
         return null;
+    }
+
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
     }
 
 }

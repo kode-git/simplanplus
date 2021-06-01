@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class BaseExpNode implements Node {
 
     Node exp;
+    int effectST;
 
     public BaseExpNode(Node exp){
         this.exp = exp;
@@ -24,6 +25,11 @@ public class BaseExpNode implements Node {
     @Override
     public String codeGeneration() {
         return null;
+    }
+
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
     }
 
     @Override

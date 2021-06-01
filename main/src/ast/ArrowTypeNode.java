@@ -46,4 +46,9 @@ public class ArrowTypeNode implements Node {
 		return "";
   }
 
+  @Override
+  public int checkEffects(Environment env) {
+    return 0;
+  }
+
 }  

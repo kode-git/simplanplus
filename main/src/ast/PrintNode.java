@@ -33,5 +33,10 @@ public class PrintNode implements Node {
   public String codeGeneration() {
 		return val.codeGeneration()+"print\n";
   }
-    
+
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
 }  

@@ -39,6 +39,11 @@ public class BinExpNeqNode implements Node {
     }
 
     @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         res.addAll(left.checkSemantics(env));

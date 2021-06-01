@@ -5,7 +5,7 @@ public class STentry {
     private Node type;
     private int offset;
     private int pointerCounter;
-    private int effectState;
+    private int effectState=0;
 
     public STentry (int n, int os)
     {nl=n;
@@ -27,6 +27,14 @@ public class STentry {
 
     public Node getType ()
     {return type;}
+
+    public int getEffectState() {
+        return effectState;
+    }
+
+    public void setEffectState(int effectState) {
+        this.effectState = effectState;
+    }
 
     public int getPointerCounter(){
         return pointerCounter;

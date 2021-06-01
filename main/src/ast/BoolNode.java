@@ -31,5 +31,10 @@ public class BoolNode implements Node {
   public String codeGeneration() {
 		return "push "+(val?1:0)+"\n";
 	  }
-         
+
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
 }  
