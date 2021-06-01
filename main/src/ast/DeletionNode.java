@@ -50,7 +50,7 @@ public class DeletionNode implements Node{
         if(entry == null){
             res.add(new SemanticError("Id " +this.id + " not declared"));
         }
-        if(entry != null){
+        if(res.size()==0){
             this.checkEffects(env);
         }
         return res;

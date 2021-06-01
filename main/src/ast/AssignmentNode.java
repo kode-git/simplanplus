@@ -55,7 +55,7 @@ public class AssignmentNode implements Node{
         res.addAll(lhs.checkSemantics(env));
         // exp
         res.addAll(exp.checkSemantics(env));
-        if(res.size()!=0){
+        if(res.size()==0){
             this.checkEffects(env);
         }
         return res;

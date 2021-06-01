@@ -169,7 +169,7 @@ public class LhsNode<T>implements Node,Cloneable{
                 this.counterST= myEntry.getPointerCounter();
             }
         }
-        if(myEntry != null){
+        if(res.size()== 0){
             this.checkEffects(env);
         }
 

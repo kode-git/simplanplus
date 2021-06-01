@@ -1,7 +1,5 @@
 {
-int x;
-
-int y;
-y=5;
-print y;
+^int x=new;
+x^=5;
+print x;
 }

@@ -39,7 +39,9 @@ public class DerExpNode implements Node {
 
         if(derExp instanceof LhsNode) {
             // lhs
-            effectsST=derExp.checkEffects(env);
+            //effectsST=derExp.checkEffects(env);
+            effectsST=((LhsNode<?>) derExp).getEffectsST();
+
         } else {
             // id
             myEntry=env.checkId(env.getNestingLevel(), derExp + "");
