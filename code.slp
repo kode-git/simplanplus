@@ -1,5 +1,13 @@
 {
-^int x=new;
-x^=5;
-print x;
+int x = 5 + 3;
+int y = 3;
+
+void f(){
+   delete y;
 }
+y = 5;
+f();
+
+
+}
+

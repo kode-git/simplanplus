@@ -12,7 +12,8 @@ public class DecVarNode implements Node {
     private Node typeNode;
     private String id;
     private Node exp;
-    private int counter=0;
+    private int counter=0; // pointer counter
+    private int effectsST;
 
     public DecVarNode (Node myType, String id) {
         this.typeNode = myType;
@@ -28,8 +29,9 @@ public class DecVarNode implements Node {
         this.exp = exp;
         this.counter= count(this.typeNode);
     }
+
+    // counting of ^ referent
     private int count(Node t){
-        System.out.println(t.getClass() + "is it arg?");
         if(t instanceof PointerTypeNode){
             return 1+count(((PointerTypeNode<?>) t).getVal());
         }else {
@@ -63,6 +65,10 @@ public class DecVarNode implements Node {
         if (err!=null) {
             res.add(err);
         }
+
+        if(res.size()==0 && this.exp != null){
+            this.checkEffects(env);
+        }
         return res;
     }
 
@@ -82,7 +88,14 @@ public class DecVarNode implements Node {
 
     @Override
     public int checkEffects(Environment env) {
-        return 0;
+        STentry myEntry = env.checkId(env.getNestingLevel(), id);
+        this.effectsST = myEntry.getEffectState(0);
+
+        if(this.effectsST==0){
+            myEntry.setEffectState(0,1);
+            this.effectsST = 1;
+        }
+        return this.effectsST;
     }
 
 }

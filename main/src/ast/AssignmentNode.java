@@ -41,11 +41,15 @@ public class AssignmentNode implements Node{
     @Override
     public int checkEffects(Environment env) {
         int lhsEffects=((LhsNode)lhs).getEffectsST();
+        System.out.println("LHSEFFECT " + lhsEffects);
         if(lhsEffects>=0 && lhsEffects<=1){
             ((LhsNode<?>) lhs).setEffectsST(1);
+        } else {
+            System.out.println("error: cannot find symbol " + lhs.toPrint(""));
+            System.exit(0);
         }
 
-        return 0;
+        return 1;
     }
 
     @Override

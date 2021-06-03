@@ -45,7 +45,7 @@ public class DerExpNode implements Node {
         } else {
             // id
             myEntry=env.checkId(env.getNestingLevel(), derExp + "");
-            effectsST=myEntry.getEffectState();
+            effectsST=myEntry.getEffectState(0);
         }
         if(effectsST==0){
             System.out.println("error: variable "  +derExp.toPrint("")+" not initialized" );
