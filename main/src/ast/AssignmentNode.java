@@ -3,6 +3,7 @@ package ast;
 import util.Environment;
 import util.SemanticError;
 import util.SimpLanlib;
+import util.VoidNode;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class AssignmentNode implements Node{
             System.out.println("Assignment type failed");
             System.exit(0);
         }
-        return lhsType;
+        return new VoidNode();
     }
 
     @Override
