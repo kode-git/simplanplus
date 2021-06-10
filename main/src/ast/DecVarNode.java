@@ -3,6 +3,7 @@ package ast;
 import util.Environment;
 import util.SemanticError;
 import util.SimpLanlib;
+import util.VoidNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,7 +80,8 @@ public class DecVarNode implements Node {
                 System.exit(0);
             }
         }
-        return typeNode;
+        return new VoidNode(); // return voidNode because this statement don't need to be checked in higher levels
+        // void -> f : void on upper level
     }
 
     public String codeGeneration() {

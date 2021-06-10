@@ -31,7 +31,8 @@ public class AssignmentNode implements Node{
             System.out.println("Assignment type failed");
             System.exit(0);
         }
-        return new VoidNode();
+        return new VoidNode(); // return void because this statement don't need to be checked in high level
+        // void -> f : void on upper level
     }
 
     @Override
