@@ -30,6 +30,11 @@ public class NewExpNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used because is a String
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return new ArrayList<SemanticError>();
     }

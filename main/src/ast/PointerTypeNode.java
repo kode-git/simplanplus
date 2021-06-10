@@ -51,4 +51,9 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
         return 0;
     }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used
+    }
+
 }

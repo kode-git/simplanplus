@@ -6,7 +6,7 @@ public class STentry {
     private int offset;
     private int pointerCounter; // pointer counter inside the table
     private int effectState[]; // current effect state
-
+    private DecFunNode reference;
 
     public STentry (int n, int os) {
         nl=n;
@@ -28,6 +28,14 @@ public class STentry {
         offset=os;
         this.pointerCounter=pointerCounter;
         effectState = new int[pointerCounter + 1];
+    }
+
+    public void setReference(DecFunNode reference){
+        this.reference = reference; // reference to the function declaration
+    }
+
+    public DecFunNode getReference(){
+        return this.reference;
     }
 
     public void addType (Node t) {type=t;}

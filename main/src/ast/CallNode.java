@@ -10,6 +10,7 @@ public class CallNode implements Node {
   private String id;
   private ArrayList<Node> exp;
   private STentry entry;
+  private int effectDecFun;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
@@ -27,8 +28,13 @@ public class CallNode implements Node {
       this.exp = new ArrayList<Node>();
   }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
 
-public String toPrint(String s) {  //
+
+    public String toPrint(String s) {  //
       String first = s + "CallNode: " + id + " ( ";
       String last =  ")" + "";
       String exp = "";
@@ -39,7 +45,7 @@ public String toPrint(String s) {  //
       }
 
       return first + exp + last;
-  }
+    }
 
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
@@ -49,7 +55,11 @@ public String toPrint(String s) {  //
       if(entry == null){
           res.add(new SemanticError("Id " +this.id + " not declared"));
       } else{
+          DecFunNode referenceDec = entry.getReference();
+          referenceDec.setCallingDecFun(0);
+          referenceDec.checkSemantics(env);
           for(Node e : this.exp){
+              e.setEffectDecFun(this.effectDecFun);
               res.addAll(e.checkSemantics(env));
           }
       }
@@ -91,6 +101,8 @@ public String toPrint(String s) {  //
     public int checkEffects(Environment env) {
         return 0;
     }
+
+
 
 
 }  

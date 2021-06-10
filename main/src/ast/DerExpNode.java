@@ -10,6 +10,7 @@ public class DerExpNode implements Node {
 
     Node derExp;
     int effectsST;
+    private int effectDecFun;
     public DerExpNode(Node derExp) {
         this.derExp=derExp;
     }
@@ -36,25 +37,33 @@ public class DerExpNode implements Node {
     @Override
     public int checkEffects(Environment env) {
         STentry myEntry=null;
+        if(effectDecFun == 0) {
+            if (derExp instanceof LhsNode) {
+                // lhs
+                //effectsST=derExp.checkEffects(env);
+                effectsST = ((LhsNode<?>) derExp).getEffectsST();
 
-        if(derExp instanceof LhsNode) {
-            // lhs
-            //effectsST=derExp.checkEffects(env);
-            effectsST=((LhsNode<?>) derExp).getEffectsST();
-
+            } else {
+                // id
+                myEntry = env.checkId(env.getNestingLevel(), derExp + "");
+                effectsST = myEntry.getEffectState(0);
+            }
+            if (effectsST == 0) {
+                System.out.println("error: variable " + derExp.toPrint("") + " not initialized");
+                System.exit(0);
+            } else if (effectsST == 2) {
+                System.out.println("error: variable " + derExp.toPrint("") + " previously deleted");
+                System.exit(0);
+            }
         } else {
-            // id
-            myEntry=env.checkId(env.getNestingLevel(), derExp + "");
-            effectsST=myEntry.getEffectState(0);
-        }
-        if(effectsST==0){
-            System.out.println("error: variable "  +derExp.toPrint("")+" not initialized" );
-            System.exit(0);
-        } else if(effectsST==2) {
-            System.out.println("error: variable "  +derExp.toPrint("")+" previously deleted" );
-            System.exit(0);
+            // do nothing
         }
         return effectsST;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
     }
 
     @Override
@@ -64,6 +73,7 @@ public class DerExpNode implements Node {
         STentry myEntry=null;
         if(derExp instanceof LhsNode) {
             // lhs
+            derExp.setEffectDecFun(this.effectDecFun);
             res.addAll(derExp.checkSemantics(env));
         } else {
             // id

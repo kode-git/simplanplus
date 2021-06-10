@@ -14,6 +14,7 @@ public class LhsNode<T>implements Node,Cloneable{
     private int counter;
     private int counterST;
     private int effectsST;
+    private int effectDecFun;
 
     public LhsNode(T myNode){
         this.lhVar=myNode;
@@ -27,6 +28,11 @@ public class LhsNode<T>implements Node,Cloneable{
             var = (T) ((LhsNode<?>) var).getLhVar();
             return count(var) + 1;
         }
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
     }
 
     @Override
@@ -45,7 +51,6 @@ public class LhsNode<T>implements Node,Cloneable{
 
     public int getEffectsST() {
 
-        System.out.println("EFFECT of LhsNode: " + effectsST);
         return effectsST;
     }
 
@@ -123,18 +128,22 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public int checkEffects(Environment env) {
-        STentry myEntry= null;
-        if (lhVar instanceof String) {
-            myEntry = env.checkId(env.getNestingLevel(), (String) lhVar);
-            effectsST= myEntry.getEffectState(counter); // 0 because is a string
-        }else{
-            T myVar =  lhVar;
-            while ((myVar instanceof LhsNode)){
-                myVar= (T) ((LhsNode<?>) myVar).getLhVar();
+        if(effectDecFun == 0) {
+            STentry myEntry = null;
+            if (lhVar instanceof String) {
+                myEntry = env.checkId(env.getNestingLevel(), (String) lhVar);
+                effectsST = myEntry.getEffectState(counter); // 0 because is a string
+            } else {
+                T myVar = lhVar;
+                while ((myVar instanceof LhsNode)) {
+                    myVar = (T) ((LhsNode<?>) myVar).getLhVar();
+                }
+                System.out.println(myVar);
+                myEntry = env.checkId(env.getNestingLevel(), (String) myVar);
+                effectsST = myEntry.getEffectState(counter);
             }
-            System.out.println(myVar);
-            myEntry = env.checkId( env.getNestingLevel(), (String)myVar);
-            effectsST= myEntry.getEffectState(counter);
+        } else {
+            // do nothing
         }
         return effectsST;
     }

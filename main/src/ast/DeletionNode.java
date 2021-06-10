@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class DeletionNode implements Node{
     private String id;
     private int effectsST;
+    private int effectDecFun;
     public DeletionNode(String id){
         this.id=id;
     }
@@ -32,20 +33,29 @@ public class DeletionNode implements Node{
 
     @Override
     public int checkEffects(Environment env) {
-        STentry entry = env.checkId(env.getNestingLevel(), id);
-        effectsST= entry.getEffectState(0);
-        if(effectsST>=0 && effectsST<=1){
-            int size = entry.getPointerCounter();
-            for(int i = 0; i < size + 1; i++) {
-                entry.setEffectState(i, 2); // set every referen to pointer to 2 (delete state)
+        if(effectDecFun == 0) {
+            STentry entry = env.checkId(env.getNestingLevel(), id);
+            effectsST = entry.getEffectState(0);
+            if (effectsST >= 0 && effectsST <= 1) {
+                int size = entry.getPointerCounter();
+                for (int i = 0; i < size + 1; i++) {
+                    entry.setEffectState(i, 2); // set every referen to pointer to 2 (delete state)
 
+                }
+                effectsST = 2; // setting local effect to 2 (delete state)
+            } else {
+                System.out.println("error: cannot find symbol " + id);
+                System.exit(0);
             }
-            effectsST = 2; // setting local effect to 2 (delete state)
-        }else{
-            System.out.println("error: cannot find symbol " + id);
-            System.exit(0);
+        } else {
+            // do nothing
         }
         return effectsST;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
     }
 
     @Override

@@ -11,6 +11,8 @@ public class IteNode implements Node{
     ArrayList<Node> st;
     Node exp;
     Boolean fg;
+    private int effectDecFun;
+
     public IteNode(ArrayList<Node> st, Node exp){
         this.st=st;
         this.exp=exp;
@@ -41,6 +43,10 @@ public class IteNode implements Node{
         this.fg = fg;
     }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
     @Override
     public String toPrint(String s) {
         String declstr="";
@@ -82,12 +88,16 @@ public class IteNode implements Node{
         return 0;
     }
 
+
+
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 
+        exp.setEffectDecFun(this.effectDecFun);
         res.addAll(exp.checkSemantics(env));
         for(Node stat : st){
+            stat.setEffectDecFun(this.effectDecFun);
             res.addAll(stat.checkSemantics(env));
         }
 

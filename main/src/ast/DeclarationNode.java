@@ -11,6 +11,7 @@ public class DeclarationNode implements Node{
 
     private Node decVar;
     private Node decFun;
+    private int effectDecFun;
 
     public DeclarationNode(Node decVar){
         assignNode(decVar);
@@ -61,13 +62,20 @@ public class DeclarationNode implements Node{
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList();
 
            if (decVar!=null){
+               decVar.setEffectDecFun(effectDecFun);
                res.addAll(decVar.checkSemantics(env));
            }else {
+               decFun.setEffectDecFun(effectDecFun);
                res.addAll(decFun.checkSemantics(env));
            }
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class CallExpNode implements Node {
 
     private Node call;
+    private int effectDecFun;
     public CallExpNode(Node node) {
         this.call = node;
     }
@@ -33,9 +34,15 @@ public class CallExpNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        call.setEffectDecFun(this.effectDecFun);
         res.addAll(call.checkSemantics(env));
         return res;
     }

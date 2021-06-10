@@ -37,6 +37,11 @@ public class VoidNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return new ArrayList<SemanticError>();
     }

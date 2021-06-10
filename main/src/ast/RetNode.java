@@ -9,6 +9,7 @@ public class RetNode implements Node{
 
 
     Node exp;
+    private int effectDecFun;
     public RetNode(Node exp){
         this.exp = exp;
     }
@@ -26,6 +27,11 @@ public class RetNode implements Node{
             return first + " " + exp.toPrint(s + "") +
                      "";
         }
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
     }
 
     @Override
@@ -50,6 +56,7 @@ public class RetNode implements Node{
         if(this.exp == null) {
             // do nothing
         } else {
+            exp.setEffectDecFun(this.effectDecFun);
             res.addAll(exp.checkSemantics(env));
         }
 

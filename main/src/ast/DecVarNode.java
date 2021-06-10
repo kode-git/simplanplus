@@ -15,6 +15,7 @@ public class DecVarNode implements Node {
     private Node exp;
     private int counter=0; // pointer counter
     private int effectsST;
+    private int effectDecFun;
 
     public DecVarNode (Node myType, String id) {
         this.typeNode = myType;
@@ -40,6 +41,11 @@ public class DecVarNode implements Node {
         }
     }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
     public String toPrint(String s) {
 
         if (this.exp != null){
@@ -60,8 +66,10 @@ public class DecVarNode implements Node {
         int offset=env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset,counter);
         env.setOffset(--offset);
-        if (this.exp!=null)
+        if (this.exp!=null) {
+            exp.setEffectDecFun(this.effectDecFun);
             res.addAll(this.exp.checkSemantics(env));
+        }
         SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
         if (err!=null) {
             res.add(err);
@@ -91,13 +99,20 @@ public class DecVarNode implements Node {
     @Override
     public int checkEffects(Environment env) {
         STentry myEntry = env.checkId(env.getNestingLevel(), id);
-        this.effectsST = myEntry.getEffectState(0);
+        if(effectDecFun == 0) {
+            // is not a function block
+            this.effectsST = myEntry.getEffectState(0);
 
-        if(this.effectsST==0){
-            myEntry.setEffectState(0,1);
-            this.effectsST = 1;
+            if (this.effectsST == 0) {
+                myEntry.setEffectState(0, 1);
+                this.effectsST = 1;
+            }
+        } else {
+            // is a function block
         }
         return this.effectsST;
     }
+
+
 
 }

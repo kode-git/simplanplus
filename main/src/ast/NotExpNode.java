@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class NotExpNode implements Node {
     private Node expNode;
+    private int effectDecFun;
     public NotExpNode(Node expNode){
 
     }
@@ -25,6 +26,11 @@ public class NotExpNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public String codeGeneration() {
         return null;
     }
@@ -37,7 +43,7 @@ public class NotExpNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-
+        expNode.setEffectDecFun(this.effectDecFun);
         res.addAll(expNode.checkSemantics(env));
         return res;
     }

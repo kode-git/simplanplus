@@ -9,8 +9,9 @@ import java.util.ArrayList;
 public class BinExpAndNode implements Node {
 
 
-    Node left;
-    Node right;
+    private Node left;
+    private Node right;
+    private int effectDecFun;
 
     public BinExpAndNode(Node left, Node right) {
         this.left = left;
@@ -44,9 +45,16 @@ public class BinExpAndNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        left.setEffectDecFun(this.effectDecFun);
+        right.setEffectDecFun(this.effectDecFun);
         res.addAll(left.checkSemantics(env));
         res.addAll(right.checkSemantics(env));
 

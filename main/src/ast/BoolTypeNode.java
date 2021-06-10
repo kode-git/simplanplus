@@ -35,5 +35,10 @@ public class BoolTypeNode implements Node, GenericTypeNode {
         return 0;
     }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used
+    }
+
 
 }  

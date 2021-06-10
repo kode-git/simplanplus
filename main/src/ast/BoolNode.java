@@ -37,4 +37,9 @@ public class BoolNode implements Node {
         return 0;
     }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used
+    }
+
 }  

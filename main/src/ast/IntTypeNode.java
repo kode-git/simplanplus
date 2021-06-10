@@ -30,6 +30,11 @@ public class IntTypeNode implements Node, GenericTypeNode {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used
+    }
+
+    @Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
 
 	  return new ArrayList<SemanticError>();

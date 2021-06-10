@@ -12,6 +12,7 @@ public class BlockNode implements Node {
 
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
+    private int effectDecFun;
 
     public BlockNode (ArrayList<Node> d, ArrayList<Node> s) {
         declarations=d;
@@ -23,8 +24,9 @@ public class BlockNode implements Node {
         statements = new ArrayList<Node>();
     }
 
-
-
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
 
     public Boolean checkRet() {
         boolean hasIteRet=false;
@@ -83,7 +85,8 @@ public class BlockNode implements Node {
             env.setOffset(env.getOffset()-2);
             Iterator decV = this.declarations.iterator();
             while(decV.hasNext()) {
-                Node n = (Node)decV.next();
+                Node n = (Node) decV.next();
+                n.setEffectDecFun(effectDecFun);
                 res.addAll(n.checkSemantics(env));
             }
         }
@@ -92,6 +95,7 @@ public class BlockNode implements Node {
             Iterator staT = this.statements.iterator();
             while(staT.hasNext()) {
                 Node n = (Node)staT.next();
+                n.setEffectDecFun(effectDecFun);
                 res.addAll(n.checkSemantics(env));
             }
         }
@@ -132,5 +136,6 @@ public class BlockNode implements Node {
     {
         return 0;
     }
+
 
 }

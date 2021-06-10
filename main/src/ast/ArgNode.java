@@ -66,6 +66,11 @@ public class ArgNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList();
