@@ -49,6 +49,26 @@ public class LhsNode<T>implements Node,Cloneable{
     // getter and setter
 
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public int getCounterST() {
+        return counterST;
+    }
+
+    public void setCounterST(int counterST) {
+        this.counterST = counterST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
     public int getEffectsST() {
 
         return effectsST;
@@ -172,7 +192,7 @@ public class LhsNode<T>implements Node,Cloneable{
             }
             myEntry = env.checkId( env.getNestingLevel(), (String)myVar);
             if (myEntry == null) {
-                res.add(new SemanticError("Id " + (String)lhVar + " not declared"));
+                res.add(new SemanticError("Id " + (String)myVar + " not declared"));
             } else {
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();

@@ -36,7 +36,6 @@ public class BlockNode implements Node {
                 StatementNode temp = (StatementNode)(statements.get(i));
                 if ( temp.getSt() instanceof IteNode) {
                     hasIteRet= ((IteNode)temp.getSt()).getFg();
-                    System.out.println(hasIteRet+" TEST");
                     if(((IteNode)temp.getSt()).getSize()>1){
                         hasElse=true;
                     }
@@ -61,7 +60,7 @@ public class BlockNode implements Node {
 
 
     public String toPrint(String s) {
-        System.out.println(s);
+
 
 
         String declstr="";

@@ -15,6 +15,7 @@ public class DecFunNode implements Node {
     private ArrayList<Node> args;
     private BlockNode block;
     private int effectDecFun;
+    private ArrayList<int[]> pointerEffectStatesArg;
 
 
     // type id (args) {}
@@ -24,6 +25,7 @@ public class DecFunNode implements Node {
         this.args = args;
         this. block = block;
         this.effectDecFun = 1;
+        this.pointerEffectStatesArg = new ArrayList<int[]>();
     }
 
     // void id (args) {}
@@ -33,6 +35,7 @@ public class DecFunNode implements Node {
         this.args = args;
         this.block = block;
         this.effectDecFun = 1;
+        this.pointerEffectStatesArg = new ArrayList<int[]>();
     }
 
     // void id ( ) {}
@@ -42,6 +45,7 @@ public class DecFunNode implements Node {
         this.args = new ArrayList<Node>();
         this.block = block;
         this.effectDecFun = 1;
+        this.pointerEffectStatesArg = new ArrayList<int[]>();
     }
 
     //  type id ( ) {}
@@ -51,8 +55,16 @@ public class DecFunNode implements Node {
         this.args = new ArrayList<Node>();
         this.block = block;
         this.effectDecFun = 1;
+        this.pointerEffectStatesArg = new ArrayList<int[]>();
     }
 
+    public ArrayList<int[]> getPointerEffectStatesArg() {
+        return pointerEffectStatesArg;
+    }
+
+    public void setPointerEffectStatesArg(ArrayList<int[]> pointerEffectStatesArg) {
+        this.pointerEffectStatesArg = pointerEffectStatesArg;
+    }
 
     @Override
     public void setEffectDecFun(int effectDecFun) {
@@ -143,8 +155,6 @@ public class DecFunNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
-
         ArrayList<SemanticError> res = new ArrayList();
         int offset = env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), offset );
@@ -155,9 +165,11 @@ public class DecFunNode implements Node {
             entry.addType(new ArrowTypeNode(args, new VoidNode()));
         }
         else {
+            // is GenericType
             entry.setReference(this);
             entry.addType(new ArrowTypeNode(args, type));
         }
+
         env.setOffset(offset - 1);
 
         SemanticError err;
@@ -173,9 +185,28 @@ public class DecFunNode implements Node {
             env.setNestingLevel(env.getNestingLevel() + 1);
             env.addTable(new HashMap<String, STentry>());
 
-            for(Node arg : this.args){
-                res.addAll(arg.checkSemantics(env)); // adding in table inside the args checkSemantics
 
+            int i = 0;
+            try {
+                for (Node arg : this.args) {
+                    ArgNode argNode = (ArgNode) arg;
+                    if (effectDecFun != 1) {
+                        if (argNode.getCounter() > 0) {
+                            // this is a pointer arg
+                            int[] argEffectState = this.getPointerEffectStatesArg().get(i);
+
+                            i = i + 1;
+
+                            argNode.setPointerEffectStateArg(argEffectState);
+                        }
+                    }
+                    res.addAll(argNode.checkSemantics(env)); // adding in table inside the args checkSemantics
+                }
+            } catch(IndexOutOfBoundsException e){
+                // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
+                // for callNode parameter and counterST != 0 for the arg reference in DecFun (pointer type)
+                System.out.println("Wrong reference for the pointer argument in the function " + id);
+                System.exit(0);
             }
             env.setNestingLevel(env.getNestingLevel() - 1); // this is because in BlockNode checkSemantics we have NestingLevel + 1
             this.block.setEffectDecFun(effectDecFun);

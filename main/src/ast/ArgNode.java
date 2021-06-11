@@ -10,6 +10,7 @@ public class ArgNode implements Node {
     private Node type;
     private String id;
     private int counter=0;
+    private int[] pointerEffectStateArg = null;
 
     public ArgNode(Node type, String id) {
         this.type = type;
@@ -26,17 +27,20 @@ public class ArgNode implements Node {
         }
     }
 
-    @Override
-    public String toPrint(String s) {
-        return s+"Arg:" + type.toPrint(s+"") + id +"";
+    public int getCounter() {
+        return counter;
     }
 
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
 
-    // not used
-    @Override
-    public Node typeCheck() {
+    public int[] getPointerEffectStateArg() {
+        return pointerEffectStateArg;
+    }
 
-        return null;
+    public void setPointerEffectStateArg(int[] pointerEffectStateArg) {
+        this.pointerEffectStateArg = pointerEffectStateArg;
     }
 
     public String getId(){
@@ -53,6 +57,19 @@ public class ArgNode implements Node {
 
     public void setType(Node type) {
         this.type = type;
+    }
+
+    @Override
+    public String toPrint(String s) {
+        return s+"Arg:" + type.toPrint(s+"") + id +"";
+    }
+
+
+    // not used
+    @Override
+    public Node typeCheck() {
+
+        return null;
     }
 
     @Override
@@ -77,10 +94,20 @@ public class ArgNode implements Node {
         int offset=env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), this.type, offset,counter);
         env.setOffset(--offset);
-        SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
+        SemanticError err = null;
+        if(!(this.type instanceof PointerTypeNode)) {
+            entry.setEffectState(0,1);
+            err = env.newVarNode(env.getNestingLevel(), this.id, entry); // this is the case of no pointer
+        } else {
+            // do aliasing
+            entry.setEffectState(this.pointerEffectStateArg);
+            err = env.newVarNode(env.getNestingLevel(), this.id, entry); // this is the case of pointer
+        }
         if (err!=null){
             res.add(err);
         }
         return res;
     }
+
+
 }

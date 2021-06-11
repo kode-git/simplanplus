@@ -1,10 +1,16 @@
 {
-int y = 4;
-int x = 3; // 0
-void f(int z){
-    delete z;
-}
 
-f(x);
-x = 4;
+void f(^^int x, ^int z){
+
+    z^ = 5;
+    delete x;
+}
+^int y = new;
+^^int z = new;
+y^ = 5;
+
+z^^ = y^;
+f(y,y);
+y^ = 3;
+
 }

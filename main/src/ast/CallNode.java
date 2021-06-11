@@ -53,15 +53,36 @@ public class CallNode implements Node {
       int nestingLevel = env.getNestingLevel();
       this.entry = env.checkId(nestingLevel, this.id);
       if(entry == null){
+          // decFun doesn't exist in the Environment
           res.add(new SemanticError("Id " +this.id + " not declared"));
       } else{
+          // decFun exists in the Environment
+          ArrayList<int[]> pointerEffectStates = new ArrayList<>();
+          for(Node e : this.exp){
+              e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
+              if(e instanceof DerExpNode) {
+                  DerExpNode derExp = (DerExpNode) e;
+                  LhsNode value = (LhsNode) derExp.getDerExp();
+                  value.checkSemantics(env);
+                  if (value.getEntry().getPointerCounter() > 0) {
+                      // this is a pointer
+                      STentry entry = value.getEntry();
+                      System.out.println("Entry value: " + entry);
+                      pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
+
+                  } else {
+                      // is not a pointer
+
+                  }
+              }
+
+                  res.addAll(e.checkSemantics(env));
+
+          }
           DecFunNode referenceDec = entry.getReference();
           referenceDec.setCallingDecFun(0);
+          referenceDec.setPointerEffectStatesArg(pointerEffectStates);
           referenceDec.checkSemantics(env);
-          for(Node e : this.exp){
-              e.setEffectDecFun(this.effectDecFun);
-              res.addAll(e.checkSemantics(env));
-          }
       }
 
       return res;

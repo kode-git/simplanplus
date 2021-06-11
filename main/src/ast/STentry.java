@@ -30,6 +30,15 @@ public class STentry {
         effectState = new int[pointerCounter + 1];
     }
 
+
+    public int[] getEffectState() {
+        return effectState;
+    }
+
+    public void setEffectState(int[] effectState) {
+        this.effectState = effectState;
+    }
+
     public void setReference(DecFunNode reference){
         this.reference = reference; // reference to the function declaration
     }
@@ -54,7 +63,12 @@ public class STentry {
 
 
     public void setEffectState(int i, int effectState) {
-        this.effectState[i] = effectState;
+        try {
+            this.effectState[i] = effectState;
+        } catch(ArrayIndexOutOfBoundsException ex){
+            System.out.println("PointerType mismatch");
+            System.exit(1);
+        }
     }
 
 

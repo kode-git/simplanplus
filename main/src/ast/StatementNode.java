@@ -21,10 +21,8 @@ public class StatementNode implements Node{
         }else {
             if (st instanceof RetNode) {
                 this.hasRet = true;
-                System.out.println(this + "test second");
             } else {
                 this.hasRet = false;
-                System.out.println(this + "test second");
             }
          }
 

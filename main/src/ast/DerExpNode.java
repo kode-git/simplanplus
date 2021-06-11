@@ -29,6 +29,14 @@ public class DerExpNode implements Node {
         return derExp.typeCheck();
     }
 
+    public Node getDerExp() {
+        return derExp;
+    }
+
+    public void setDerExp(Node derExp) {
+        this.derExp = derExp;
+    }
+
     @Override
     public String codeGeneration() {
         return null;
