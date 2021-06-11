@@ -13,7 +13,8 @@ public class LhsNode<T>implements Node,Cloneable{
     private int nestingLevel;
     private int counter;
     private int counterST;
-
+    private int effectsST;
+    private int effectDecFun;
 
     public LhsNode(T myNode){
         this.lhVar=myNode;
@@ -30,6 +31,11 @@ public class LhsNode<T>implements Node,Cloneable{
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public String toPrint(String s) {
         if(lhVar instanceof Node){
             return s+ ((Node) lhVar).toPrint(s+ "") + "^ ";
@@ -41,6 +47,38 @@ public class LhsNode<T>implements Node,Cloneable{
 
 
     // getter and setter
+
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public int getCounterST() {
+        return counterST;
+    }
+
+    public void setCounterST(int counterST) {
+        this.counterST = counterST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    public int getEffectsST() {
+
+        return effectsST;
+    }
+
+    public void setEffectsST(int effectsST) {
+        entry.setEffectState(counter, effectsST);
+        this.effectsST = effectsST;
+
+    }
 
     public T getLhVar() {
         return lhVar;
@@ -109,10 +147,33 @@ public class LhsNode<T>implements Node,Cloneable{
     }
 
     @Override
+    public int checkEffects(Environment env) {
+        if(effectDecFun == 0) {
+            STentry myEntry = null;
+            if (lhVar instanceof String) {
+                myEntry = env.checkId(env.getNestingLevel(), (String) lhVar);
+                effectsST = myEntry.getEffectState(counter); // 0 because is a string
+            } else {
+                T myVar = lhVar;
+                while ((myVar instanceof LhsNode)) {
+                    myVar = (T) ((LhsNode<?>) myVar).getLhVar();
+                }
+                System.out.println(myVar);
+                myEntry = env.checkId(env.getNestingLevel(), (String) myVar);
+                effectsST = myEntry.getEffectState(counter);
+            }
+        } else {
+            // do nothing
+        }
+        return effectsST;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList();
+        STentry myEntry=null;
         if (lhVar instanceof String) {
-            STentry myEntry = env.checkId( env.getNestingLevel(), (String)lhVar);
+             myEntry = env.checkId( env.getNestingLevel(), (String)lhVar);
 
 
             if (myEntry == null) {
@@ -126,19 +187,22 @@ public class LhsNode<T>implements Node,Cloneable{
 
 
             T myVar =  lhVar;
-            while ((myVar instanceof LhsNode)){
-                myVar= (T) ((LhsNode<?>) myVar).getLhVar();
+            while ((myVar instanceof LhsNode)) {
+                myVar = (T) ((LhsNode<?>) myVar).getLhVar();
             }
-            System.out.println(myVar);
-            STentry myEntry = env.checkId( env.getNestingLevel(), (String)myVar);
+            myEntry = env.checkId( env.getNestingLevel(), (String)myVar);
             if (myEntry == null) {
-                res.add(new SemanticError("Id " + (String)lhVar + " not declared"));
+                res.add(new SemanticError("Id " + (String)myVar + " not declared"));
             } else {
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();
                 this.counterST= myEntry.getPointerCounter();
             }
         }
+        if(res.size()== 0){
+            this.checkEffects(env);
+        }
+
         return res;
 
 

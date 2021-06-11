@@ -46,4 +46,14 @@ public class ArrowTypeNode implements Node {
 		return "";
   }
 
+  @Override
+  public int checkEffects(Environment env) {
+    return 0;
+  }
+
+  @Override
+  public void setEffectDecFun(int effectDecFun) {
+    // not used
+  }
+
 }  

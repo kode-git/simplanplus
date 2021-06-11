@@ -10,6 +10,7 @@ public class BinExpLeqNode implements Node {
 
     private Node left;
     private Node right;
+    private int effectDecFun;
 
     public BinExpLeqNode(Node left, Node right) {
         this.left = left;
@@ -32,14 +33,26 @@ public class BinExpLeqNode implements Node {
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public String codeGeneration() {
         return null;
+    }
+
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
     }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        left.setEffectDecFun(this.effectDecFun);
+        right.setEffectDecFun(this.effectDecFun);
         res.addAll(left.checkSemantics(env));
         res.addAll(right.checkSemantics(env));
 

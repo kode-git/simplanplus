@@ -12,6 +12,7 @@ public class BlockNode implements Node {
 
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
+    private int effectDecFun;
 
     public BlockNode (ArrayList<Node> d, ArrayList<Node> s) {
         declarations=d;
@@ -23,8 +24,9 @@ public class BlockNode implements Node {
         statements = new ArrayList<Node>();
     }
 
-
-
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
 
     public Boolean checkRet() {
         boolean hasIteRet=false;
@@ -34,7 +36,6 @@ public class BlockNode implements Node {
                 StatementNode temp = (StatementNode)(statements.get(i));
                 if ( temp.getSt() instanceof IteNode) {
                     hasIteRet= ((IteNode)temp.getSt()).getFg();
-                    System.out.println(hasIteRet+" TEST");
                     if(((IteNode)temp.getSt()).getSize()>1){
                         hasElse=true;
                     }
@@ -59,7 +60,7 @@ public class BlockNode implements Node {
 
 
     public String toPrint(String s) {
-        System.out.println(s);
+
 
 
         String declstr="";
@@ -83,7 +84,8 @@ public class BlockNode implements Node {
             env.setOffset(env.getOffset()-2);
             Iterator decV = this.declarations.iterator();
             while(decV.hasNext()) {
-                Node n = (Node)decV.next();
+                Node n = (Node) decV.next();
+                n.setEffectDecFun(effectDecFun);
                 res.addAll(n.checkSemantics(env));
             }
         }
@@ -92,6 +94,7 @@ public class BlockNode implements Node {
             Iterator staT = this.statements.iterator();
             while(staT.hasNext()) {
                 Node n = (Node)staT.next();
+                n.setEffectDecFun(effectDecFun);
                 res.addAll(n.checkSemantics(env));
             }
         }
@@ -124,5 +127,14 @@ public class BlockNode implements Node {
     public String codeGeneration() {
         return null;
     }
+
+
+    //Not used
+    @Override
+    public int checkEffects(Environment env)
+    {
+        return 0;
+    }
+
 
 }

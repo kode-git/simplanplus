@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class StatementNode implements Node{
     private Node st;
     private Boolean hasRet;
+    private int effectDecFun;
     public StatementNode(Node st){
         this.st=st;
         //checkRet();
@@ -20,10 +21,8 @@ public class StatementNode implements Node{
         }else {
             if (st instanceof RetNode) {
                 this.hasRet = true;
-                System.out.println(this + "test second");
             } else {
                 this.hasRet = false;
-                System.out.println(this + "test second");
             }
          }
 
@@ -58,9 +57,20 @@ public class StatementNode implements Node{
     }
 
     @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList();
+        st.setEffectDecFun(this.effectDecFun);
         res.addAll(st.checkSemantics(env));
        return res;
 

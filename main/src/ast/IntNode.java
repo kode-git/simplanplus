@@ -31,4 +31,14 @@ public class IntNode implements Node {
 	return "push "+val+"\n";
   }
 
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+  @Override
+  public void setEffectDecFun(int effectDecFun) {
+    // not used
+  }
+
 }  

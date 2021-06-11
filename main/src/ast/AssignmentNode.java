@@ -11,6 +11,8 @@ public class AssignmentNode implements Node{
 
     private Node lhs;
     private Node exp;
+    private int effectsST;
+    private int effectDecFun;
 
     public AssignmentNode(Node lhs, Node exp){
         this.lhs = lhs;
@@ -31,7 +33,9 @@ public class AssignmentNode implements Node{
             System.out.println("Assignment type failed");
             System.exit(0);
         }
-        return new VoidNode();
+        return new VoidNode(); // return void because this statement don't need to be checked in high level
+        // void -> f : void on upper level
+
     }
 
     @Override
@@ -40,12 +44,40 @@ public class AssignmentNode implements Node{
     }
 
     @Override
+    public int checkEffects(Environment env) {
+        if(effectDecFun == 0) {
+            int lhsEffects = ((LhsNode) lhs).getEffectsST();
+            if (lhsEffects >= 0 && lhsEffects <= 1) {
+                ((LhsNode<?>) lhs).setEffectsST(1);
+                this.effectsST = 1;
+            } else {
+                System.out.println("error: cannot find symbol " + lhs.toPrint(""));
+                System.exit(0);
+            }
+
+        } else {
+            // do nothing
+        }
+        return 1;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         // lhs
+        lhs.setEffectDecFun(this.effectDecFun);
         res.addAll(lhs.checkSemantics(env));
         // exp
+        exp.setEffectDecFun(this.effectDecFun);
         res.addAll(exp.checkSemantics(env));
+        if(res.size()==0){
+            this.checkEffects(env);
+        }
         return res;
 
     }

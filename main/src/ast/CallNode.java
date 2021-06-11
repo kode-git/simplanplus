@@ -10,6 +10,7 @@ public class CallNode implements Node {
   private String id;
   private ArrayList<Node> exp;
   private STentry entry;
+  private int effectDecFun;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
@@ -27,8 +28,13 @@ public class CallNode implements Node {
       this.exp = new ArrayList<Node>();
   }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
 
-public String toPrint(String s) {  //
+
+    public String toPrint(String s) {  //
       String first = s + "CallNode: " + id + " ( ";
       String last =  ")" + "";
       String exp = "";
@@ -39,7 +45,7 @@ public String toPrint(String s) {  //
       }
 
       return first + exp + last;
-  }
+    }
 
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
@@ -47,11 +53,36 @@ public String toPrint(String s) {  //
       int nestingLevel = env.getNestingLevel();
       this.entry = env.checkId(nestingLevel, this.id);
       if(entry == null){
+          // decFun doesn't exist in the Environment
           res.add(new SemanticError("Id " +this.id + " not declared"));
       } else{
+          // decFun exists in the Environment
+          ArrayList<int[]> pointerEffectStates = new ArrayList<>();
           for(Node e : this.exp){
-              res.addAll(e.checkSemantics(env));
+              e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
+              if(e instanceof DerExpNode) {
+                  DerExpNode derExp = (DerExpNode) e;
+                  LhsNode value = (LhsNode) derExp.getDerExp();
+                  value.checkSemantics(env);
+                  if (value.getEntry().getPointerCounter() > 0) {
+                      // this is a pointer
+                      STentry entry = value.getEntry();
+                      System.out.println("Entry value: " + entry);
+                      pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
+
+                  } else {
+                      // is not a pointer
+
+                  }
+              }
+
+                  res.addAll(e.checkSemantics(env));
+
           }
+          DecFunNode referenceDec = entry.getReference();
+          referenceDec.setCallingDecFun(0);
+          referenceDec.setPointerEffectStatesArg(pointerEffectStates);
+          referenceDec.checkSemantics(env);
       }
 
       return res;
@@ -87,5 +118,12 @@ public String toPrint(String s) {  //
 	    return null;
   }
 
-    
+    @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+
+
+
 }  

@@ -1,9 +1,16 @@
 {
-^int u = new ;
-void f(^int x, int n){
-	if (n == 0) { print(x) ; delete x ; }
-	else { ^int y = new ; y^ = x^ * n ; f(y,n-1) ; }
+
+void f(^^int x, ^int z){
+
+    z^ = 5;
+    delete x;
 }
-u^=5;
-f(u,6) ;
+^int y = new;
+^^int z = new;
+y^ = 5;
+
+z^^ = y^;
+f(y,y);
+y^ = 3;
+
 }

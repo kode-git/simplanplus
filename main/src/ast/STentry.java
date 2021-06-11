@@ -4,39 +4,81 @@ public class STentry {
     private int nl;
     private Node type;
     private int offset;
-    private int pointerCounter;
-    private int effectState;
+    private int pointerCounter; // pointer counter inside the table
+    private int effectState[]; // current effect state
+    private DecFunNode reference;
 
-    public STentry (int n, int os)
-    {nl=n;
-        offset=os;}
-
-    public STentry (int n, Node t, int os)
-    {nl=n;
-        type=t;
-        offset=os;}
-    public STentry (int n, Node t, int os, int pointerCounter)
-    {nl=n;
-        type=t;
+    public STentry (int n, int os) {
+        nl=n;
         offset=os;
-    this.pointerCounter=pointerCounter;
+        effectState = new int[1];
     }
 
-    public void addType (Node t)
-    {type=t;}
+    public STentry (int n, Node t, int os) {
+        nl=n;
+        type=t;
+        offset=os;
+        effectState = new int[1];
+    }
 
-    public Node getType ()
-    {return type;}
+
+    public STentry (int n, Node t, int os, int pointerCounter) {
+        nl=n;
+        type=t;
+        offset=os;
+        this.pointerCounter=pointerCounter;
+        effectState = new int[pointerCounter + 1];
+    }
+
+
+    public int[] getEffectState() {
+        return effectState;
+    }
+
+    public void setEffectState(int[] effectState) {
+        this.effectState = effectState;
+    }
+
+    public void setReference(DecFunNode reference){
+        this.reference = reference; // reference to the function declaration
+    }
+
+    public DecFunNode getReference(){
+        return this.reference;
+    }
+
+    public void addType (Node t) {type=t;}
+
+    public Node getType () {return type;}
+
+    public int getEffectState(int i) {
+        try {
+            return effectState[i];
+        } catch(IndexOutOfBoundsException e){
+            System.out.println("Pointer referent error, used more pointers than " + pointerCounter + " ^ ");
+            System.exit(1);
+        }
+        return effectState[i];
+    }
+
+
+    public void setEffectState(int i, int effectState) {
+        try {
+            this.effectState[i] = effectState;
+        } catch(ArrayIndexOutOfBoundsException ex){
+            System.out.println("PointerType mismatch");
+            System.exit(1);
+        }
+    }
+
 
     public int getPointerCounter(){
         return pointerCounter;
     }
 
-    public int getOffset ()
-    {return offset;}
+    public int getOffset () {return offset;}
 
-    public int getNestinglevel ()
-    {return nl;}
+    public int getNestinglevel () {return nl;}
 
     public String toPrint(String s) { //
         return s+"STentry: nestlev " + Integer.toString(nl) +"\n"+

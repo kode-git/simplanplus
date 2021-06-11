@@ -11,9 +11,13 @@ public interface Node {
   String toPrint(String indent);
 
   Node typeCheck();
-  
+
   String codeGeneration();
-  
+
+  int checkEffects(Environment env);
+
+  void setEffectDecFun(int effectDecFun);
+
   ArrayList<SemanticError> checkSemantics(Environment env);
   
 }  

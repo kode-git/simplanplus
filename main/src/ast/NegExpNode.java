@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class NegExpNode implements Node {
 
     private Node negExp;
+    private int effectDecFun;
 
     public NegExpNode(Node negExp) {
         this.negExp=negExp;
@@ -29,6 +30,11 @@ public class NegExpNode implements Node {
         this.negExp = negExp;
     }
 
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
     // TypeCheck, codeGeneration, checkSemantics
     
     @Override
@@ -42,9 +48,15 @@ public class NegExpNode implements Node {
     }
 
     @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 
+        negExp.setEffectDecFun(this.effectDecFun);
         res.addAll(negExp.checkSemantics(env));
         return res;
 

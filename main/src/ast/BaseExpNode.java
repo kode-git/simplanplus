@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 public class BaseExpNode implements Node {
 
-    Node exp;
+    private Node exp;
+    private int effectST;
+    private int effectDecFun;
 
     public BaseExpNode(Node exp){
         this.exp = exp;
@@ -27,9 +29,20 @@ public class BaseExpNode implements Node {
     }
 
     @Override
+    public int checkEffects(Environment env) {
+        return 0;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        exp.setEffectDecFun(effectDecFun);
         res.addAll(exp.checkSemantics(env));
 
         return res;
