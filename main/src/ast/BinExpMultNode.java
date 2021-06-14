@@ -17,6 +17,9 @@ public class BinExpMultNode implements Node {
         this.right = right;
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
     @Override
     public String toPrint(String s) {
         return s + "Mult:" + left.toPrint(s + "") + "*" + right.toPrint(s + "") + "";

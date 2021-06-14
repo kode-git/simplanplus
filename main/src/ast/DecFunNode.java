@@ -72,9 +72,12 @@ public class DecFunNode implements Node {
     }
 
     public void setCallingDecFun(int effectDecFun){
-        this.effectDecFun = 0;
+        this.effectDecFun = effectDecFun;
     }
 
+    public int getCallingDecFun(){ return this.effectDecFun;}
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
     @Override
     public String toPrint(String s) {

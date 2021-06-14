@@ -12,7 +12,9 @@ public class IntNode implements Node {
   public IntNode (Integer n) {
     val=n;
   }
-  
+
+  // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
   public String toPrint(String s) {
     return s+"Int:" + Integer.toString(val) +"";
   }

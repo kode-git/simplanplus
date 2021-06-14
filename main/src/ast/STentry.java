@@ -30,6 +30,28 @@ public class STentry {
         effectState = new int[pointerCounter + 1];
     }
 
+    // getter and setter
+
+
+    public int getNl() {
+        return nl;
+    }
+
+    public void setNl(int nl) {
+        this.nl = nl;
+    }
+
+    public void setType(Node type) {
+        this.type = type;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public void setPointerCounter(int pointerCounter) {
+        this.pointerCounter = pointerCounter;
+    }
 
     public int[] getEffectState() {
         return effectState;
@@ -50,6 +72,8 @@ public class STentry {
     public void addType (Node t) {type=t;}
 
     public Node getType () {return type;}
+
+
 
     public int getEffectState(int i) {
         try {
@@ -79,6 +103,9 @@ public class STentry {
     public int getOffset () {return offset;}
 
     public int getNestinglevel () {return nl;}
+
+
+    // toPrint
 
     public String toPrint(String s) { //
         return s+"STentry: nestlev " + Integer.toString(nl) +"\n"+

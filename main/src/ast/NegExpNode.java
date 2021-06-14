@@ -14,11 +14,6 @@ public class NegExpNode implements Node {
         this.negExp=negExp;
     }
 
-    @Override
-    public String toPrint(String s) {
-        return s+ "-"+ negExp.toPrint(s+ "") +" ";
-
-    }
 
     // getter and setter
 
@@ -35,8 +30,13 @@ public class NegExpNode implements Node {
         this.effectDecFun = effectDecFun;
     }
 
-    // TypeCheck, codeGeneration, checkSemantics
-    
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+    @Override
+    public String toPrint(String s) {
+        return s+ "-"+ negExp.toPrint(s+ "") +" ";
+
+    }
     @Override
     public Node typeCheck() {
         return null;

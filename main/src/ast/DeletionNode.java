@@ -14,12 +14,37 @@ public class DeletionNode implements Node{
         this.id=id;
     }
 
+
+
+    // getter and setter
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getEffectsST() {
+        return effectsST;
+    }
+
+    public void setEffectsST(int effectsST) {
+        this.effectsST = effectsST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
 
         return s+"Delete: " + id + "\n";
     }
-
 
     @Override
     public Node typeCheck() {
@@ -34,7 +59,7 @@ public class DeletionNode implements Node{
     @Override
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
-            STentry entry = env.checkId(env.getNestingLevel(), id);
+            STentry entry = env.lookup(env.getNestingLevel(), id);
             effectsST = entry.getEffectState(0);
             if (effectsST >= 0 && effectsST <= 1) {
                 int size = entry.getPointerCounter();
@@ -61,7 +86,7 @@ public class DeletionNode implements Node{
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-       STentry entry = env.checkId(env.getNestingLevel(), id);
+       STentry entry = env.lookup(env.getNestingLevel(), id);
         if(entry == null){
             res.add(new SemanticError("Id " +this.id + " not declared"));
         }

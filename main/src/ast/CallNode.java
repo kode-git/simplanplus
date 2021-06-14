@@ -11,6 +11,7 @@ public class CallNode implements Node {
   private ArrayList<Node> exp;
   private STentry entry;
   private int effectDecFun;
+  private int counterRecursiveEffect=0;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
@@ -51,7 +52,7 @@ public class CallNode implements Node {
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
       int nestingLevel = env.getNestingLevel();
-      this.entry = env.checkId(nestingLevel, this.id);
+      this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
           res.add(new SemanticError("Id " +this.id + " not declared"));
@@ -63,6 +64,7 @@ public class CallNode implements Node {
               if(e instanceof DerExpNode) {
                   DerExpNode derExp = (DerExpNode) e;
                   LhsNode value = (LhsNode) derExp.getDerExp();
+                  value.setEffectDecFun(this.effectDecFun);
                   value.checkSemantics(env);
                   if (value.getEntry().getPointerCounter() > 0) {
                       // this is a pointer
@@ -80,9 +82,24 @@ public class CallNode implements Node {
 
           }
           DecFunNode referenceDec = entry.getReference();
-          referenceDec.setCallingDecFun(0);
-          referenceDec.setPointerEffectStatesArg(pointerEffectStates);
-          referenceDec.checkSemantics(env);
+
+          if(this.effectDecFun != 0){
+              //System.exit(0);
+              System.out.println("main recursive CallNode");
+            // main (recursive case)
+          } else {
+              // internal invocation
+
+              //System.exit(2);
+              referenceDec.setCallingDecFun(0);
+              referenceDec.setPointerEffectStatesArg(pointerEffectStates);
+              if(this.counterRecursiveEffect == 0) {
+                  System.out.println("internal invocation CallNode");
+                  this.counterRecursiveEffect++;
+                  referenceDec.checkSemantics(env);
+              }
+
+          }
       }
 
       return res;
@@ -111,7 +128,7 @@ public class CallNode implements Node {
               System.exit(0);
           }
       }
-      return t.getRet(); //TODO if NullPointerException, check this
+      return t.getRet();
   }
   
   public String codeGeneration() {

@@ -18,7 +18,7 @@ public class Environment {
 		return null;
 	}
 
-	public STentry checkId(int nestingLevelIntern,String id){
+	public STentry lookup(int nestingLevelIntern,String id){
 		STentry tmp;
 		for(tmp = null; nestingLevelIntern >= 0 && tmp == null; tmp = (STentry)((HashMap)this.symTable.get(nestingLevelIntern--)).get(id)) {
 			// lookup

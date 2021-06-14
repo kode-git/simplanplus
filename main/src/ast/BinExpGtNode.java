@@ -17,6 +17,8 @@ public class BinExpGtNode implements Node {
         this.right = right;
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
         return s + "Gt: " + left.toPrint(s + "") + ">" + right.toPrint(s + "") + "";

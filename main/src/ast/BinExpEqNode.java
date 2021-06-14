@@ -17,6 +17,38 @@ public class BinExpEqNode implements Node {
         this.right = right;
     }
 
+    // getter and setter
+
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
     @Override
     public String toPrint(String s) {
         return s + "ExpEq:" + left.toPrint(s + "") + "==" + right.toPrint(s + "") + "";
@@ -32,10 +64,6 @@ public class BinExpEqNode implements Node {
         return new BoolTypeNode();
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
 
     @Override
     public String codeGeneration() {

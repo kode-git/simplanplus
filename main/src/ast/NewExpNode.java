@@ -9,6 +9,9 @@ public class NewExpNode implements Node {
  
     public NewExpNode(){
     }
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
         return s+ "new"+" ";

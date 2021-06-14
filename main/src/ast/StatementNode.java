@@ -39,6 +39,14 @@ public class StatementNode implements Node{
     }
 
     @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+    @Override
     public String toPrint(String s) {
 
         return s+"\n Statement:" + st.toPrint(s + "") ;
@@ -61,10 +69,6 @@ public class StatementNode implements Node{
         return 0;
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

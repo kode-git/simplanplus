@@ -9,8 +9,11 @@ public class BoolTypeNode implements Node, GenericTypeNode {
 
   public BoolTypeNode () {
   }
-  
-  public String toPrint(String s) {
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
+    public String toPrint(String s) {
 	return s+"BoolType ";
   }
     

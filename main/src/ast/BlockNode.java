@@ -59,6 +59,9 @@ public class BlockNode implements Node {
     }
 
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
     public String toPrint(String s) {
 
 

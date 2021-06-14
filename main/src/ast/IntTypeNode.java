@@ -9,8 +9,10 @@ public class IntTypeNode implements Node, GenericTypeNode {
   
   public IntTypeNode () {
   }
-  
-  public String toPrint(String s) {
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+    public String toPrint(String s) {
 	return s+"IntType ";
   }
   

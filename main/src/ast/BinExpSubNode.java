@@ -17,6 +17,9 @@ public class BinExpSubNode implements Node {
         this.right = right;
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
     @Override
     public String toPrint(String s) {
         return s + "Sub: " + left.toPrint(s + "") +

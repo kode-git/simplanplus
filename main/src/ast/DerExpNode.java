@@ -23,6 +23,8 @@ public class DerExpNode implements Node {
 
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public Node typeCheck() {
         // LhsNode.typeCheck() calling
@@ -53,7 +55,7 @@ public class DerExpNode implements Node {
 
             } else {
                 // id
-                myEntry = env.checkId(env.getNestingLevel(), derExp + "");
+                myEntry = env.lookup(env.getNestingLevel(), derExp + "");
                 effectsST = myEntry.getEffectState(0);
             }
             if (effectsST == 0) {
@@ -81,16 +83,17 @@ public class DerExpNode implements Node {
         STentry myEntry=null;
         if(derExp instanceof LhsNode) {
             // lhs
+            System.out.println("Lhs set effectDecFun to " + effectDecFun);
             derExp.setEffectDecFun(this.effectDecFun);
             res.addAll(derExp.checkSemantics(env));
         } else {
             // id
-            myEntry=env.checkId(env.getNestingLevel(), derExp + "");
+            myEntry=env.lookup(env.getNestingLevel(), derExp + "");
             if(myEntry==null){
                     res.add(new SemanticError("Id " + derExp + " not declared"));
             }
         }
-        if(res.size()==0) {
+        if(res.size()==0 && effectDecFun == 0) {
             this.checkEffects(env);
         }
         return res;

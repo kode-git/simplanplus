@@ -18,6 +18,15 @@ public class RetNode implements Node{
         this.exp = null;
     }
 
+
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
         String first =  s + "Ret:" + "return";
@@ -25,15 +34,9 @@ public class RetNode implements Node{
             return first + "";
         } else {
             return first + " " + exp.toPrint(s + "") +
-                     "";
+                    "";
         }
     }
-
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
-
     @Override
     public Node typeCheck() {
         return exp.typeCheck();

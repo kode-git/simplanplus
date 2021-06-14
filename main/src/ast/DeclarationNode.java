@@ -30,6 +30,9 @@ public class DeclarationNode implements Node{
         }
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
     @Override
     public String toPrint(String s) {
         if(this.decFun != null){

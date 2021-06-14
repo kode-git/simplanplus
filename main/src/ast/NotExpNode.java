@@ -13,6 +13,8 @@ public class NotExpNode implements Node {
 
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
 
