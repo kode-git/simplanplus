@@ -18,6 +18,8 @@ public class ArgNode implements Node {
         this.counter= count(this.type);
     }
 
+    // private methods
+
     private int count(Node t){
         System.out.println(t.getClass() + "is it arg?");
         if(t instanceof PointerTypeNode){
@@ -26,6 +28,9 @@ public class ArgNode implements Node {
             return 0;
         }
     }
+
+    // getter and setter
+
 
     public int getCounter() {
         return counter;
@@ -58,6 +63,9 @@ public class ArgNode implements Node {
     public void setType(Node type) {
         this.type = type;
     }
+
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
     @Override
     public String toPrint(String s) {

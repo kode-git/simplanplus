@@ -12,8 +12,11 @@ public class BoolNode implements Node {
   public BoolNode (boolean n) {
       val = n;
   }
-  
-  public String toPrint(String s) {
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
+
+    public String toPrint(String s) {
     if (val) return s+"Boolean: True";
     else return s+"Boolean: False";
   }

@@ -13,7 +13,34 @@ public class ArrowTypeNode implements Node {
     argList=p;
     ret=r;
   }
-    
+
+  // getter and setter
+
+  public void setArgList(ArrayList<Node> argList) {
+    this.argList = argList;
+  }
+
+  public void setRet(Node ret) {
+    this.ret = ret;
+  }
+
+  @Override
+  public void setEffectDecFun(int effectDecFun) {
+    // not used
+  }
+
+  public Node getRet () { //
+    System.out.println(ret);
+    return ret;
+  }
+
+  public ArrayList<Node> getArgList () { //
+    return argList;
+  }
+
+
+  // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
   public String toPrint(String s) { //
 	String parlstr="";
     for (Node par:argList)
@@ -21,14 +48,6 @@ public class ArrowTypeNode implements Node {
 	return s+"ArrowType: \n" + parlstr + ret.toPrint(s+"->") ;
   }
   
-  public Node getRet () { //
-      System.out.println(ret);
-      return ret;
-  }
-  
-  public ArrayList<Node> getArgList () { //
-    return argList;
-  }
 
   @Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
@@ -51,9 +70,6 @@ public class ArrowTypeNode implements Node {
     return 0;
   }
 
-  @Override
-  public void setEffectDecFun(int effectDecFun) {
-    // not used
-  }
+
 
 }  

@@ -47,6 +47,9 @@ public class IteNode implements Node{
     public void setEffectDecFun(int effectDecFun) {
         this.effectDecFun = effectDecFun;
     }
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
         String declstr="";
@@ -99,6 +102,11 @@ public class IteNode implements Node{
         for(Node stat : st){
             stat.setEffectDecFun(this.effectDecFun);
             res.addAll(stat.checkSemantics(env));
+        }
+
+        if(res.size() == 0){
+            // checking variables to block effect changing in stat.checkSemantics(env)
+            this.checkEffects(env);
         }
 
         return res;

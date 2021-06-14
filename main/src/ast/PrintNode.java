@@ -14,18 +14,36 @@ public class PrintNode implements Node {
   public PrintNode (Node v) {
     val=v;
   }
-  
-  public String toPrint(String s) {
-    return s+"Print: " + val.toPrint(s+"") ;
+
+
+  // getter and setter
+
+  public Node getVal() {
+    return val;
   }
-  
-  public Node typeCheck() {
-    return new VoidNode();
+
+  public void setVal(Node val) {
+    this.val = val;
+  }
+
+  public int getEffectDecFun() {
+    return effectDecFun;
   }
 
   @Override
   public void setEffectDecFun(int effectDecFun) {
     this.effectDecFun = effectDecFun;
+  }
+
+
+  // toPrint, TypeCheck, checkSemantics, checkEffects, codeGeneration
+
+  public String toPrint(String s) {
+    return s+"Print: " + val.toPrint(s+"") ;
+  }
+
+  public Node typeCheck() {
+    return new VoidNode();
   }
 
   @Override

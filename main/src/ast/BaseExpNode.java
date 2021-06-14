@@ -15,6 +15,36 @@ public class BaseExpNode implements Node {
         this.exp = exp;
     }
 
+    // getter and setter
+
+
+    public Node getExp() {
+        return exp;
+    }
+
+    public void setExp(Node exp) {
+        this.exp = exp;
+    }
+
+    public int getEffectST() {
+        return effectST;
+    }
+
+    public void setEffectST(int effectST) {
+        this.effectST = effectST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
         return s+ "BaseExp: (" + exp.toPrint(s + "")+ ")";
@@ -33,10 +63,6 @@ public class BaseExpNode implements Node {
         return 0;
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

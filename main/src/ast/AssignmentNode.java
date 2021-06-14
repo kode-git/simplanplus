@@ -19,6 +19,44 @@ public class AssignmentNode implements Node{
         this.exp = exp;
     }
 
+    // getter and setter
+
+    public Node getLhs() {
+        return lhs;
+    }
+
+    public void setLhs(Node lhs) {
+        this.lhs = lhs;
+    }
+
+    public Node getExp() {
+        return exp;
+    }
+
+    public void setExp(Node exp) {
+        this.exp = exp;
+    }
+
+    public int getEffectsST() {
+        return effectsST;
+    }
+
+    public void setEffectsST(int effectsST) {
+        this.effectsST = effectsST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     @Override
     public String toPrint(String s) {
         return s+"Assignment:" + lhs.toPrint(s + "") + " = "
@@ -61,10 +99,6 @@ public class AssignmentNode implements Node{
         return 1;
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

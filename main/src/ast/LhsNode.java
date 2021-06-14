@@ -104,7 +104,8 @@ public class LhsNode<T>implements Node,Cloneable{
         this.nestingLevel = nestingLevel;
     }
 
-    // typeCheck, CodeGeneration, CheckSemantics
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
 
     //TODO We need to complete typeCheck()
     @Override
@@ -148,10 +149,11 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public int checkEffects(Environment env) {
+        System.out.println("LhsNode EffectDecFun internal: " + effectDecFun);
         if(effectDecFun == 0) {
             STentry myEntry = null;
             if (lhVar instanceof String) {
-                myEntry = env.checkId(env.getNestingLevel(), (String) lhVar);
+                myEntry = env.lookup(env.getNestingLevel(), (String) lhVar);
                 effectsST = myEntry.getEffectState(counter); // 0 because is a string
             } else {
                 T myVar = lhVar;
@@ -159,7 +161,7 @@ public class LhsNode<T>implements Node,Cloneable{
                     myVar = (T) ((LhsNode<?>) myVar).getLhVar();
                 }
                 System.out.println(myVar);
-                myEntry = env.checkId(env.getNestingLevel(), (String) myVar);
+                myEntry = env.lookup(env.getNestingLevel(), (String) myVar);
                 effectsST = myEntry.getEffectState(counter);
             }
         } else {
@@ -173,7 +175,7 @@ public class LhsNode<T>implements Node,Cloneable{
         ArrayList<SemanticError> res = new ArrayList();
         STentry myEntry=null;
         if (lhVar instanceof String) {
-             myEntry = env.checkId( env.getNestingLevel(), (String)lhVar);
+             myEntry = env.lookup( env.getNestingLevel(), (String)lhVar);
 
 
             if (myEntry == null) {
@@ -190,7 +192,7 @@ public class LhsNode<T>implements Node,Cloneable{
             while ((myVar instanceof LhsNode)) {
                 myVar = (T) ((LhsNode<?>) myVar).getLhVar();
             }
-            myEntry = env.checkId( env.getNestingLevel(), (String)myVar);
+            myEntry = env.lookup( env.getNestingLevel(), (String)myVar);
             if (myEntry == null) {
                 res.add(new SemanticError("Id " + (String)myVar + " not declared"));
             } else {
@@ -199,7 +201,8 @@ public class LhsNode<T>implements Node,Cloneable{
                 this.counterST= myEntry.getPointerCounter();
             }
         }
-        if(res.size()== 0){
+
+        if(res.size()== 0 && effectDecFun == 0){
             this.checkEffects(env);
         }
 

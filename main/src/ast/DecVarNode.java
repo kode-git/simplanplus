@@ -46,6 +46,8 @@ public class DecVarNode implements Node {
         this.effectDecFun = effectDecFun;
     }
 
+    // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
+
     public String toPrint(String s) {
 
         if (this.exp != null){
@@ -98,7 +100,7 @@ public class DecVarNode implements Node {
 
     @Override
     public int checkEffects(Environment env) {
-        STentry myEntry = env.checkId(env.getNestingLevel(), id);
+        STentry myEntry = env.lookup(env.getNestingLevel(), id);
         if(effectDecFun == 0) {
             // is not a function block
             this.effectsST = myEntry.getEffectState(0);
