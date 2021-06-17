@@ -73,9 +73,19 @@ public class LhsNode<T>implements Node,Cloneable{
 
         return effectsST;
     }
+    public int getEffectsST(int count) {
+
+        return  entry.getEffectState(count);
+
+    }
 
     public void setEffectsST(int effectsST) {
         entry.setEffectState(counter, effectsST);
+        this.effectsST = effectsST;
+
+    }
+    public void setEffectsST(int myCounter, int effectsST) {
+        entry.setEffectState(myCounter, effectsST);
         this.effectsST = effectsST;
 
     }
@@ -107,7 +117,6 @@ public class LhsNode<T>implements Node,Cloneable{
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
 
-    //TODO We need to complete typeCheck()
     @Override
     public Node typeCheck() {
         if (!(lhVar instanceof LhsNode)) {
@@ -149,7 +158,6 @@ public class LhsNode<T>implements Node,Cloneable{
 
     @Override
     public int checkEffects(Environment env) {
-        System.out.println("LhsNode EffectDecFun internal: " + effectDecFun);
         if(effectDecFun == 0) {
             STentry myEntry = null;
             if (lhVar instanceof String) {
@@ -160,7 +168,6 @@ public class LhsNode<T>implements Node,Cloneable{
                 while ((myVar instanceof LhsNode)) {
                     myVar = (T) ((LhsNode<?>) myVar).getLhVar();
                 }
-                System.out.println(myVar);
                 myEntry = env.lookup(env.getNestingLevel(), (String) myVar);
                 effectsST = myEntry.getEffectState(counter);
             }
@@ -183,6 +190,7 @@ public class LhsNode<T>implements Node,Cloneable{
             } else {
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();
+                this.counterST= myEntry.getPointerCounter();
             }
 
         }else{
@@ -199,6 +207,7 @@ public class LhsNode<T>implements Node,Cloneable{
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();
                 this.counterST= myEntry.getPointerCounter();
+                //System.out.println(counterST+ "TESTING INTERNO " +counter + "  "+myVar );
             }
         }
 

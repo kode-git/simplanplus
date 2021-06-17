@@ -99,7 +99,6 @@ public class DerExpNode implements Node {
         STentry myEntry=null;
         if(derExp instanceof LhsNode) {
             // lhs
-            System.out.println("Lhs set effectDecFun to " + effectDecFun);
             derExp.setEffectDecFun(this.effectDecFun);
             res.addAll(derExp.checkSemantics(env));
         } else {
