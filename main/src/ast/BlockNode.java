@@ -24,6 +24,26 @@ public class BlockNode implements Node {
         statements = new ArrayList<Node>();
     }
 
+    public ArrayList<Node> getDeclarations() {
+        return declarations;
+    }
+
+    public void setDeclarations(ArrayList<Node> declarations) {
+        this.declarations = declarations;
+    }
+
+    public ArrayList<Node> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(ArrayList<Node> statements) {
+        this.statements = statements;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
     public void setEffectDecFun(int effectDecFun) {
         this.effectDecFun = effectDecFun;
     }

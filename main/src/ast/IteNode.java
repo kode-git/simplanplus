@@ -32,9 +32,33 @@ public class IteNode implements Node{
         return fg;
     }
 
+    // getter and setter
+
+
+    public ArrayList<Node> getSt() {
+        return st;
+    }
+
+    public void setSt(ArrayList<Node> st) {
+        this.st = st;
+    }
+
+    public Node getExp() {
+        return exp;
+    }
+
+    public void setExp(Node exp) {
+        this.exp = exp;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
     public int getSize(){
         return this.st.size();
     }
+
     public Boolean getFg() {
         return fg;
     }

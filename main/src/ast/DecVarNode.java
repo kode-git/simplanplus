@@ -32,14 +32,51 @@ public class DecVarNode implements Node {
         this.counter= count(this.typeNode);
     }
 
-    // counting of ^ referent
-    private int count(Node t){
-        if(t instanceof PointerTypeNode){
-            return 1+count(((PointerTypeNode<?>) t).getVal());
-        }else {
-            return 0;
-        }
+    public Node getTypeNode() {
+        return typeNode;
     }
+
+    public void setTypeNode(Node typeNode) {
+        this.typeNode = typeNode;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Node getExp() {
+        return exp;
+    }
+
+    public void setExp(Node exp) {
+        this.exp = exp;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public int getEffectsST() {
+        return effectsST;
+    }
+
+    public void setEffectsST(int effectsST) {
+        this.effectsST = effectsST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+
 
     @Override
     public void setEffectDecFun(int effectDecFun) {
@@ -113,6 +150,15 @@ public class DecVarNode implements Node {
             // is a function block
         }
         return this.effectsST;
+    }
+
+    // counting of ^ referent
+    private int count(Node t){
+        if(t instanceof PointerTypeNode){
+            return 1+count(((PointerTypeNode<?>) t).getVal());
+        }else {
+            return 0;
+        }
     }
 
 
