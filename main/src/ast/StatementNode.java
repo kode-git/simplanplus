@@ -15,6 +15,23 @@ public class StatementNode implements Node{
         this.st=st;
         //checkRet();
     }
+
+    public void setSt(Node st) {
+        this.st = st;
+    }
+
+    public Boolean getHasRet() {
+        return hasRet;
+    }
+
+    public void setHasRet(Boolean hasRet) {
+        this.hasRet = hasRet;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
     public void checkRet(){
         if(st instanceof BlockNode) {
             this.hasRet = ((BlockNode) st).checkRet();
@@ -25,7 +42,6 @@ public class StatementNode implements Node{
                 this.hasRet = false;
             }
          }
-
 
     }
 

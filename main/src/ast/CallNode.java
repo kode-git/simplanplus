@@ -84,9 +84,9 @@ public class CallNode implements Node {
           DecFunNode referenceDec = entry.getReference();
 
           if(this.effectDecFun != 0){
-              //System.exit(0);
+            // main invocation
               System.out.println("main recursive CallNode");
-            // main (recursive case)
+
           } else {
               // internal invocation
 

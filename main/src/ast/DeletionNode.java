@@ -18,6 +18,7 @@ public class DeletionNode implements Node{
 
     // getter and setter
 
+
     public String getId() {
         return id;
     }
@@ -37,6 +38,13 @@ public class DeletionNode implements Node{
     public int getEffectDecFun() {
         return effectDecFun;
     }
+
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
@@ -76,11 +84,6 @@ public class DeletionNode implements Node{
             // do nothing
         }
         return effectsST;
-    }
-
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
     }
 
     @Override

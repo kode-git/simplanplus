@@ -18,17 +18,27 @@ public class DeclarationNode implements Node{
     }
 
 
-    private void assignNode(Node node){
-        if(node instanceof DecVarNode){
-            // It is a DecVarNode
-            this.decVar = node;
-            this.decFun = null;
-        } else {
-            // else is a DecFunNode
-            this.decFun = node;
-            this.decVar = null;
-        }
+    public Node getDecVar() {
+        return decVar;
     }
+
+    public void setDecVar(Node decVar) {
+        this.decVar = decVar;
+    }
+
+    public Node getDecFun() {
+        return decFun;
+    }
+
+    public void setDecFun(Node decFun) {
+        this.decFun = decFun;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
@@ -83,5 +93,19 @@ public class DeclarationNode implements Node{
            }
 
         return res;
+    }
+
+    // assignNode
+
+    private void assignNode(Node node){
+        if(node instanceof DecVarNode){
+            // It is a DecVarNode
+            this.decVar = node;
+            this.decFun = null;
+        } else {
+            // else is a DecFunNode
+            this.decFun = node;
+            this.decVar = null;
+        }
     }
 }

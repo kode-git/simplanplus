@@ -19,6 +19,17 @@ public class RetNode implements Node{
     }
 
 
+    public Node getExp() {
+        return exp;
+    }
+
+    public void setExp(Node exp) {
+        this.exp = exp;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
 
     @Override
     public void setEffectDecFun(int effectDecFun) {

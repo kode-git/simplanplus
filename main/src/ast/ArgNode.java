@@ -18,16 +18,6 @@ public class ArgNode implements Node {
         this.counter= count(this.type);
     }
 
-    // private methods
-
-    private int count(Node t){
-        System.out.println(t.getClass() + "is it arg?");
-        if(t instanceof PointerTypeNode){
-            return 1+count(((PointerTypeNode<?>) t).getVal());
-        }else {
-            return 0;
-        }
-    }
 
     // getter and setter
 
@@ -117,5 +107,15 @@ public class ArgNode implements Node {
         return res;
     }
 
+    // private methods
+
+    private int count(Node t){
+        System.out.println(t.getClass() + "is it arg?");
+        if(t instanceof PointerTypeNode){
+            return 1+count(((PointerTypeNode<?>) t).getVal());
+        }else {
+            return 0;
+        }
+    }
 
 }

@@ -17,6 +17,32 @@ public class BinExpSubNode implements Node {
         this.right = right;
     }
 
+    public Node getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
+
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
 
@@ -37,10 +63,6 @@ public class BinExpSubNode implements Node {
         return new IntTypeNode();
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
 
     @Override
     public String codeGeneration() {

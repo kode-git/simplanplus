@@ -58,6 +58,42 @@ public class DecFunNode implements Node {
         this.pointerEffectStatesArg = new ArrayList<int[]>();
     }
 
+    public Node getType() {
+        return type;
+    }
+
+    public void setType(Node type) {
+        this.type = type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<Node> getArgs() {
+        return args;
+    }
+
+    public void setArgs(ArrayList<Node> args) {
+        this.args = args;
+    }
+
+    public BlockNode getBlock() {
+        return block;
+    }
+
+    public void setBlock(BlockNode block) {
+        this.block = block;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
     public ArrayList<int[]> getPointerEffectStatesArg() {
         return pointerEffectStatesArg;
     }

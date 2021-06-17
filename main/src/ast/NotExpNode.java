@@ -13,6 +13,25 @@ public class NotExpNode implements Node {
 
     }
 
+    // getter and setter
+
+    public Node getExpNode() {
+        return expNode;
+    }
+
+    public void setExpNode(Node expNode) {
+        this.expNode = expNode;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
     @Override
@@ -27,10 +46,7 @@ public class NotExpNode implements Node {
         return null;
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
+
 
     @Override
     public String codeGeneration() {

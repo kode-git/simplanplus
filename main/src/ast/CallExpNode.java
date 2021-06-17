@@ -13,6 +13,18 @@ public class CallExpNode implements Node {
         this.call = node;
     }
 
+    public Node getCall() {
+        return call;
+    }
+
+    public void setCall(Node call) {
+        this.call = call;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
 

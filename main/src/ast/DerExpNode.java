@@ -23,6 +23,26 @@ public class DerExpNode implements Node {
 
     }
 
+    // getter and setter
+
+    public int getEffectsST() {
+        return effectsST;
+    }
+
+    public void setEffectsST(int effectsST) {
+        this.effectsST = effectsST;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        this.effectDecFun = effectDecFun;
+    }
+
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
     @Override
@@ -71,10 +91,6 @@ public class DerExpNode implements Node {
         return effectsST;
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        this.effectDecFun = effectDecFun;
-    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

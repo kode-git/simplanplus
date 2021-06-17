@@ -15,8 +15,19 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
 
     public PointerTypeNode () {val=null; }
 
+    // getter and setter
+
+    public void setVal(T val) {
+        this.val = val;
+    }
+
     public T getVal() {
         return val;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used
     }
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
@@ -53,9 +64,6 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
         return 0;
     }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        // not used
-    }
+
 
 }
