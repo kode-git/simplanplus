@@ -86,6 +86,31 @@ public class AssignmentNode implements Node{
         if(effectDecFun == 0) {
             int lhsEffects = ((LhsNode) lhs).getEffectsST();
             if (lhsEffects >= 0 && lhsEffects <= 1) {
+                Node typeExp = exp.typeCheck();
+                if(((exp instanceof DerExpNode))&&(typeExp instanceof PointerTypeNode)){
+                    int diffCount= (((LhsNode<?>) lhs).getCounterST()-((LhsNode<?>) lhs).getCounter());
+                    LhsNode<?> myDerExp = ((LhsNode<?>)((DerExpNode)exp).getDerExp());
+                    if(diffCount
+                            ==
+                            (myDerExp.getCounterST()-myDerExp.getCounter())){
+                        int counterLhs= ((LhsNode<?>)lhs).getCounter();
+                        int counterExp= myDerExp.getCounter();
+                        for(int i=0; i<=diffCount;i++){
+                            ((LhsNode<?>)lhs).setEffectsST(counterLhs,myDerExp.getEffectsST(counterExp));
+                            counterLhs++;
+                            counterExp++;
+                        }
+
+
+
+                    }else {
+                        System.out.println("Wrong pointer assignment" );
+                         System.exit(1);
+                    }
+
+                }
+
+
                 ((LhsNode<?>) lhs).setEffectsST(1);
                 this.effectsST = 1;
             } else {
