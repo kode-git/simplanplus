@@ -131,12 +131,15 @@ public class IteNode implements Node, Cloneable{
 
             //checking the semantic/effects of the first statement with the cloned env
             st.get(0).setEffectDecFun(this.effectDecFun);
-            Environment env1 = env.clone();
-            res.addAll(st.get(0).checkSemantics(env1));
             //checking the semantic/effects of the second statement with the cloned env
             st.get(1).setEffectDecFun(this.effectDecFun);
+            Environment env1 = env.clone();
             Environment env2 = env.clone();
+
+            res.addAll(st.get(0).checkSemantics(env1));
+
             res.addAll(st.get(1).checkSemantics(env2));
+
             ArrayList<HashMap<String,STentry>>  symTable1 = env1.getSymTable();
             ArrayList<HashMap<String,STentry>>  symTable2 = env2.getSymTable();
             ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();

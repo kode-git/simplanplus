@@ -98,7 +98,7 @@ public class CallNode implements Node, Cloneable {
               referenceDec.setCallingDecFun(0);
               referenceDec.setPointerEffectStatesArg(pointerEffectStates);
               if(this.counterRecursiveEffect == 0) {
-                  System.out.println("internal invocation CallNode");
+                  System.out.println("internal invocation CallNode " + counterRecursiveEffect);
                   this.counterRecursiveEffect++;
                   referenceDec.checkSemantics(env);
               }

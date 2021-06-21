@@ -239,6 +239,7 @@ public class DecFunNode implements Node, Cloneable {
                             argNode.setPointerEffectStateArg(argEffectState);
                         }
                     }
+
                     res.addAll(argNode.checkSemantics(env)); // adding in table inside the args checkSemantics
                 }
             } catch(IndexOutOfBoundsException e){
@@ -248,7 +249,7 @@ public class DecFunNode implements Node, Cloneable {
                 System.exit(0);
             }
             env.setNestingLevel(env.getNestingLevel() - 1); // this is because in BlockNode checkSemantics we have NestingLevel + 1
-            this.block.setEffectDecFun(effectDecFun);
+            this.block.setEffectDecFun(this.effectDecFun);
             res.addAll(this.block.checkSemantics(env));
         }
 

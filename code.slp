@@ -1,10 +1,11 @@
 
 
 {
+
+
 ^int x=new;
 void g(^int x, int y){ if (y==0) delete x ; else { x^ = x^ - 1; g(x,y) ; delete x ;} }
 x^=5;
 g(x,7);
-
 
 }

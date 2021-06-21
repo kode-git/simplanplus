@@ -121,6 +121,9 @@ public class STentry implements Cloneable {
         try{
             STentry cloned = (STentry) super.clone();
             cloned.type = (Node) this.type.clone();
+
+
+            /*
             if(this.effectState == null){
                 if(this.pointerCounter >= 1){
                     this.effectState = new int[this.pointerCounter + 1];
@@ -129,8 +132,7 @@ public class STentry implements Cloneable {
                     this.effectState = new int[1];
                 }
 
-            }
-
+            } */
 
             cloned.effectState  = this.effectState.clone();
             if(this.reference!=null) {

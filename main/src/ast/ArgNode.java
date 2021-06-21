@@ -98,7 +98,13 @@ public class ArgNode implements Node, Cloneable {
             err = env.newVarNode(env.getNestingLevel(), this.id, entry); // this is the case of no pointer
         } else {
             // do aliasing
-            entry.setEffectState(this.pointerEffectStateArg);
+            if (this.pointerEffectStateArg!=null) {
+                entry.setEffectState(this.pointerEffectStateArg);
+            }else {
+                //inizializzazione delle variabili effetto puntatore per check semantic iniziale
+                this.pointerEffectStateArg= new int[counter+1];
+
+            }
             err = env.newVarNode(env.getNestingLevel(), this.id, entry); // this is the case of pointer
         }
         if (err!=null){
