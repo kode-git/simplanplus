@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class BoolNode implements Node {
+public class BoolNode implements Node, Cloneable {
 
   private boolean val;
   
@@ -30,8 +30,19 @@ public class BoolNode implements Node {
 
  	  return new ArrayList<SemanticError>();
  	}
-  
-  public String codeGeneration() {
+
+    @Override
+    public Node clone() {
+        try{
+            BoolNode cloned = (BoolNode) super.clone();
+            return cloned;
+        }
+        catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
+
+    public String codeGeneration() {
 		return "push "+(val?1:0)+"\n";
 	  }
 

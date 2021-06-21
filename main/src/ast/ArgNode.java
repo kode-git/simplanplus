@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class ArgNode implements Node {
+public class ArgNode implements Node, Cloneable {
 
     private Node type;
     private String id;
@@ -107,6 +107,23 @@ public class ArgNode implements Node {
         return res;
     }
 
+    @Override
+    public Node clone() {
+        try{
+            ArgNode cloned = (ArgNode) super.clone();
+            cloned.type = (Node) type.clone();
+            if(this.pointerEffectStateArg != null) {
+                cloned.pointerEffectStateArg = this.pointerEffectStateArg.clone();
+                for (int i = 0; i < pointerEffectStateArg.length; i++) {
+                    cloned.pointerEffectStateArg[i] = this.pointerEffectStateArg[i];
+                }
+            }
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
+
     // private methods
 
     private int count(Node t){
@@ -117,5 +134,6 @@ public class ArgNode implements Node {
             return 0;
         }
     }
+
 
 }

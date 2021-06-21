@@ -6,7 +6,7 @@ import util.SimpLanlib;
 
 import java.util.ArrayList;
 
-public class BinExpSumNode implements Node {
+public class BinExpSumNode implements Node, Cloneable {
 
     private Node left;
     private Node right;
@@ -81,6 +81,18 @@ public class BinExpSumNode implements Node {
         res.addAll(right.checkSemantics(env));
 
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try {
+            BinExpSumNode cloned = (BinExpSumNode) super.clone();
+            cloned.left = (Node) this.left.clone();
+            cloned.right = (Node) this.right.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }
 

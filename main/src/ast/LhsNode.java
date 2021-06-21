@@ -7,7 +7,7 @@ import util.SemanticError;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LhsNode<T>implements Node,Cloneable{
+public class LhsNode<T extends Object>implements Node,Cloneable{
     private T lhVar;
     private STentry entry;
     private int nestingLevel;
@@ -207,7 +207,7 @@ public class LhsNode<T>implements Node,Cloneable{
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();
                 this.counterST= myEntry.getPointerCounter();
-                //System.out.println(counterST+ "TESTING INTERNO " +counter + "  "+myVar );
+
             }
         }
 
@@ -218,6 +218,26 @@ public class LhsNode<T>implements Node,Cloneable{
         return res;
 
 
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            LhsNode cloned = (LhsNode) super.clone();
+            if(this.lhVar instanceof LhsNode){
+            cloned.lhVar = ((LhsNode) this.lhVar).clone();
+            } else {
+                // is a string and not must be cloned
+            }
+            if(this.entry != null) {
+                cloned.entry = (STentry) this.entry.clone();
+            }
+            return cloned;
+
+
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 
 }

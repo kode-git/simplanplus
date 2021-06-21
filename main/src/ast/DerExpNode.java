@@ -6,10 +6,10 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 
-public class DerExpNode implements Node {
+public class DerExpNode implements Node, Cloneable {
 
-    Node derExp;
-    int effectsST;
+    private Node derExp;
+    private int effectsST;
     private int effectDecFun;
     public DerExpNode(Node derExp) {
         this.derExp=derExp;
@@ -112,5 +112,16 @@ public class DerExpNode implements Node {
             this.checkEffects(env);
         }
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            DerExpNode cloned = (DerExpNode) super.clone();
+            cloned.derExp = this.derExp.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

@@ -6,7 +6,7 @@ import util.Environment;
 import util.SemanticError;
 import util.VoidNode;
 
-public class PrintNode implements Node {
+public class PrintNode implements Node, Cloneable {
 
   private Node val;
   private int effectDecFun;
@@ -54,7 +54,18 @@ public class PrintNode implements Node {
       res.addAll(val.checkSemantics(env));
  	  return res;
  	}
-  
+
+  @Override
+  public Node clone() {
+    try{
+      PrintNode cloned = (PrintNode) super.clone();
+      cloned.val = (Node) this.val.clone();
+      return cloned;
+    } catch(CloneNotSupportedException e){
+      return null;
+    }
+  }
+
   public String codeGeneration() {
 		return val.codeGeneration()+"print\n";
   }

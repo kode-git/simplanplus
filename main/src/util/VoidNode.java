@@ -46,5 +46,16 @@ public class VoidNode implements Node {
         return new ArrayList<SemanticError>();
     }
 
+    @Override
+    public Node clone() {
+        try {
+            VoidNode cloned = (VoidNode) super.clone();
+            return cloned;
+        }catch (CloneNotSupportedException e){
+            return null;
+        }
+
+    }
+
 
 }

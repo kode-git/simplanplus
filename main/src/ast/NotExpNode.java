@@ -6,11 +6,11 @@ import util.SemanticError;
 import java.util.ArrayList;
 
 
-public class NotExpNode implements Node {
+public class NotExpNode implements Node, Cloneable {
     private Node expNode;
     private int effectDecFun;
     public NotExpNode(Node expNode){
-
+        this.expNode = expNode;
     }
 
     // getter and setter
@@ -64,5 +64,16 @@ public class NotExpNode implements Node {
         expNode.setEffectDecFun(this.effectDecFun);
         res.addAll(expNode.checkSemantics(env));
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            NotExpNode cloned = (NotExpNode) super.clone();
+            cloned.expNode = (Node) this.expNode.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

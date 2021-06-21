@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class IntNode implements Node {
+public class IntNode implements Node, Cloneable {
 
-  private Integer val;
+  private int val;
   
   public IntNode (Integer n) {
     val=n;
@@ -28,7 +28,18 @@ public class IntNode implements Node {
 
  	  return new ArrayList<SemanticError>();
  	}
-  
+
+  @Override
+  public Node clone() {
+    try{
+      IntNode cloned = (IntNode) super.clone();
+      return cloned;
+
+    } catch(CloneNotSupportedException e){
+      return null;
+    }
+  }
+
   public String codeGeneration() {
 	return "push "+val+"\n";
   }

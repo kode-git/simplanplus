@@ -7,7 +7,7 @@ import util.VoidNode;
 
 import java.util.ArrayList;
 
-public class AssignmentNode implements Node{
+public class AssignmentNode implements Node, Cloneable{
 
     private Node lhs;
     private Node exp;
@@ -139,5 +139,17 @@ public class AssignmentNode implements Node{
         }
         return res;
 
+    }
+
+    @Override
+    public Node clone(){
+        try{
+            AssignmentNode cloned = (AssignmentNode) super.clone();
+            cloned.lhs = (Node) this.lhs.clone();
+            cloned.exp = (Node) this.exp.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

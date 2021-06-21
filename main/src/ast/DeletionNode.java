@@ -6,7 +6,7 @@ import util.VoidNode;
 
 import java.util.ArrayList;
 
-public class DeletionNode implements Node{
+public class DeletionNode implements Node, Cloneable{
     private String id;
     private int effectsST;
     private int effectDecFun;
@@ -97,5 +97,15 @@ public class DeletionNode implements Node{
             this.checkEffects(env);
         }
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            DeletionNode cloned = (DeletionNode) super.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class BoolTypeNode implements Node, GenericTypeNode {
+public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
 
   public BoolTypeNode () {
   }
@@ -27,8 +27,18 @@ public class BoolTypeNode implements Node, GenericTypeNode {
 
  	  return new ArrayList<SemanticError>();
  	}
-  
-  //not used
+
+    @Override
+    public Node clone() {
+        try{
+            BoolTypeNode cloned = (BoolTypeNode) super.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
+
+    //not used
   public String codeGeneration() {
 		return "";
   }

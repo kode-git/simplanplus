@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class RetNode implements Node{
+public class RetNode implements Node, Cloneable{
 
 
     Node exp;
@@ -75,5 +75,17 @@ public class RetNode implements Node{
         }
 
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            RetNode cloned = (RetNode) super.clone();
+            if(this.exp != null)
+                cloned.exp = (Node) exp.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

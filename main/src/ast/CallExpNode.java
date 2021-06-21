@@ -5,10 +5,12 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class CallExpNode implements Node {
+public class CallExpNode implements Node, Cloneable {
 
     private Node call;
     private int effectDecFun;
+
+
     public CallExpNode(Node node) {
         this.call = node;
     }
@@ -60,5 +62,16 @@ public class CallExpNode implements Node {
         call.setEffectDecFun(this.effectDecFun);
         res.addAll(call.checkSemantics(env));
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            CallExpNode cloned = (CallExpNode) super.clone();
+            cloned.call = (Node) this.call.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

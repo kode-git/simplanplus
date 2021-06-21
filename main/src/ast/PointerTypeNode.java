@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class PointerTypeNode <T extends GenericTypeNode> implements Node, GenericTypeNode {
+public class PointerTypeNode <T extends GenericTypeNode> implements Node, GenericTypeNode, Cloneable {
 
     private T val;
 
@@ -53,6 +53,19 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
         return new ArrayList<SemanticError>();
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            PointerTypeNode cloned = (PointerTypeNode) super.clone();
+            if(this.val != null)
+                // PointerTypeNode, IntTypeNode, BoolTypeNode interface
+                cloned.val = (GenericTypeNode) this.val.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 
     public String codeGeneration() {

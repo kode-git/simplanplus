@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import util.Environment;
 import util.SemanticError;
 
-public class IntTypeNode implements Node, GenericTypeNode {
+public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
   
   public IntTypeNode () {
   }
@@ -41,5 +41,15 @@ public class IntTypeNode implements Node, GenericTypeNode {
 
 	  return new ArrayList<SemanticError>();
 	}
-  
+
+    @Override
+    public Node clone() {
+        try{
+            IntTypeNode cloned = (IntTypeNode) super.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
+
 }  

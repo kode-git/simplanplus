@@ -6,8 +6,10 @@ import util.SimpLanlib;
 
 import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class IteNode implements Node{
+public class IteNode implements Node, Cloneable{
     ArrayList<Node> st;
     Node exp;
     Boolean fg;
@@ -117,15 +119,47 @@ public class IteNode implements Node{
 
 
 
+//TODO Moved env.clone() before the st.get(i).checkSemantics(env_cloned)
+//Possible solution of the Bug: Divide the checkEffect from checkSemantics
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 
         exp.setEffectDecFun(this.effectDecFun);
         res.addAll(exp.checkSemantics(env));
-        for(Node stat : st){
-            stat.setEffectDecFun(this.effectDecFun);
-            res.addAll(stat.checkSemantics(env));
+        if(st.size()!=1){
+
+            //checking the semantic/effects of the first statement with the cloned env
+            st.get(0).setEffectDecFun(this.effectDecFun);
+            Environment env1 = env.clone();
+            res.addAll(st.get(0).checkSemantics(env1));
+            //checking the semantic/effects of the second statement with the cloned env
+            st.get(1).setEffectDecFun(this.effectDecFun);
+            Environment env2 = env.clone();
+            res.addAll(st.get(1).checkSemantics(env2));
+            ArrayList<HashMap<String,STentry>>  symTable1 = env1.getSymTable();
+            ArrayList<HashMap<String,STentry>>  symTable2 = env2.getSymTable();
+            ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
+            for(int c=0; c<symTable1.size();c++){
+                for (Map.Entry<String, STentry> entry : symTable1.get(c).entrySet()) {
+                    String key = entry.getKey();
+                    int[] value = entry.getValue().getEffectState();
+                    int[] value2 = symTable2.get(c).get(key).getEffectState();//retrieve of the corresponding value in the second SymTable
+                    for(int i=0;i< value.length;i++){
+                        if(value[i]>value2[i]){
+                            symTableFinal.get(c).get(key).setEffectState(i,value[i]);
+                        }else {
+                            symTableFinal.get(c).get(key).setEffectState(i,value2[i]);
+                        }
+                    }
+                }
+            }
+
+
+        }else {
+                st.get(0).setEffectDecFun(this.effectDecFun);
+                res.addAll(st.get(0).checkSemantics(env));
+
         }
 
         if(res.size() == 0){
@@ -134,5 +168,20 @@ public class IteNode implements Node{
         }
 
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            IteNode cloned = (IteNode) super.clone();
+            cloned.st = (ArrayList<Node>) this.st.clone();
+            cloned.exp = (Node) this.exp.clone();
+            for(int i = 0; i < this.st.size(); i++){
+                cloned.st.add(i, (Node) this.st.get(i).clone());
+            }
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

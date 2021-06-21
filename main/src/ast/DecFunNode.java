@@ -8,7 +8,7 @@ import util.VoidNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DecFunNode implements Node {
+public class DecFunNode implements Node, Cloneable {
 
     private Node type;
     private String id;
@@ -254,4 +254,31 @@ public class DecFunNode implements Node {
 
         return res;
     }
+
+    @Override
+    public Node clone() {
+        try{
+            DecFunNode cloned = (DecFunNode) super.clone();
+            cloned.type = (Node) this.type.clone();
+            cloned.block = (BlockNode) this.block.clone();
+            cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
+            cloned.args = (ArrayList<Node>) this.args.clone();
+            for(int i = 0; i < args.size(); i++){
+                cloned.args.add(i, (Node) this.args.get(i).clone());
+            }
+            for(int i = 0; i < pointerEffectStatesArg.size(); i++){
+                int[] tmp = new int[pointerEffectStatesArg.get(i).length]; // void int[]
+                for(int j = 0; j < pointerEffectStatesArg.get(i).length; j++){
+                    tmp[j] = pointerEffectStatesArg.get(i)[j];
+                }
+                cloned.pointerEffectStatesArg.set(i, tmp);
+            }
+            return cloned;
+
+
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
 }
+

@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class BaseExpNode implements Node {
+public class BaseExpNode implements Node, Cloneable {
 
     private Node exp;
     private int effectST;
@@ -72,5 +72,17 @@ public class BaseExpNode implements Node {
         res.addAll(exp.checkSemantics(env));
 
         return res;
+    }
+
+
+    @Override
+    public Node clone() {
+        try {
+            BaseExpNode cloned = (BaseExpNode) super.clone();
+            cloned.exp = this.exp.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

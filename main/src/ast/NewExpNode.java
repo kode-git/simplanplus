@@ -5,7 +5,7 @@ import util.SemanticError;
 
 import java.util.ArrayList;
 
-public class NewExpNode implements Node {
+public class NewExpNode implements Node, Cloneable {
  
     public NewExpNode(){
     }
@@ -40,5 +40,15 @@ public class NewExpNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return new ArrayList<SemanticError>();
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            NewExpNode cloned = (NewExpNode) super.clone();
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

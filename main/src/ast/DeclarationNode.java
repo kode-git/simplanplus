@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class DeclarationNode implements Node{
+public class DeclarationNode implements Node, Cloneable{
 
     private Node decVar;
     private Node decFun;
@@ -93,6 +93,29 @@ public class DeclarationNode implements Node{
            }
 
         return res;
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            DeclarationNode cloned = (DeclarationNode) super.clone();
+            if(this.decFun == null){
+                cloned.decFun = null;
+            } else {
+                cloned.decFun = (Node) this.decFun.clone();
+            }
+
+            if(this.decVar == null){
+                cloned.decVar = null;
+            } else {
+                cloned.decVar = (Node) this.decVar.clone();
+            }
+
+            return cloned;
+
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 
     // assignNode

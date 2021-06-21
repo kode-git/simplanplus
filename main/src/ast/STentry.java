@@ -1,5 +1,5 @@
 package ast;
-public class STentry {
+public class STentry implements Cloneable {
 
     private int nl;
     private Node type;
@@ -114,4 +114,38 @@ public class STentry {
                 s+"STentry: offset " + Integer.toString(offset) + "\n";
     }
 
+
+
+    // done
+    public STentry clone(){
+        try{
+            STentry cloned = (STentry) super.clone();
+            cloned.type = (Node) this.type.clone();
+            if(this.effectState == null){
+                if(this.pointerCounter >= 1){
+                    this.effectState = new int[this.pointerCounter + 1];
+                }
+                else {
+                    this.effectState = new int[1];
+                }
+
+            }
+
+
+            cloned.effectState  = this.effectState.clone();
+            if(this.reference!=null) {
+                cloned.reference = (DecFunNode) this.reference.clone();
+            }else {
+                cloned.reference = null;
+            }
+            for(int i = 0; i < this.effectState.length; i++){
+                cloned.setEffectState(i, effectState[i]);
+            }
+
+            return cloned;
+
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
 }

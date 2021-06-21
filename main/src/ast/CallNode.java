@@ -1,17 +1,20 @@
 package ast;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import util.Environment;
 import util.SemanticError;
 import util.SimpLanlib;
 
-public class CallNode implements Node {
+public class CallNode implements Node, Cloneable {
 
   private String id;
   private ArrayList<Node> exp;
   private STentry entry;
   private int effectDecFun;
   private int counterRecursiveEffect=0;
+  private Environment fixedPointEnv;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
@@ -48,6 +51,7 @@ public class CallNode implements Node {
       return first + exp + last;
     }
 
+    // TODO checking of the Fixed Point bug dividing checkSemantics and checkEffects
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
@@ -90,7 +94,7 @@ public class CallNode implements Node {
           } else {
               // internal invocation
 
-              //System.exit(2);
+
               referenceDec.setCallingDecFun(0);
               referenceDec.setPointerEffectStatesArg(pointerEffectStates);
               if(this.counterRecursiveEffect == 0) {
@@ -99,6 +103,47 @@ public class CallNode implements Node {
                   referenceDec.checkSemantics(env);
               }
 
+              /*
+
+              int f;
+              referenceDec.setCallingDecFun(0);
+              referenceDec.setPointerEffectStatesArg(pointerEffectStates);
+              int checkCounter=0;
+              do {
+                  checkCounter++;
+                  f=0;
+                  fixedPointEnv = env.clone();
+                  ArrayList<HashMap<String,STentry>>  symTableFixed = fixedPointEnv.getSymTable();
+                  ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
+                  if(this.counterRecursiveEffect == 0) {
+
+                      System.out.println("internal invocation CallNode");
+
+                      //fixed point computation
+
+
+                      //first iteration of the fixed point on effects
+                      referenceDec.checkSemantics(env);
+
+                      for(int c=0; c<symTableFixed.size();c++){
+                          for (Map.Entry<String, STentry> entry : symTableFinal.get(c).entrySet()) {
+                              String key = entry.getKey();
+                              int[] value = entry.getValue().getEffectState();
+                              int[] value2 = symTableFixed.get(c).get(key).getEffectState();//retrieve of the corresponding value in the second SymTable
+                              for(int i=0;i< value.length;i++){
+                                  if(value[i]!=value2[i]){
+                                      f=1; //there are some differences, needs a new iteration
+                                  }
+
+                              }
+                          }
+                      }
+
+                  }
+
+              }while (f==1);
+
+              this.counterRecursiveEffect++; */
           }
       }
 
@@ -106,8 +151,24 @@ public class CallNode implements Node {
 
   }
 
+    @Override
+    public Node clone() {
+        try{
+            CallNode cloned = (CallNode) super.clone();
+            if(this.entry != null)
+                cloned.entry = (STentry) cloned.entry.clone();
+            cloned.exp = (ArrayList<Node>) this.exp.clone();
+            for(int i = 0; i < exp.size(); i++){
+                cloned.exp.add(i, (Node) exp.get(i).clone());
+            }
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return  null;
+        }
+    }
 
-  public Node typeCheck () {  //                           
+
+    public Node typeCheck () {  //
 
       ArrowTypeNode t=null;
       if (entry.getType() instanceof ArrowTypeNode) t=(ArrowTypeNode) entry.getType();

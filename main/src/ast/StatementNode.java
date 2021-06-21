@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 
-public class StatementNode implements Node{
+public class StatementNode implements Node, Cloneable{
     private Node st;
     private Boolean hasRet;
     private int effectDecFun;
@@ -94,5 +94,18 @@ public class StatementNode implements Node{
         res.addAll(st.checkSemantics(env));
        return res;
 
+    }
+
+    @Override
+    public Node clone() {
+        try{
+            StatementNode cloned = (StatementNode) super.clone();
+            cloned.st = (Node) this.st.clone();
+
+            return cloned;
+
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
     }
 }

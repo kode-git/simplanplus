@@ -1,4 +1,4 @@
 package ast;
 
-public interface GenericTypeNode extends Node{
+public interface GenericTypeNode extends Node, Cloneable{
 }

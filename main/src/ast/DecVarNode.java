@@ -8,7 +8,7 @@ import util.VoidNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DecVarNode implements Node {
+public class DecVarNode implements Node, Cloneable {
 
     private Node typeNode;
     private String id;
@@ -119,6 +119,20 @@ public class DecVarNode implements Node {
         }
         return res;
     }
+
+    @Override
+    public Node clone() {
+        try{
+            DecVarNode cloned = (DecVarNode) super.clone();
+            cloned.typeNode = (Node) this.typeNode.clone();
+            cloned.exp = (Node) this.exp.clone();
+
+            return cloned;
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+    }
+
 
     public Node typeCheck() {
         if(exp != null) {
