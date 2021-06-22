@@ -67,6 +67,7 @@ public class DeletionNode implements Node, Cloneable{
     @Override
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
+
             STentry entry = env.lookup(env.getNestingLevel(), id);
             effectsST = entry.getEffectState(0);
             if (effectsST >= 0 && effectsST <= 1) {
@@ -76,6 +77,18 @@ public class DeletionNode implements Node, Cloneable{
 
                 }
                 effectsST = 2; // setting local effect to 2 (delete state)
+                System.out.println(entry.toPrint("-----"));
+                // Propagation of the delete
+                for(String id : entry.getPropagation().keySet()){
+
+                    STentry prop = env.lookup(env.getNestingLevel(), id);
+                    int level = entry.getPropagation().get(id);
+                    System.out.println("Level of Propagation is: -------------> " + level);
+                    for(int i = level; i >= 0; i--){
+                        prop.setEffectState(i, 2); // propagation of delete
+                    }
+
+                }
             } else {
                 System.out.println("error: cannot find symbol " + id);
                 System.exit(0);
@@ -94,6 +107,7 @@ public class DeletionNode implements Node, Cloneable{
             res.add(new SemanticError("Id " +this.id + " not declared"));
         }
         if(res.size()==0){
+
             this.checkEffects(env);
         }
         return res;

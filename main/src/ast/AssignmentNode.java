@@ -132,20 +132,17 @@ public class AssignmentNode implements Node, Cloneable{
                     if(left.getCounterST() > 0 && right.getCounterST() > 0) {
                         // in this case they are pointer
                         // adding propagation to the left from the right
-                        // this is needed to focus the deletion on EffectState[] of the rightEntry from the Counter to 0 index equals to d
-                        /*
-                        Case:
-                            x^^ = new, y^^ = new; y ^ = 3; x^ = y; x.propagation[ y : 0 ]
-                        */
+                        // this is needed to focus the deletion on EffectState[] of the leftEntry from
+                        // the Counter to 0 index equals to d
                         // getting the entry of the left and right terms
-                        STentry leftEntry = left.getEntry();
-                        STentry tmp = env.lookup(env.getNestingLevel(), right.getId());
+                        STentry rightEntry = right.getEntry();
+                        STentry tmp = env.lookup(env.getNestingLevel(), left.getId());
                         if (tmp == null) {
                             // this case is caught from checkSemantics
-                            System.out.println("cannot find symbol " + right.getId());
+                            System.out.println("cannot find symbol " + left.getId());
                             System.exit(1);
                         }
-                        leftEntry.addPropagation(right.getId(), right.getCounter());
+                        rightEntry.addPropagation(left.getId(), left.getCounter());
                     }
 
 
@@ -163,9 +160,6 @@ public class AssignmentNode implements Node, Cloneable{
 
         } else {
             // do nothing
-        }
-        if(lhs instanceof LhsNode){
-            System.out.println(((LhsNode) lhs).getEntry().toPrint("lhs "));
         }
         return 1;
     }

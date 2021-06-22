@@ -30,7 +30,6 @@ public class ArrowTypeNode implements Node, Cloneable {
   }
 
   public Node getRet () { //
-    System.out.println(ret);
     return ret;
   }
 

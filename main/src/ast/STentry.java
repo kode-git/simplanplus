@@ -152,10 +152,10 @@ public class STentry implements Cloneable {
     // toPrint
 
     public String toPrint(String s) { //
-        String tmp = "";
+        String tmp = "------- STENTRY -----------\n";
         tmp += s+"STentry: nestlev " + Integer.toString(nl) +"\n"+
-                s+"STentry: type\n" +
-                type.toPrint(s+"") +
+                s+"STentry: type " +
+                type.toPrint("") + "\n" +
                 s + "STentry: propagation: [ ";
         int i = 0;
         for(Map.Entry<String, Integer> entry : propagation.entrySet()){
@@ -163,6 +163,7 @@ public class STentry implements Cloneable {
         }
         tmp += "]\n";
         tmp +=  s+"STentry: offset " + Integer.toString(offset) + "\n";
+        tmp += "-----------------------\n";
         return tmp;
     }
 
@@ -173,19 +174,6 @@ public class STentry implements Cloneable {
         try{
             STentry cloned = (STentry) super.clone();
             cloned.type = (Node) this.type.clone();
-
-
-            /*
-            if(this.effectState == null){
-                if(this.pointerCounter >= 1){
-                    this.effectState = new int[this.pointerCounter + 1];
-                }
-                else {
-                    this.effectState = new int[1];
-                }
-
-            } */
-
             cloned.effectState  = this.effectState.clone();
             if(this.reference!=null) {
                 cloned.reference = (DecFunNode) this.reference.clone();

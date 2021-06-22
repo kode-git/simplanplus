@@ -21,7 +21,6 @@ public class ArgNode implements Node, Cloneable {
 
     // getter and setter
 
-
     public int getCounter() {
         return counter;
     }

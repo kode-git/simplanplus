@@ -51,7 +51,6 @@ public class CallNode implements Node, Cloneable {
       return first + exp + last;
     }
 
-    // TODO checking of the Fixed Point bug dividing checkSemantics and checkEffects
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
@@ -73,7 +72,6 @@ public class CallNode implements Node, Cloneable {
                   if (value.getEntry().getPointerCounter() > 0) {
                       // this is a pointer
                       STentry entry = value.getEntry();
-                      System.out.println("Entry value: " + entry);
                       pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
 
                   } else {
