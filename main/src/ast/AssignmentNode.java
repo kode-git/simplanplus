@@ -59,8 +59,8 @@ public class AssignmentNode implements Node, Cloneable{
 
     @Override
     public String toPrint(String s) {
-        return s+"Assignment:" + lhs.toPrint(s + "") + " = "
-                + exp.toPrint(s+"") + "";
+        return s+"Assignment:" + lhs.toPrint("") + " = "
+                + exp.toPrint("") ;
     }
 
     @Override

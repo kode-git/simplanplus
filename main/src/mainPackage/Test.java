@@ -57,8 +57,8 @@ public class Test {
 
         try {
             ast = visitor.visit(parser.block()); //generazione AST
-
-            //System.out.println(ast.toPrint(""));
+            System.out.println("Compiling on...");
+            System.out.println(ast.toPrint(""));
 
             Environment env = new Environment();
             ArrayList<SemanticError> err = ast.checkSemantics(env);

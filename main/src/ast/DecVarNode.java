@@ -88,8 +88,8 @@ public class DecVarNode implements Node, Cloneable {
     public String toPrint(String s) {
 
         if (this.exp != null){
-            return s+"DecVar:" + typeNode.toPrint(s+"") + id +"="
-                    + exp.toPrint(s+"") + "";
+            return s+"DecVar:" + typeNode.toPrint("") + id +"="
+                    + exp.toPrint("") + "";
         }
         else {
             return s+"DecVar:"

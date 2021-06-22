@@ -1,7 +1,18 @@
 
 
 {
+/*
+^int x = new;
+^int y = new;
+void g(^int x, int y){ if (y==0) delete x ; else { x^ = x^ - 1; g(x,y) ; delete x ;} }
+x^ = 5;
+y^ = 6;
+g(x,y);
+*/
 
-^^int x ; ^int y = new ; y^ = 1 ; x = new ; x^ = y ; print x^^ + 2 ;
-
+void f(int m, int n){
+	if (m>n) { print(m+n) ;}
+	else { int x = 1 ; f(m+1,n+1) ; }
+}
+f(5,4) ;
 }

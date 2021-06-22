@@ -14,7 +14,7 @@ public class NewExpNode implements Node, Cloneable {
 
     @Override
     public String toPrint(String s) {
-        return s+ "new"+" ";
+        return "new";
     }
 
     @Override

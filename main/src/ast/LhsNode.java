@@ -38,7 +38,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
     @Override
     public String toPrint(String s) {
         if(lhVar instanceof Node){
-            return s+ ((Node) lhVar).toPrint(s+ "") + "^ ";
+            return s+ ((Node) lhVar).toPrint("") + "^ ";
         }else {
             return s+ lhVar +"";
         }
