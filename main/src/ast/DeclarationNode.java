@@ -81,9 +81,7 @@ public class DeclarationNode implements Node, Cloneable{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
         ArrayList<SemanticError> res = new ArrayList();
-
            if (decVar!=null){
                decVar.setEffectDecFun(effectDecFun);
                res.addAll(decVar.checkSemantics(env));
@@ -91,7 +89,6 @@ public class DeclarationNode implements Node, Cloneable{
                decFun.setEffectDecFun(effectDecFun);
                res.addAll(decFun.checkSemantics(env));
            }
-
         return res;
     }
 

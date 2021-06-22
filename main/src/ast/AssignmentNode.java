@@ -71,9 +71,8 @@ public class AssignmentNode implements Node, Cloneable{
             System.out.println("Assignment type failed");
             System.exit(0);
         }
-        return new VoidNode(); // return void because this statement don't need to be checked in high level
-        // void -> f : void on upper level
-
+        // return void because this statement don't need to be checked in high level
+        return new VoidNode();
     }
 
     @Override
@@ -87,11 +86,10 @@ public class AssignmentNode implements Node, Cloneable{
             // getting the lhsEffects in the table
             int lhsEffects = ((LhsNode) lhs).getEffectsST();
             if (lhsEffects >= 0 && lhsEffects <= 1) {
+
                 // check if the left-side of the assignment is deleted or not,
                 // if we are here, the left-a-side is bottom or rw state
-
                 Node typeExp = exp.typeCheck();
-
 
                 // Pointer Reference Assignment
                 if(((exp instanceof DerExpNode))&&(typeExp instanceof PointerTypeNode)){
@@ -108,21 +106,15 @@ public class AssignmentNode implements Node, Cloneable{
                             counterLhs++;
                             counterExp++;
                         }
-
-
-
                     }else {
                         System.out.println("Wrong pointer assignment" );
                          System.exit(1);
                     }
-
                 }
-
-
                 ((LhsNode<?>) lhs).setEffectsST(1);
                 this.effectsST = 1;
-
                 // End of Pointer Reference Assignment
+
                 // Effect propagation checking
                 if (lhs instanceof LhsNode && exp instanceof DerExpNode){
 
@@ -144,20 +136,14 @@ public class AssignmentNode implements Node, Cloneable{
                         }
                         rightEntry.addPropagation(left.getId(), left.getCounter());
                     }
-
-
                 } else {
                     // nothing
                 }
-
-
-
                 // End Effect Propagation checking
             } else {
                 System.out.println("error: cannot find symbol " + ((LhsNode<?>) lhs).getId());
                 System.exit(0);
             }
-
         } else {
             // do nothing
         }
@@ -168,10 +154,10 @@ public class AssignmentNode implements Node, Cloneable{
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-        // lhs
+        // lhs setting on effectDecFun
         lhs.setEffectDecFun(this.effectDecFun);
         res.addAll(lhs.checkSemantics(env));
-        // exp
+        // exp setting on effectDecFun
         exp.setEffectDecFun(this.effectDecFun);
         res.addAll(exp.checkSemantics(env));
         if(res.size()==0){

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.Environment;
+import util.FixedPoint;
 import util.SemanticError;
 import util.SimpLanlib;
 
@@ -13,23 +14,26 @@ public class CallNode implements Node, Cloneable {
   private ArrayList<Node> exp;
   private STentry entry;
   private int effectDecFun;
-  private int counterRecursiveEffect=0;
+  private FixedPoint fixed;
   private Environment fixedPointEnv;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
     this.exp = exp;
+    fixed = new FixedPoint(0);
   }
 
   public CallNode(String id, ArrayList<Node> exp, STentry entry){
       this.id = id;
       this.exp = exp;
       this.entry = entry;
+      fixed = new FixedPoint(0);
   }
 
   public CallNode(String id){
       this.id = id;
       this.exp = new ArrayList<Node>();
+      fixed = new FixedPoint(0);
   }
 
     @Override
@@ -58,7 +62,7 @@ public class CallNode implements Node, Cloneable {
       this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
-          res.add(new SemanticError("Id " +this.id + " not declared"));
+          res.add(new SemanticError("Function " +this.id + " not declared"));
       } else{
           // decFun exists in the Environment
           ArrayList<int[]> pointerEffectStates = new ArrayList<>();
@@ -76,12 +80,9 @@ public class CallNode implements Node, Cloneable {
 
                   } else {
                       // is not a pointer
-
                   }
               }
-
                   res.addAll(e.checkSemantics(env));
-
           }
           DecFunNode referenceDec = entry.getReference();
 
@@ -92,17 +93,13 @@ public class CallNode implements Node, Cloneable {
           } else {
               // internal invocation
 
-
               referenceDec.setCallingDecFun(0);
               referenceDec.setPointerEffectStatesArg(pointerEffectStates);
-              if(this.counterRecursiveEffect == 0) {
-                  System.out.println("internal invocation CallNode " + counterRecursiveEffect);
-                  this.counterRecursiveEffect++;
+              if(this.fixed.getFixed() == 0) {
+                  System.out.println("internal invocation CallNode " + fixed.getFixed());
+                  this.fixed.setFixed(fixed.getFixed() + 1);
                   referenceDec.checkSemantics(env);
               }
-
-              /*
-
               int f;
               referenceDec.setCallingDecFun(0);
               referenceDec.setPointerEffectStatesArg(pointerEffectStates);
@@ -113,13 +110,11 @@ public class CallNode implements Node, Cloneable {
                   fixedPointEnv = env.clone();
                   ArrayList<HashMap<String,STentry>>  symTableFixed = fixedPointEnv.getSymTable();
                   ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
-                  if(this.counterRecursiveEffect == 0) {
+                  if(this.fixed.getFixed() == 0) {
 
                       System.out.println("internal invocation CallNode");
 
                       //fixed point computation
-
-
                       //first iteration of the fixed point on effects
                       referenceDec.checkSemantics(env);
 
@@ -127,7 +122,8 @@ public class CallNode implements Node, Cloneable {
                           for (Map.Entry<String, STentry> entry : symTableFinal.get(c).entrySet()) {
                               String key = entry.getKey();
                               int[] value = entry.getValue().getEffectState();
-                              int[] value2 = symTableFixed.get(c).get(key).getEffectState();//retrieve of the corresponding value in the second SymTable
+                             //retrieve of the corresponding value in the second SymTable
+                              int[] value2 = symTableFixed.get(c).get(key).getEffectState();
                               for(int i=0;i< value.length;i++){
                                   if(value[i]!=value2[i]){
                                       f=1; //there are some differences, needs a new iteration
@@ -141,7 +137,7 @@ public class CallNode implements Node, Cloneable {
 
               }while (f==1);
 
-              this.counterRecursiveEffect++; */
+              this.fixed.setFixed(fixed.getFixed() + 1);
           }
       }
 
@@ -156,6 +152,7 @@ public class CallNode implements Node, Cloneable {
             if(this.entry != null)
                 cloned.entry = (STentry) cloned.entry.clone();
 
+            cloned.fixed = this.fixed;
             cloned.exp = (ArrayList<Node>) this.exp.clone();
             return cloned;
         } catch(CloneNotSupportedException e){
@@ -197,7 +194,7 @@ public class CallNode implements Node, Cloneable {
         return 0;
     }
 
-
+    
 
 
 }  

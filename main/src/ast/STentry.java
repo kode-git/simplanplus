@@ -152,7 +152,7 @@ public class STentry implements Cloneable {
     // toPrint
 
     public String toPrint(String s) { //
-        String tmp = "------- STENTRY -----------\n";
+        String tmp = "--------- STENTRY ---------\n";
         tmp += s+"STentry: nestlev " + Integer.toString(nl) +"\n"+
                 s+"STentry: type " +
                 type.toPrint("") + "\n" +
@@ -163,7 +163,7 @@ public class STentry implements Cloneable {
         }
         tmp += "]\n";
         tmp +=  s+"STentry: offset " + Integer.toString(offset) + "\n";
-        tmp += "-----------------------\n";
+        tmp += "-------------------------\n";
         return tmp;
     }
 

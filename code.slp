@@ -1,18 +1,18 @@
 
 
 {
-/*
+
 ^int x = new;
 ^int y = new;
-void g(^int x, int y){ if (y==0) delete x ; else { x^ = x^ - 1; g(x,y) ; delete x ;} }
+void g(^int x, int y){ if (y==0) delete x ; else { x^ = x^ - 1; g(x,y) ; print x ;} }
+void h(^int x, int y){ if (y==0) print x ; else { x^ = x^ - 1; g(x,y) ; print x ;} }
 x^ = 5;
 y^ = 6;
+h(y,x);
 g(x,y);
-*/
 
-void f(int m, int n){
-	if (m>n) { print(m+n) ;}
-	else { int x = 1 ; f(m+1,n+1) ; }
-}
-f(5,4) ;
+
+
+//^^^int x ; ^^int y = new ; y^^ = 1 ; x = new ; x^ = y ; delete y ;
+
 }

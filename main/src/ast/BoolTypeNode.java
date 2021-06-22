@@ -12,7 +12,6 @@ public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
-
     public String toPrint(String s) {
 	return s+"BoolType ";
   }

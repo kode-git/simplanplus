@@ -57,7 +57,6 @@ public class CallExpNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         call.setEffectDecFun(this.effectDecFun);
         res.addAll(call.checkSemantics(env));

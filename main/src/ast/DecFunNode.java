@@ -208,23 +208,17 @@ public class DecFunNode implements Node, Cloneable {
             entry.setReference(this);
             entry.addType(new ArrowTypeNode(args, type));
         }
-
         env.setOffset(offset - 1);
-
         SemanticError err;
         if(effectDecFun == 1)
-            err = env.newVarNode(env.getNestingLevel(), this.id, entry);
+            err = env.addEntry(env.getNestingLevel(), this.id, entry);
         else
             err = null;
-
         if (err != null) {
             res.add(err);
         } else {
-
             env.setNestingLevel(env.getNestingLevel() + 1);
             env.addTable(new HashMap<String, STentry>());
-
-
             int i = 0;
             try {
                 for (Node arg : this.args) {
@@ -240,7 +234,6 @@ public class DecFunNode implements Node, Cloneable {
                             argNode.setPointerEffectStateArg(argEffectState);
                         }
                     }
-
                     res.addAll(argNode.checkSemantics(env)); // adding in table inside the args checkSemantics
                 }
             } catch(IndexOutOfBoundsException e){
@@ -267,10 +260,7 @@ public class DecFunNode implements Node, Cloneable {
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.args = (ArrayList<Node>) this.args.clone();
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
-
             return cloned;
-
-
         } catch(CloneNotSupportedException e){
             return null;
         }

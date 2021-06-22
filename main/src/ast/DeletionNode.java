@@ -83,7 +83,7 @@ public class DeletionNode implements Node, Cloneable{
 
                     STentry prop = env.lookup(env.getNestingLevel(), id);
                     int level = entry.getPropagation().get(id);
-                    System.out.println("Level of Propagation is: -------------> " + level);
+
                     for(int i = level; i >= 0; i--){
                         prop.setEffectState(i, 2); // propagation of delete
                     }

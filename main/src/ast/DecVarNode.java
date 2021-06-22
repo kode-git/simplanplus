@@ -109,7 +109,7 @@ public class DecVarNode implements Node, Cloneable {
             exp.setEffectDecFun(this.effectDecFun);
             res.addAll(this.exp.checkSemantics(env));
         }
-        SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
+        SemanticError err = env.addEntry( env.getNestingLevel(),this.id,  entry);
         if (err!=null) {
             res.add(err);
         }
