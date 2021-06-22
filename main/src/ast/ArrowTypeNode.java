@@ -61,9 +61,7 @@ public class ArrowTypeNode implements Node, Cloneable {
       ArrowTypeNode cloned = (ArrowTypeNode) super.clone();
       cloned.ret = (Node) this.ret.clone();
       cloned.argList = (ArrayList<Node>) this.argList.clone();
-      for(int i = 0; i < this.argList.size(); i++){
-        cloned.argList.set(i, (Node) this.argList.get(i).clone());
-      }
+
       return cloned;
     } catch(CloneNotSupportedException e){
       return null;

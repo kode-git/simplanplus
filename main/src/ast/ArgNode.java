@@ -101,7 +101,7 @@ public class ArgNode implements Node, Cloneable {
             if (this.pointerEffectStateArg!=null) {
                 entry.setEffectState(this.pointerEffectStateArg);
             }else {
-                //inizializzazione delle variabili effetto puntatore per check semantic iniziale
+                //
                 this.pointerEffectStateArg= new int[counter+1];
 
             }
@@ -120,9 +120,7 @@ public class ArgNode implements Node, Cloneable {
             cloned.type = (Node) type.clone();
             if(this.pointerEffectStateArg != null) {
                 cloned.pointerEffectStateArg = this.pointerEffectStateArg.clone();
-                for (int i = 0; i < pointerEffectStateArg.length; i++) {
-                    cloned.pointerEffectStateArg[i] = this.pointerEffectStateArg[i];
-                }
+
             }
             return cloned;
         } catch(CloneNotSupportedException e){
@@ -133,7 +131,6 @@ public class ArgNode implements Node, Cloneable {
     // private methods
 
     private int count(Node t){
-        System.out.println(t.getClass() + "is it arg?");
         if(t instanceof PointerTypeNode){
             return 1+count(((PointerTypeNode<?>) t).getVal());
         }else {

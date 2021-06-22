@@ -136,12 +136,10 @@ public class STentry implements Cloneable {
 
             cloned.effectState  = this.effectState.clone();
             if(this.reference!=null) {
+                System.out.println("Reference im STEntry cloned: " + this.reference.toPrint(""));
                 cloned.reference = (DecFunNode) this.reference.clone();
             }else {
                 cloned.reference = null;
-            }
-            for(int i = 0; i < this.effectState.length; i++){
-                cloned.setEffectState(i, effectState[i]);
             }
 
             return cloned;

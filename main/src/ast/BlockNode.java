@@ -129,14 +129,9 @@ public class BlockNode implements Node {
     public Node clone() {
         try{
             BlockNode cloned = (BlockNode) super.clone();
-            cloned.declarations = (ArrayList<Node>) this.declarations.clone();
-            cloned.statements = (ArrayList<Node>) this.statements.clone();
-            for(int i = 0; i < declarations.size(); i++){
-                cloned.declarations.add(declarations.get(i).clone());
-            }
-            for(int i = 0; i < statements.size(); i++){
-                cloned.statements.add(statements.get(i).clone());
-            }
+            cloned.declarations = new ArrayList<Node>();
+            cloned.statements = new ArrayList<Node>();
+
             return cloned;
         }
         catch(CloneNotSupportedException e){

@@ -158,9 +158,6 @@ public class CallNode implements Node, Cloneable {
             if(this.entry != null)
                 cloned.entry = (STentry) cloned.entry.clone();
             cloned.exp = (ArrayList<Node>) this.exp.clone();
-            for(int i = 0; i < exp.size(); i++){
-                cloned.exp.add(i, (Node) exp.get(i).clone());
-            }
             return cloned;
         } catch(CloneNotSupportedException e){
             return  null;

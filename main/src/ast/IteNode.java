@@ -179,9 +179,6 @@ public class IteNode implements Node, Cloneable{
             IteNode cloned = (IteNode) super.clone();
             cloned.st = (ArrayList<Node>) this.st.clone();
             cloned.exp = (Node) this.exp.clone();
-            for(int i = 0; i < this.st.size(); i++){
-                cloned.st.add(i, (Node) this.st.get(i).clone());
-            }
             return cloned;
         } catch(CloneNotSupportedException e){
             return null;

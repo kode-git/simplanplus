@@ -261,6 +261,7 @@ public class DecFunNode implements Node, Cloneable {
         try{
             DecFunNode cloned = (DecFunNode) super.clone();
             cloned.type = (Node) this.type.clone();
+            System.out.println("DecFun cloned block: " + this.block.toPrint(""));
             cloned.block = (BlockNode) this.block.clone();
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.args = (ArrayList<Node>) this.args.clone();
