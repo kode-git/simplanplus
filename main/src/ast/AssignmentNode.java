@@ -84,10 +84,18 @@ public class AssignmentNode implements Node, Cloneable{
     @Override
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
+            // getting the lhsEffects in the table
             int lhsEffects = ((LhsNode) lhs).getEffectsST();
             if (lhsEffects >= 0 && lhsEffects <= 1) {
+                // check if the left-side of the assignment is deleted or not,
+                // if we are here, the left-a-side is bottom or rw state
+
                 Node typeExp = exp.typeCheck();
+
+
+                // Pointer Reference Assignment
                 if(((exp instanceof DerExpNode))&&(typeExp instanceof PointerTypeNode)){
+                    // Pointer assignment when x = exp, exp is a DerExp with LhsNode as PointerType
                     int diffCount= (((LhsNode<?>) lhs).getCounterST()-((LhsNode<?>) lhs).getCounter());
                     LhsNode<?> myDerExp = ((LhsNode<?>)((DerExpNode)exp).getDerExp());
                     if(diffCount
@@ -113,13 +121,51 @@ public class AssignmentNode implements Node, Cloneable{
 
                 ((LhsNode<?>) lhs).setEffectsST(1);
                 this.effectsST = 1;
+
+                // End of Pointer Reference Assignment
+                // Effect propagation checking
+                if (lhs instanceof LhsNode && exp instanceof DerExpNode){
+
+                    LhsNode left = (LhsNode) lhs;
+                    LhsNode right = (LhsNode) ((DerExpNode) exp).getDerExp();
+
+                    if(left.getCounterST() > 0 && right.getCounterST() > 0) {
+                        // in this case they are pointer
+                        // adding propagation to the left from the right
+                        // this is needed to focus the deletion on EffectState[] of the rightEntry from the Counter to 0 index equals to d
+                        /*
+                        Case:
+                            x^^ = new, y^^ = new; y ^ = 3; x^ = y; x.propagation[ y : 0 ]
+                        */
+                        // getting the entry of the left and right terms
+                        STentry leftEntry = left.getEntry();
+                        STentry tmp = env.lookup(env.getNestingLevel(), right.getId());
+                        if (tmp == null) {
+                            // this case is caught from checkSemantics
+                            System.out.println("cannot find symbol " + right.getId());
+                            System.exit(1);
+                        }
+                        leftEntry.addPropagation(right.getId(), right.getCounter());
+                    }
+
+
+                } else {
+                    // nothing
+                }
+
+
+
+                // End Effect Propagation checking
             } else {
-                System.out.println("error: cannot find symbol " + lhs.toPrint(""));
+                System.out.println("error: cannot find symbol " + ((LhsNode<?>) lhs).getId());
                 System.exit(0);
             }
 
         } else {
             // do nothing
+        }
+        if(lhs instanceof LhsNode){
+            System.out.println(((LhsNode) lhs).getEntry().toPrint("lhs "));
         }
         return 1;
     }

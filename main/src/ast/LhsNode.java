@@ -156,6 +156,17 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
         return null;
     }
 
+    public String getId(){
+        T value = lhVar;
+        if(value instanceof String){
+            return (String) value;
+        } else {
+            while ((value instanceof LhsNode)) {
+                value = (T) ((LhsNode<?>) value).getLhVar();
+            }
+            return (String) value;
+        }
+    }
     @Override
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
@@ -165,10 +176,8 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
                 effectsST = myEntry.getEffectState(counter); // 0 because is a string
             } else {
                 T myVar = lhVar;
-                while ((myVar instanceof LhsNode)) {
-                    myVar = (T) ((LhsNode<?>) myVar).getLhVar();
-                }
-                myEntry = env.lookup(env.getNestingLevel(), (String) myVar);
+                String id = this.getId();
+                myEntry = env.lookup(env.getNestingLevel(), id);
                 effectsST = myEntry.getEffectState(counter);
             }
         } else {

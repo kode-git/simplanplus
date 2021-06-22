@@ -73,7 +73,6 @@ public class Environment implements Cloneable {
 
 
 
-	// TODO checking if there are NullPointerException for clone() invocation on some Node
 	public Environment clone(){
 		try{
 			Environment cloned = (Environment) super.clone();
