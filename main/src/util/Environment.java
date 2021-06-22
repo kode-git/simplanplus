@@ -83,7 +83,6 @@ public class Environment implements Cloneable {
 				HashMap<String, STentry> newMap = new HashMap<String, STentry>();
 				for (Map.Entry<String, STentry> entry : this.symTable.get(c).entrySet()) {
 					// entry of the HashMap c
-
 					newMap.put(entry.getKey(), (STentry) entry.getValue().clone());
 				}
 				cloned.symTable.add(c, newMap);

@@ -233,6 +233,7 @@ public class DecFunNode implements Node, Cloneable {
                         if (argNode.getCounter() > 0) {
                             // this is a pointer arg
                             int[] argEffectState = this.getPointerEffectStatesArg().get(i);
+                            System.out.println("ARG: " + argEffectState[i]);
 
                             i = i + 1;
 
@@ -265,16 +266,8 @@ public class DecFunNode implements Node, Cloneable {
             cloned.block = (BlockNode) this.block.clone();
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.args = (ArrayList<Node>) this.args.clone();
-            for(int i = 0; i < args.size(); i++){
-                cloned.args.add(i, (Node) this.args.get(i).clone());
-            }
-            for(int i = 0; i < pointerEffectStatesArg.size(); i++){
-                int[] tmp = new int[pointerEffectStatesArg.get(i).length]; // void int[]
-                for(int j = 0; j < pointerEffectStatesArg.get(i).length; j++){
-                    tmp[j] = pointerEffectStatesArg.get(i)[j];
-                }
-                cloned.pointerEffectStatesArg.set(i, tmp);
-            }
+            cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
+
             return cloned;
 
 
