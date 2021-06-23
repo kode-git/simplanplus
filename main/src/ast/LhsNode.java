@@ -141,12 +141,6 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
             }
             return entry.getType();
 
-        /*
-            if ((entry.getType() instanceof PointerTypeNode)) {
-                System.out.println("this type" + entry.getType().typeCheck());
-                return entry.getType().typeCheck();
-            }
-            return ((LhsNode) lhVar).typeCheck();  */
         }
     }
 
@@ -192,8 +186,6 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
         STentry myEntry=null;
         if (lhVar instanceof String) {
              myEntry = env.lookup( env.getNestingLevel(), (String)lhVar);
-
-
             if (myEntry == null) {
                 res.add(new SemanticError("Id " + (String)lhVar + " not declared"));
             } else {
@@ -201,17 +193,13 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
                 this.nestingLevel = env.getNestingLevel();
                 this.counterST= myEntry.getPointerCounter();
             }
-
         }else{
 
+            String id = this.getId();
+            myEntry = env.lookup( env.getNestingLevel(), id);
 
-            T myVar =  lhVar;
-            while ((myVar instanceof LhsNode)) {
-                myVar = (T) ((LhsNode<?>) myVar).getLhVar();
-            }
-            myEntry = env.lookup( env.getNestingLevel(), (String)myVar);
             if (myEntry == null) {
-                res.add(new SemanticError("Id " + (String)myVar + " not declared"));
+                res.add(new SemanticError("Id " + id + " not declared"));
             } else {
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();
@@ -225,8 +213,6 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
         }
 
         return res;
-
-
     }
 
     @Override

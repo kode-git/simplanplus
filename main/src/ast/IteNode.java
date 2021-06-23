@@ -113,14 +113,36 @@ public class IteNode implements Node, Cloneable{
     }
 
 
-    public int checkEffects(Environment env) {
-        return 0;
+    /*
+    checkEffects :: [Environment, Environment, Environment] -> void
+    Environment env :: Environment before the iteration effects control
+    Environment env1 :: Environment with effects of the if condition
+    Environment env2 :: Environment with effects of the else condition
+
+    Rule :: env :-> if(e) st1 else st2 : max(env1, env2)
+    */
+    public void checkEffects(Environment env, Environment env1, Environment env2) {
+
+        ArrayList<HashMap<String,STentry>>  symTable1 = env1.getSymTable();
+        ArrayList<HashMap<String,STentry>>  symTable2 = env2.getSymTable();
+        ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
+        for(int c=0; c<symTable1.size();c++){
+            for (Map.Entry<String, STentry> entry : symTable1.get(c).entrySet()) {
+                String key = entry.getKey();
+                int[] value = entry.getValue().getEffectState();
+                int[] value2 = symTable2.get(c).get(key).getEffectState(); //retrieve of the corresponding value in the second SymTable
+                for(int i=0;i< value.length;i++){
+                    if(value[i]>value2[i]){ // set the effect state to the worst case :: max[a,b] = a : a > b
+                        symTableFinal.get(c).get(key).setEffectState(i,value[i]);
+                    }else {
+                        symTableFinal.get(c).get(key).setEffectState(i,value2[i]);
+                    }
+                }
+            }
+        }
     }
 
-
-
-//TODO Moved env.clone() before the st.get(i).checkSemantics(env_cloned)
-//Possible solution of the Bug: Divide the checkEffect from checkSemantics
+    
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
@@ -137,37 +159,13 @@ public class IteNode implements Node, Cloneable{
             Environment env2 = env.clone();
 
             res.addAll(st.get(0).checkSemantics(env1));
-
             res.addAll(st.get(1).checkSemantics(env2));
-
-            ArrayList<HashMap<String,STentry>>  symTable1 = env1.getSymTable();
-            ArrayList<HashMap<String,STentry>>  symTable2 = env2.getSymTable();
-            ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
-            for(int c=0; c<symTable1.size();c++){
-                for (Map.Entry<String, STentry> entry : symTable1.get(c).entrySet()) {
-                    String key = entry.getKey();
-                    int[] value = entry.getValue().getEffectState();
-                    int[] value2 = symTable2.get(c).get(key).getEffectState(); //retrieve of the corresponding value in the second SymTable
-                    for(int i=0;i< value.length;i++){
-                        if(value[i]>value2[i]){
-                            symTableFinal.get(c).get(key).setEffectState(i,value[i]);
-                        }else {
-                            symTableFinal.get(c).get(key).setEffectState(i,value2[i]);
-                        }
-                    }
-                }
-            }
-
+            this.checkEffects(env, env1, env2);
 
         }else {
                 st.get(0).setEffectDecFun(this.effectDecFun);
                 res.addAll(st.get(0).checkSemantics(env));
 
-        }
-
-        if(res.size() == 0){
-            // checking variables to block effect changing in stat.checkSemantics(env)
-            this.checkEffects(env);
         }
 
         return res;

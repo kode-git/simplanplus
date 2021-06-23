@@ -11,15 +11,11 @@ public class STentry implements Cloneable {
     private int offset;
     private int pointerCounter; // pointer counter inside the table
     private int effectState[]; // current effect state
+
     /*
     HashMap<STEntry, Integer>::
     STEntry :: reference to the element to propagate the effect state
     Integer :: the level of assignment
-
-    Case:
-    x^ = y; [x -> rw, y -> rw]
-    delete y; [x^ -> d, y -> d]
-    Entry(y).HashMap |-> [Entry(x) : 1] || x^
      */
 
     private HashMap<String,Integer> propagation = new HashMap<String, Integer>();

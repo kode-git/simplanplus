@@ -48,7 +48,6 @@ public class PrintNode implements Node, Cloneable {
 
   @Override
  	public ArrayList<SemanticError> checkSemantics(Environment env) {
-
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
       val.setEffectDecFun(this.effectDecFun);
       res.addAll(val.checkSemantics(env));
