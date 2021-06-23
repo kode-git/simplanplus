@@ -167,7 +167,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
             return (String) value;
         }
     }
-    @Override
+
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
             STentry myEntry = null;

@@ -64,7 +64,7 @@ public class DerExpNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         STentry myEntry=null;
         if(effectDecFun == 0) {

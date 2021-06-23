@@ -74,7 +74,7 @@ public class ArrowTypeNode implements Node, Cloneable {
 		return "";
   }
 
-  @Override
+
   public int checkEffects(Environment env) {
     return 0;
   }

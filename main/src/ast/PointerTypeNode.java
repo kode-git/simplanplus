@@ -72,7 +72,7 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
         return "push "+val+"\n";
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }

@@ -26,7 +26,7 @@ public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
 		return "";
   }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }

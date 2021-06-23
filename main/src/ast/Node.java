@@ -14,8 +14,6 @@ public interface Node extends Cloneable {
 
   String codeGeneration();
 
-  int checkEffects(Environment env);
-
   void setEffectDecFun(int effectDecFun);
 
   ArrayList<SemanticError> checkSemantics(Environment env);

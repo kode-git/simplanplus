@@ -64,7 +64,6 @@ public class DeletionNode implements Node, Cloneable{
         return null;
     }
 
-    @Override
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
 

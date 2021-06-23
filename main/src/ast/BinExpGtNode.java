@@ -67,7 +67,7 @@ public class BinExpGtNode implements Node , Cloneable{
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }

@@ -27,7 +27,7 @@ public class NewExpNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }

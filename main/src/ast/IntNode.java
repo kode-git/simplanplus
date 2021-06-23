@@ -44,7 +44,7 @@ public class IntNode implements Node, Cloneable {
 	return "push "+val+"\n";
   }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }

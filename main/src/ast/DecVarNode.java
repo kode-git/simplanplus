@@ -149,7 +149,7 @@ public class DecVarNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         STentry myEntry = env.lookup(env.getNestingLevel(), id);
         if(effectDecFun == 0) {

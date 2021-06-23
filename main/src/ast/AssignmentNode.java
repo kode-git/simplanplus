@@ -80,7 +80,7 @@ public class AssignmentNode implements Node, Cloneable{
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
             // getting the lhsEffects in the table
