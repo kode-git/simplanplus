@@ -75,18 +75,7 @@ public class ArgNode implements Node, Cloneable {
     }
 
 
-    public int checkEffects(Environment env) {
-        return 0;
-    }
-
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        // not used because arguments is always child of a DecFun
-    }
-
-    @Override
-    public ArrayList<SemanticError> checkSemantics(Environment env) {
-        ArrayList<SemanticError> res = new ArrayList();
+    public SemanticError checkEffects(Environment env) {
         int offset=env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), this.type, offset,counter);
         env.setOffset(--offset);
@@ -105,6 +94,18 @@ public class ArgNode implements Node, Cloneable {
             }
             err = env.addEntry(env.getNestingLevel(), this.id, entry); // this is the case of pointer
         }
+        return err;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used because arguments is always child of a DecFun
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList();
+        SemanticError err = checkEffects(env);
         if (err!=null){
             res.add(err);
         }

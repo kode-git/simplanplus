@@ -69,12 +69,10 @@ public class DerExpNode implements Node, Cloneable {
         STentry myEntry=null;
         if(effectDecFun == 0) {
             if (derExp instanceof LhsNode) {
-                // lhs
-                //effectsST=derExp.checkEffects(env);
+                // derExp :: LhsNode
                 effectsST = ((LhsNode<?>) derExp).getEffectsST();
-
             } else {
-                // id
+                // derExp :: String
                 myEntry = env.lookup(env.getNestingLevel(), derExp + "");
                 effectsST = myEntry.getEffectState(0);
             }
@@ -98,14 +96,14 @@ public class DerExpNode implements Node, Cloneable {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         STentry myEntry=null;
         if(derExp instanceof LhsNode) {
-            // lhs
+            // derExp :: LhsNode
             derExp.setEffectDecFun(this.effectDecFun);
             res.addAll(derExp.checkSemantics(env));
         } else {
-            // id
+            // derExp :: String
             myEntry=env.lookup(env.getNestingLevel(), derExp + "");
             if(myEntry==null){
-                    res.add(new SemanticError("Id " + derExp + " not declared"));
+                res.add(new SemanticError("Id " + derExp + " not declared"));
             }
         }
         if(res.size()==0 && effectDecFun == 0) {

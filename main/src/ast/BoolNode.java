@@ -45,7 +45,7 @@ public class BoolNode implements Node, Cloneable {
 		return "push "+(val?1:0)+"\n";
 	  }
 
-
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }

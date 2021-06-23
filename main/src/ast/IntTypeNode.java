@@ -7,26 +7,26 @@ import util.SemanticError;
 
 public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
   
-  public IntTypeNode () {
-  }
+
+    public IntTypeNode () {}
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
-    public String toPrint(String s) {
-	return s+"IntType ";
-  }
-  
 
-  public Node typeCheck() {
+    public String toPrint(String s) {
+	    return s+"IntType ";
+    }
+
+    public Node typeCheck() {
     return null;
   }
 
-
-  public String codeGeneration() {
+    public String codeGeneration() {
 		return "";
   }
 
 
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }
@@ -38,7 +38,6 @@ public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
 
     @Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-
 	  return new ArrayList<SemanticError>();
 	}
 

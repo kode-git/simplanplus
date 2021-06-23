@@ -42,7 +42,7 @@ public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
 		return "";
   }
 
-
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }

@@ -110,8 +110,6 @@ public class CallNode implements Node, Cloneable {
           // decFun doesn't exist in the Environment
           res.add(new SemanticError("Function " +this.id + " not declared"));
       } else{
-          // decFun exists in the Environment
-          ArrayList<int[]> pointerEffectStates = new ArrayList<>();
           for(Node e : this.exp){
               e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
               if(e instanceof DerExpNode) {
@@ -119,41 +117,13 @@ public class CallNode implements Node, Cloneable {
                   LhsNode value = (LhsNode) derExp.getDerExp();
                   value.setEffectDecFun(this.effectDecFun);
                   value.checkSemantics(env);
-                  if (value.getEntry().getPointerCounter() > 0) {
-                      // this is a pointer
-                      STentry entry = value.getEntry();
-                      pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
-
-                  } else {
-                      // is not a pointer
-                  }
               }
-                  res.addAll(e.checkSemantics(env));
+              res.addAll(e.checkSemantics(env));
           }
-          DecFunNode function = entry.getReference();
-
-          if(this.effectDecFun != 0){
-            // main invocation
-              System.out.println("main recursive CallNode");
-
-          } else {
-              // internal invocation
-
-              function.setCallingDecFun(0);
-              function.setPointerEffectStatesArg(pointerEffectStates);
-              if(this.fixed.getPoint() == 0) {
-                  this.fixed.setPoint(fixed.getPoint() + 1);
-                  function.checkSemantics(env);
-              }
-
-              function.setCallingDecFun(0);
-              function.setPointerEffectStatesArg(pointerEffectStates);
-              this.fixed.fixedPointFunc(env, function, this.fixed.getPoint());
-              this.fixed.setPoint(fixed.getPoint() + 1);
-          }
+          res.addAll(checkEffects(env));
       }
       return res;
-  } // end of checkSemantics
+  }
 
     @Override
     public Node clone() {
@@ -200,8 +170,46 @@ public class CallNode implements Node, Cloneable {
   }
 
 
-    public int checkEffects(Environment env) {
-        return 0;
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        // we enter in the checkEffects only when the function is declared and is in the Environment
+        ArrayList<int[]> pointerEffectStates = new ArrayList<>();
+        for(Node e : this.exp){
+            if(e instanceof DerExpNode) {
+                DerExpNode derExp = (DerExpNode) e;
+                LhsNode value = (LhsNode) derExp.getDerExp();
+                if (value.getEntry().getPointerCounter() > 0) {
+                    // this is a pointer
+                    STentry entry = value.getEntry();
+                    pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
+
+                } else {
+                    // is not a pointer and didn't manage effects for these kinds of parameters
+                }
+            }
+            res.addAll(e.checkSemantics(env));
+        }
+        DecFunNode function = entry.getReference();
+
+        if(this.effectDecFun != 0){
+            // main invocation
+            // do nothing
+        } else {
+            // internal invocation with fixed point
+            function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
+            function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
+            if(this.fixed.getPoint() == 0) {
+                this.fixed.setPoint(fixed.getPoint() + 1);
+                function.checkSemantics(env);
+            }
+
+            function.setCallingDecFun(0);
+            function.setPointerEffectStatesArg(pointerEffectStates);
+            this.fixed.fixedPointFunc(env, function, this.fixed.getPoint()); // calling fixed point procedure
+            this.fixed.setPoint(fixed.getPoint() + 1); // setting minimum fixed point
+        }
+
+        return res;
     }
 
 

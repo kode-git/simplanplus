@@ -136,7 +136,6 @@ public class BlockNode implements Node {
 
 
     //Not used
-
     public int checkEffects(Environment env)
     {
         return 0;

@@ -155,7 +155,6 @@ public class DecVarNode implements Node, Cloneable {
         if(effectDecFun == 0) {
             // is not a function block
             this.effectsST = myEntry.getEffectState(0);
-
             if (this.effectsST == 0) {
                 myEntry.setEffectState(0, 1);
                 this.effectsST = 1;

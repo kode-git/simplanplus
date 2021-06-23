@@ -147,7 +147,7 @@ public class IteNode implements Node, Cloneable{
                 for (Map.Entry<String, STentry> entry : symTable1.get(c).entrySet()) {
                     String key = entry.getKey();
                     int[] value = entry.getValue().getEffectState();
-                    int[] value2 = symTable2.get(c).get(key).getEffectState();//retrieve of the corresponding value in the second SymTable
+                    int[] value2 = symTable2.get(c).get(key).getEffectState(); //retrieve of the corresponding value in the second SymTable
                     for(int i=0;i< value.length;i++){
                         if(value[i]>value2[i]){
                             symTableFinal.get(c).get(key).setEffectState(i,value[i]);

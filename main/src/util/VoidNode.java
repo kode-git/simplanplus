@@ -31,7 +31,7 @@ public class VoidNode implements Node {
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }
