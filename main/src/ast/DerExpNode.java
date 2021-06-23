@@ -59,11 +59,6 @@ public class DerExpNode implements Node, Cloneable {
         this.derExp = derExp;
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
 
     public int checkEffects(Environment env) {
         STentry myEntry=null;
@@ -122,4 +117,10 @@ public class DerExpNode implements Node, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

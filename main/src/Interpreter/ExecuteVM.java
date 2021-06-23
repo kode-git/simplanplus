@@ -123,8 +123,9 @@ public class ExecuteVM {
                 System.out.println((sp<MEMSIZE)?memory[sp]:"Empty stack!");
                 break;
              case SVMParser.HALT :
-            	//to print the result 
-             	System.out.println("\nResult: " + memory[sp] + "\n");
+                 // TODO: Check if this result is necessary
+            	//to print the result
+             	//System.out.println("\nResult: " + memory[sp] + "\n");
              	return;
             }
     	} 

@@ -145,11 +145,6 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
     }
 
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     public String getId(){
         T value = lhVar;
         if(value instanceof String){
@@ -233,6 +228,11 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
         } catch(CloneNotSupportedException e){
             return null;
         }
+    }
+
+    @Override
+    public String codeGeneration() {
+        return "";
     }
 
 }

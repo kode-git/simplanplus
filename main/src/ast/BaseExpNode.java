@@ -53,10 +53,6 @@ public class BaseExpNode implements Node, Cloneable {
     @Override
     public Node typeCheck() { return exp.typeCheck(); }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
 
     // not used
     public int checkEffects(Environment env) {
@@ -83,5 +79,10 @@ public class BaseExpNode implements Node, Cloneable {
         } catch(CloneNotSupportedException e){
             return null;
         }
+    }
+
+    @Override
+    public String codeGeneration() {
+        return exp.codeGeneration();
     }
 }

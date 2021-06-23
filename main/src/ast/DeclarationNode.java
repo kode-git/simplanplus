@@ -112,7 +112,6 @@ public class DeclarationNode implements Node, Cloneable{
     }
 
     // assignNode
-
     private void assignNode(Node node){
         if(node instanceof DecVarNode){
             // It is a DecVarNode

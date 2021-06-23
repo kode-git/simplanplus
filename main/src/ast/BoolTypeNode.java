@@ -38,7 +38,7 @@ public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
     }
 
     //not used
-  public String codeGeneration() {
+    public String codeGeneration() {
 		return "";
   }
 

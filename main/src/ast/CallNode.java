@@ -16,11 +16,13 @@ public class CallNode implements Node, Cloneable {
   private int effectDecFun;
   private FixedPoint fixed;
   private Environment fixedPointEnv;
+  private int nestinglevel;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
     this.exp = exp;
     fixed = new FixedPoint(0);
+    nestinglevel = 0;
   }
 
   public CallNode(String id, ArrayList<Node> exp, STentry entry){
@@ -28,13 +30,26 @@ public class CallNode implements Node, Cloneable {
       this.exp = exp;
       this.entry = entry;
       fixed = new FixedPoint(0);
+      nestinglevel = 0;
   }
 
   public CallNode(String id){
       this.id = id;
       this.exp = new ArrayList<Node>();
       fixed = new FixedPoint(0);
+      nestinglevel = 0;
   }
+
+  // getter and setter
+
+
+    public int getNestinglevel() {
+        return nestinglevel;
+    }
+
+    public void setNestinglevel(int nestinglevel) {
+        this.nestinglevel = nestinglevel;
+    }
 
     public String getId() {
         return id;
@@ -97,14 +112,15 @@ public class CallNode implements Node, Cloneable {
       for(Node expNode : this.exp){
             exp += expNode.toPrint(s + "");
       }
-
-      return first + exp + last;
+      String nestingLevel = " :: " + "nesting level " + this.nestinglevel;
+        return first + exp + last + nestingLevel ;
     }
 
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
       int nestingLevel = env.getNestingLevel();
+      this.nestinglevel =nestingLevel; // setting of the nesting Level of the calling invocation
       this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
@@ -164,10 +180,6 @@ public class CallNode implements Node, Cloneable {
       }
       return t.getRet();
   }
-  
-  public String codeGeneration() {
-	    return null;
-  }
 
 
     public ArrayList<SemanticError> checkEffects(Environment env) {
@@ -211,6 +223,39 @@ public class CallNode implements Node, Cloneable {
 
         return res;
     }
+
+    // TODO: Checking Offset
+    public String codeGeneration() {
+        String parameters = "" ;
+        for (int i=exp.size()-1; i>=0; i--)
+            parameters += exp.get(i).codeGeneration(); // codeGen of the exp
+
+        String getAR = "";
+        for (int i=0; i < nestinglevel-entry.getNestinglevel(); i++)
+            getAR += "lw\n"; // checking the decFun declarations visiting with the use of ARs
+        /*
+            AR format :
+          ---------------
+          control_link
+          parameters
+          access_link
+          local_declarations
+          ---------------
+         */
+
+        return "lfp\n"+ 				// push $fp
+
+                parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0
+                "lfp\n"+getAR+ 		// setting AL going up on the static chain
+                // get the jump address and put it on the stack
+                "push "+ entry.getOffset()+"\n"+ // setting of the offset on the stack
+                "lfp\n"+getAR+ 		// going up on the static chain on the decFun AR
+                "add\n"+
+                "lw\n"+ 				// update on the stack the obtained address
+                "js\n";                 // doing js on the address ($ra)s
+    }
+
+
 
 
 

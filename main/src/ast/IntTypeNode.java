@@ -21,9 +21,6 @@ public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
     return null;
   }
 
-    public String codeGeneration() {
-		return "";
-  }
 
 
     // not used
@@ -49,6 +46,10 @@ public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
         } catch(CloneNotSupportedException e){
             return null;
         }
+    }
+
+    public String codeGeneration() {
+        return "";
     }
 
 }  

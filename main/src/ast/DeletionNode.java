@@ -59,11 +59,6 @@ public class DeletionNode implements Node, Cloneable{
         return new VoidNode(); // called only in case of delete as last statement of block
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     /*
     propagateDelete :: [Environment, STentry] -> void
     Environment env :: the current environment of the checkSemantics
@@ -131,4 +126,10 @@ public class DeletionNode implements Node, Cloneable{
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

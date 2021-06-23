@@ -24,7 +24,6 @@ public class DecVarNode implements Node, Cloneable {
        this.counter= count(this.typeNode);
     }
 
-
     public DecVarNode (Node myType, String id, Node exp) {
         this.typeNode = myType;
         this.id = id;
@@ -75,8 +74,6 @@ public class DecVarNode implements Node, Cloneable {
     public int getEffectDecFun() {
         return effectDecFun;
     }
-
-
 
     @Override
     public void setEffectDecFun(int effectDecFun) {
@@ -171,9 +168,8 @@ public class DecVarNode implements Node, Cloneable {
         }
     }
 
-
     public String codeGeneration() {
-
+        return "";
     }
 
 }

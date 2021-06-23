@@ -64,12 +64,6 @@ public class BinExpDivNode implements Node , Cloneable{
     }
 
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
-
     // not used
     public int checkEffects(Environment env) { return 0; }
 
@@ -95,5 +89,12 @@ public class BinExpDivNode implements Node , Cloneable{
         } catch(CloneNotSupportedException e){
             return null;
         }
+    }
+
+    @Override
+    public String codeGeneration() {
+        return left.codeGeneration() +      // cgen(stable, left)
+                right.codeGeneration() +     // cgen(stable, right)
+                "div\n";                     // div
     }
 }

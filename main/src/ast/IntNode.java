@@ -38,10 +38,6 @@ public class IntNode implements Node, Cloneable {
     }
   }
 
-  public String codeGeneration() {
-	return "push "+val+"\n";
-  }
-
   // not used
   public int checkEffects(Environment env) {
         return 0;
@@ -50,6 +46,10 @@ public class IntNode implements Node, Cloneable {
   @Override
   public void setEffectDecFun(int effectDecFun) {
     // not used
+  }
+
+  public String codeGeneration() {
+    return "push "+val+"\n";
   }
 
 }  

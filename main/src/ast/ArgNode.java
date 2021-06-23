@@ -69,11 +69,6 @@ public class ArgNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
 
     public SemanticError checkEffects(Environment env) {
         int offset=env.getOffset();
@@ -136,5 +131,11 @@ public class ArgNode implements Node, Cloneable {
         }
     }
 
+
+    // not used, arguments are taken from parameters in callNode.codeGeneration()
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
 
 }

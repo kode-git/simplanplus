@@ -75,12 +75,6 @@ public class AssignmentNode implements Node, Cloneable{
         return new VoidNode();
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
-
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
             // getting the lhsEffects in the table
@@ -177,5 +171,17 @@ public class AssignmentNode implements Node, Cloneable{
         } catch(CloneNotSupportedException e){
             return null;
         }
+    }
+
+    /*
+    gen(stable,x) =
+          lw $al 0($fp)
+          for (i=0;
+               i < nesting_level - lookup(stable, x).nesting_level; i++) lw $al 0($al) ;
+                    lw $a0 lookup(stable, x).offset($al) ;
+     */
+    @Override
+    public String codeGeneration() {
+        return "";
     }
 }

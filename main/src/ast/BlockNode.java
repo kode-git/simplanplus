@@ -176,7 +176,7 @@ public class BlockNode implements Node {
             out+=dec.codeGeneration();
         for (Node st : statements)
             out+=st.codeGeneration();
-        return out;
+        return out; // halt is added in the Test.java
     }
 
 

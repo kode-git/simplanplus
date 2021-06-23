@@ -53,11 +53,6 @@ public class RetNode implements Node, Cloneable{
         return exp.typeCheck();
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     // not used
     public int checkEffects(Environment env) {
         return 0;
@@ -86,4 +81,12 @@ public class RetNode implements Node, Cloneable{
             return null;
         }
     }
+
+
+    // TODO: ToCheck with the callNode and decFunNode code generation
+    @Override
+    public String codeGeneration() {
+        return exp.codeGeneration();
+    }
+
 }
