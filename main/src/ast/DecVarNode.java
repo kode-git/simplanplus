@@ -145,9 +145,6 @@ public class DecVarNode implements Node, Cloneable {
         // void -> f : void on upper level
     }
 
-    public String codeGeneration() {
-        return null;
-    }
 
 
     public int checkEffects(Environment env) {
@@ -175,5 +172,8 @@ public class DecVarNode implements Node, Cloneable {
     }
 
 
+    public String codeGeneration() {
+
+    }
 
 }

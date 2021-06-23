@@ -5,12 +5,16 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+import Interpreter.ExecuteVM;
+import ast.SVMVisitorImpl;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 //import Interpreter.ExecuteVM;
 
 import org.antlr.v4.runtime.misc.ParseCancellationException;
+import parser.SVMLexer;
+import parser.SVMParser;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
 //import parser.SVMLexer;
@@ -78,8 +82,8 @@ public class Test {
 
         System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
-/*
-				// CODE GENERATION  prova.SimpLanPlus.asm
+
+				// CODE GENERATION
 				String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
 				out.write(code);
@@ -103,7 +107,7 @@ public class Test {
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();
-			}    */
+
 
         } catch(ParseCancellationException e){
             System.out.println("The program was not in the right format. Exiting the compilation process now");

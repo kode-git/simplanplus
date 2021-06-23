@@ -130,10 +130,6 @@ public class BlockNode implements Node {
         }
     }
 
-    public String codeGeneration() {
-        return null;
-    }
-
 
     //Not used
     public int checkEffects(Environment env)
@@ -172,6 +168,15 @@ public class BlockNode implements Node {
 
         }
         return hasIteRet; // cases where ite has return statement but DecFunc doesn't
+    }
+
+    public String codeGeneration() {
+        String out="";
+        for (Node dec : declarations)
+            out+=dec.codeGeneration();
+        for (Node st : statements)
+            out+=st.codeGeneration();
+        return out;
     }
 
 

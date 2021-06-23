@@ -64,10 +64,6 @@ public class DeclarationNode implements Node, Cloneable{
         }
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
 
     // not used
     public int checkEffects(Environment env) {
@@ -128,4 +124,16 @@ public class DeclarationNode implements Node, Cloneable{
             this.decVar = null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        if(decVar==null){
+            // It is a DecFunNode
+            return decFun.codeGeneration();
+        } else {
+            // else is a DecFunNode
+            return  decVar.codeGeneration();
+        }
+    }
+
 }
