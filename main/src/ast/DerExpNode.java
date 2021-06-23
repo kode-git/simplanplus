@@ -60,7 +60,8 @@ public class DerExpNode implements Node, Cloneable {
     }
 
 
-    public int checkEffects(Environment env) {
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
         STentry myEntry=null;
         if(effectDecFun == 0) {
             if (derExp instanceof LhsNode) {
@@ -72,16 +73,16 @@ public class DerExpNode implements Node, Cloneable {
                 effectsST = myEntry.getEffectState(0);
             }
             if (effectsST == 0) {
-                System.out.println("error: variable " + derExp.toPrint("") + " not initialized");
-                System.exit(0);
+                res.add(new SemanticError("error: variable " + derExp.toPrint("") + " not initialized"));
+
             } else if (effectsST == 2) {
-                System.out.println("error: variable " + derExp.toPrint("") + " previously deleted");
-                System.exit(0);
+                res.add(new SemanticError("error: variable " + derExp.toPrint("") + " previously deleted"));
+
             }
         } else {
             // do nothing
         }
-        return effectsST;
+        return res;
     }
 
 
@@ -98,11 +99,11 @@ public class DerExpNode implements Node, Cloneable {
             // derExp :: String
             myEntry=env.lookup(env.getNestingLevel(), derExp + "");
             if(myEntry==null){
-                res.add(new SemanticError("Id " + derExp + " not declared"));
+                res.add(new SemanticError("error: Id " + derExp + " not declared"));
             }
         }
         if(res.size()==0 && effectDecFun == 0) {
-            this.checkEffects(env);
+            res.addAll(this.checkEffects(env));
         }
         return res;
     }

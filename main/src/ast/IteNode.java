@@ -155,7 +155,8 @@ public class IteNode implements Node, Cloneable{
 
             res.addAll(st.get(0).checkSemantics(env1));
             res.addAll(st.get(1).checkSemantics(env2));
-            this.checkEffects(env, env1, env2);
+            if(res.size() == 0)
+                this.checkEffects(env, env1, env2);
 
         }else {
                 st.get(0).setEffectDecFun(this.effectDecFun);

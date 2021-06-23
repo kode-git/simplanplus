@@ -110,7 +110,7 @@ public class CallNode implements Node, Cloneable {
 
       // if exp is void the string in return is first + last = id + "( )\n"
       for(Node expNode : this.exp){
-            exp += expNode.toPrint(s + "");
+            exp += expNode.toPrint(s + "") + " ";
       }
       String nestingLevel = " :: " + "nesting level " + this.nestinglevel;
         return first + exp + last + nestingLevel ;
@@ -124,7 +124,7 @@ public class CallNode implements Node, Cloneable {
       this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
-          res.add(new SemanticError("Function " +this.id + " not declared"));
+          res.add(new SemanticError("error: Function " +this.id + " not declared"));
       } else{
           for(Node e : this.exp){
               e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
@@ -132,11 +132,12 @@ public class CallNode implements Node, Cloneable {
                   DerExpNode derExp = (DerExpNode) e;
                   LhsNode value = (LhsNode) derExp.getDerExp();
                   value.setEffectDecFun(this.effectDecFun);
-                  value.checkSemantics(env);
+                  res.addAll(value.checkSemantics(env));
               }
               res.addAll(e.checkSemantics(env));
           }
-          res.addAll(checkEffects(env));
+          if(res.size() == 0)
+            res.addAll(checkEffects(env));
       }
       return res;
   }
@@ -162,7 +163,7 @@ public class CallNode implements Node, Cloneable {
       ArrowTypeNode t=null;
       if (entry.getType() instanceof ArrowTypeNode) t=(ArrowTypeNode) entry.getType();
       else {
-          System.out.println("Invocation of a non-function "+id);
+          System.out.println("error: Invocation of a non-function "+id);
           System.exit(0);
       }
       ArrayList<Node> p = t.getArgList();
@@ -212,12 +213,12 @@ public class CallNode implements Node, Cloneable {
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
             if(this.fixed.getPoint() == 0) {
                 this.fixed.setPoint(fixed.getPoint() + 1);
-                function.checkSemantics(env);
+                res.addAll(function.checkSemantics(env));
             }
 
             function.setCallingDecFun(0);
             function.setPointerEffectStatesArg(pointerEffectStates);
-            this.fixed.fixedPointFunc(env, function, this.fixed.getPoint()); // calling fixed point procedure
+            res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
             this.fixed.setPoint(fixed.getPoint() + 1); // setting minimum fixed point
         }
 

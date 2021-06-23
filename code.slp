@@ -1,3 +1,9 @@
 {
-
-}
+^int x=new;
+^int y = new;
+int z = 10;
+void h(^int x, ^int y){ if(x^ == 10) delete x; else h(x,y); return y;}
+x^ = 10;
+y^= 20;
+h(x,y);
+ }

@@ -61,9 +61,10 @@ public class Test {
         try {
             ast = visitor.visit(parser.block()); //generazione AST
             System.out.println("Compiling on...");
-            System.out.println(ast.toPrint(""));
+            //System.out.println(ast.toPrint(""));
 
             Environment env = new Environment();
+            System.out.println("Check Semantics...");
             ArrayList<SemanticError> err = ast.checkSemantics(env);
 
         if (err.size() > 0) {
@@ -74,14 +75,16 @@ public class Test {
         } else {
             System.out.println("Visualizing AST...");
 
-            System.out.println(ast.toPrint(":->"));
+            //System.out.println(ast.toPrint(":->"));
         }
+
+        System.out.println("Type checking...");
 
         Node type = ast.typeCheck(); //type-checking bottom-up
 
         System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
-
+        /*
         // Code Generation
                 String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
@@ -106,7 +109,7 @@ public class Test {
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();
-
+        */
 
         } catch(ParseCancellationException e){
             System.out.println("The program was not in the right format. Exiting the compilation process now");

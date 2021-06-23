@@ -13,7 +13,7 @@ public class StatementNode implements Node, Cloneable{
     private int effectDecFun;
     public StatementNode(Node st){
         this.st=st;
-        //checkRet();
+        //t();
     }
 
     public void setSt(Node st) {

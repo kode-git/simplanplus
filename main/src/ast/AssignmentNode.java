@@ -75,7 +75,8 @@ public class AssignmentNode implements Node, Cloneable{
         return new VoidNode();
     }
 
-    public int checkEffects(Environment env) {
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
         if(effectDecFun == 0) {
             // getting the lhsEffects in the table
             int lhsEffects = ((LhsNode) lhs).getEffectsST();
@@ -101,8 +102,8 @@ public class AssignmentNode implements Node, Cloneable{
                             counterExp++;
                         }
                     }else {
-                        System.out.println("Wrong pointer assignment" );
-                         System.exit(1);
+                        res.add(new SemanticError(("error: Wrong pointer assignment" )));
+                        return res;
                     }
                 }
                 ((LhsNode<?>) lhs).setEffectsST(1);
@@ -125,8 +126,8 @@ public class AssignmentNode implements Node, Cloneable{
                         STentry tmp = env.lookup(env.getNestingLevel(), left.getId());
                         if (tmp == null) {
                             // this case is caught from checkSemantics
-                            System.out.println("cannot find symbol " + left.getId());
-                            System.exit(1);
+                            res.add(new SemanticError("error: cannot find symbol " + left.getId()));
+                            return res;
                         }
                         rightEntry.addPropagation(left.getId(), left.getCounterST() - left.getCounter());
                     }
@@ -135,13 +136,13 @@ public class AssignmentNode implements Node, Cloneable{
                 }
                 // End Effect Propagation checking
             } else {
-                System.out.println("error: cannot find symbol " + ((LhsNode<?>) lhs).getId());
-                System.exit(0);
+                res.add(new SemanticError("error: cannot find symbol " + ((LhsNode<?>) lhs).getId()));
+                return res;
             }
         } else {
             // do nothing
         }
-        return 1;
+        return res;
     }
 
 
@@ -155,7 +156,7 @@ public class AssignmentNode implements Node, Cloneable{
         exp.setEffectDecFun(this.effectDecFun);
         res.addAll(exp.checkSemantics(env));
         if(res.size()==0){
-            this.checkEffects(env);
+            res.addAll(this.checkEffects(env));
         }
         return res;
 

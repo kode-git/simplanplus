@@ -87,7 +87,8 @@ public class ArgNode implements Node, Cloneable {
                 this.pESArg= new int[counter+1];
 
             }
-            err = env.addEntry(env.getNestingLevel(), this.id, entry); // this is the case of pointer
+
+            env.addEntry(env.getNestingLevel(), this.id, entry); // this is the case of pointer
         }
         return err;
     }
