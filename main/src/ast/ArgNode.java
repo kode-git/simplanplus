@@ -7,20 +7,19 @@ import java.util.ArrayList;
 
 public class ArgNode implements Node, Cloneable {
 
-    private Node type;
-    private String id;
-    private int counter=0;
-    private int[] pointerEffectStateArg = null;
+    private Node type; // type of argument
+    private String id; // id of the argument
+    private int counter=0; // pointer local counter
+    private int[] pESArg = null; // Pointer EffectState
 
     public ArgNode(Node type, String id) {
         this.type = type;
         this.id = id;
-        this.counter= count(this.type);
+        this.counter= count(this.type); // counter setting
     }
 
 
     // getter and setter
-
 
     public int getCounter() {
         return counter;
@@ -31,11 +30,11 @@ public class ArgNode implements Node, Cloneable {
     }
 
     public int[] getPointerEffectStateArg() {
-        return pointerEffectStateArg;
+        return pESArg;
     }
 
-    public void setPointerEffectStateArg(int[] pointerEffectStateArg) {
-        this.pointerEffectStateArg = pointerEffectStateArg;
+    public void setPointerEffectStateArg(int[] p) {
+        this.pESArg = p;
     }
 
     public String getId(){
@@ -63,10 +62,10 @@ public class ArgNode implements Node, Cloneable {
     }
 
 
-    // not used
+    // not used because typeCheck of arguments and parameters in the call functions
+    // is done in the callNode instances of the AST.
     @Override
     public Node typeCheck() {
-
         return null;
     }
 
@@ -75,38 +74,38 @@ public class ArgNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
-    public int checkEffects(Environment env) {
-        return 0;
-    }
 
-    @Override
-    public void setEffectDecFun(int effectDecFun) {
-        // not used
-    }
-
-    @Override
-    public ArrayList<SemanticError> checkSemantics(Environment env) {
-
-        ArrayList<SemanticError> res = new ArrayList();
+    public SemanticError checkEffects(Environment env) {
         int offset=env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), this.type, offset,counter);
         env.setOffset(--offset);
         SemanticError err = null;
         if(!(this.type instanceof PointerTypeNode)) {
             entry.setEffectState(0,1);
-            err = env.newVarNode(env.getNestingLevel(), this.id, entry); // this is the case of no pointer
+            err = env.addEntry(env.getNestingLevel(), this.id, entry); // this is the case of no pointer
         } else {
             // do aliasing
-            if (this.pointerEffectStateArg!=null) {
-                entry.setEffectState(this.pointerEffectStateArg);
+            if (this.pESArg!=null) {
+                entry.setEffectState(this.pESArg);
             }else {
                 //
-                this.pointerEffectStateArg= new int[counter+1];
+                this.pESArg= new int[counter+1];
 
             }
-            err = env.newVarNode(env.getNestingLevel(), this.id, entry); // this is the case of pointer
+            err = env.addEntry(env.getNestingLevel(), this.id, entry); // this is the case of pointer
         }
+        return err;
+    }
+
+    @Override
+    public void setEffectDecFun(int effectDecFun) {
+        // not used because arguments is always child of a DecFun
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList();
+        SemanticError err = checkEffects(env);
         if (err!=null){
             res.add(err);
         }
@@ -118,9 +117,8 @@ public class ArgNode implements Node, Cloneable {
         try{
             ArgNode cloned = (ArgNode) super.clone();
             cloned.type = (Node) type.clone();
-            if(this.pointerEffectStateArg != null) {
-                cloned.pointerEffectStateArg = this.pointerEffectStateArg.clone();
-
+            if(this.pESArg != null) {
+                cloned.pESArg = this.pESArg.clone();
             }
             return cloned;
         } catch(CloneNotSupportedException e){
@@ -128,8 +126,8 @@ public class ArgNode implements Node, Cloneable {
         }
     }
 
-    // private methods
-
+    // Pointer counter setting method
+    // This is used to establish the number of "^" for an argument argNode of a DecFunNode
     private int count(Node t){
         if(t instanceof PointerTypeNode){
             return 1+count(((PointerTypeNode<?>) t).getVal());

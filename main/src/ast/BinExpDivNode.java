@@ -69,10 +69,9 @@ public class BinExpDivNode implements Node , Cloneable{
         return null;
     }
 
-    @Override
-    public int checkEffects(Environment env) {
-        return 0;
-    }
+
+    // not used
+    public int checkEffects(Environment env) { return 0; }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

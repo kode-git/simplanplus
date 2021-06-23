@@ -25,7 +25,6 @@ public class IntNode implements Node, Cloneable {
   
   @Override
  	public ArrayList<SemanticError> checkSemantics(Environment env) {
-
  	  return new ArrayList<SemanticError>();
  	}
 
@@ -34,7 +33,6 @@ public class IntNode implements Node, Cloneable {
     try{
       IntNode cloned = (IntNode) super.clone();
       return cloned;
-
     } catch(CloneNotSupportedException e){
       return null;
     }
@@ -44,8 +42,8 @@ public class IntNode implements Node, Cloneable {
 	return "push "+val+"\n";
   }
 
-    @Override
-    public int checkEffects(Environment env) {
+  // not used
+  public int checkEffects(Environment env) {
         return 0;
     }
 

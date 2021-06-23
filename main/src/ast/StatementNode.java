@@ -80,7 +80,7 @@ public class StatementNode implements Node, Cloneable{
         return null;
     }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }
@@ -100,7 +100,7 @@ public class StatementNode implements Node, Cloneable{
     public Node clone() {
         try{
             StatementNode cloned = (StatementNode) super.clone();
-            System.out.println("St in Statement cloned: " + st.toPrint(""));
+
             cloned.st = (Node) this.st.clone();
 
             return cloned;

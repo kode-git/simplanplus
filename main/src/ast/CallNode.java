@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.Environment;
+import util.FixedPoint;
 import util.SemanticError;
 import util.SimpLanlib;
 
@@ -13,30 +14,79 @@ public class CallNode implements Node, Cloneable {
   private ArrayList<Node> exp;
   private STentry entry;
   private int effectDecFun;
-  private int counterRecursiveEffect=0;
+  private FixedPoint fixed;
   private Environment fixedPointEnv;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
     this.exp = exp;
+    fixed = new FixedPoint(0);
   }
 
   public CallNode(String id, ArrayList<Node> exp, STentry entry){
       this.id = id;
       this.exp = exp;
       this.entry = entry;
+      fixed = new FixedPoint(0);
   }
 
   public CallNode(String id){
       this.id = id;
       this.exp = new ArrayList<Node>();
+      fixed = new FixedPoint(0);
   }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<Node> getExp() {
+        return exp;
+    }
+
+    public void setExp(ArrayList<Node> exp) {
+        this.exp = exp;
+    }
+
+    public STentry getEntry() {
+        return entry;
+    }
+
+    public void setEntry(STentry entry) {
+        this.entry = entry;
+    }
+
+    public int getEffectDecFun() {
+        return effectDecFun;
+    }
+
+    public FixedPoint getFixed() {
+        return fixed;
+    }
+
+    public void setFixed(FixedPoint fixed) {
+        this.fixed = fixed;
+    }
+
+    public Environment getFixedPointEnv() {
+        return fixedPointEnv;
+    }
+
+    public void setFixedPointEnv(Environment fixedPointEnv) {
+        this.fixedPointEnv = fixedPointEnv;
+    }
 
     @Override
     public void setEffectDecFun(int effectDecFun) {
         this.effectDecFun = effectDecFun;
     }
 
+
+    // toPrint, checkSemantics, checkEffects, clone and internal methods
 
     public String toPrint(String s) {  //
       String first = s + "CallNode: " + id + " ( ";
@@ -51,7 +101,6 @@ public class CallNode implements Node, Cloneable {
       return first + exp + last;
     }
 
-    // TODO checking of the Fixed Point bug dividing checkSemantics and checkEffects
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
@@ -59,10 +108,8 @@ public class CallNode implements Node, Cloneable {
       this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
-          res.add(new SemanticError("Id " +this.id + " not declared"));
+          res.add(new SemanticError("Function " +this.id + " not declared"));
       } else{
-          // decFun exists in the Environment
-          ArrayList<int[]> pointerEffectStates = new ArrayList<>();
           for(Node e : this.exp){
               e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
               if(e instanceof DerExpNode) {
@@ -70,85 +117,12 @@ public class CallNode implements Node, Cloneable {
                   LhsNode value = (LhsNode) derExp.getDerExp();
                   value.setEffectDecFun(this.effectDecFun);
                   value.checkSemantics(env);
-                  if (value.getEntry().getPointerCounter() > 0) {
-                      // this is a pointer
-                      STentry entry = value.getEntry();
-                      System.out.println("Entry value: " + entry);
-                      pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
-
-                  } else {
-                      // is not a pointer
-
-                  }
               }
-
-                  res.addAll(e.checkSemantics(env));
-
+              res.addAll(e.checkSemantics(env));
           }
-          DecFunNode referenceDec = entry.getReference();
-
-          if(this.effectDecFun != 0){
-            // main invocation
-              System.out.println("main recursive CallNode");
-
-          } else {
-              // internal invocation
-
-
-              referenceDec.setCallingDecFun(0);
-              referenceDec.setPointerEffectStatesArg(pointerEffectStates);
-              if(this.counterRecursiveEffect == 0) {
-                  System.out.println("internal invocation CallNode " + counterRecursiveEffect);
-                  this.counterRecursiveEffect++;
-                  referenceDec.checkSemantics(env);
-              }
-
-              /*
-
-              int f;
-              referenceDec.setCallingDecFun(0);
-              referenceDec.setPointerEffectStatesArg(pointerEffectStates);
-              int checkCounter=0;
-              do {
-                  checkCounter++;
-                  f=0;
-                  fixedPointEnv = env.clone();
-                  ArrayList<HashMap<String,STentry>>  symTableFixed = fixedPointEnv.getSymTable();
-                  ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
-                  if(this.counterRecursiveEffect == 0) {
-
-                      System.out.println("internal invocation CallNode");
-
-                      //fixed point computation
-
-
-                      //first iteration of the fixed point on effects
-                      referenceDec.checkSemantics(env);
-
-                      for(int c=0; c<symTableFixed.size();c++){
-                          for (Map.Entry<String, STentry> entry : symTableFinal.get(c).entrySet()) {
-                              String key = entry.getKey();
-                              int[] value = entry.getValue().getEffectState();
-                              int[] value2 = symTableFixed.get(c).get(key).getEffectState();//retrieve of the corresponding value in the second SymTable
-                              for(int i=0;i< value.length;i++){
-                                  if(value[i]!=value2[i]){
-                                      f=1; //there are some differences, needs a new iteration
-                                  }
-
-                              }
-                          }
-                      }
-
-                  }
-
-              }while (f==1);
-
-              this.counterRecursiveEffect++; */
-          }
+          res.addAll(checkEffects(env));
       }
-
       return res;
-
   }
 
     @Override
@@ -158,6 +132,7 @@ public class CallNode implements Node, Cloneable {
             if(this.entry != null)
                 cloned.entry = (STentry) cloned.entry.clone();
 
+            cloned.fixed = this.fixed;
             cloned.exp = (ArrayList<Node>) this.exp.clone();
             return cloned;
         } catch(CloneNotSupportedException e){
@@ -194,9 +169,47 @@ public class CallNode implements Node, Cloneable {
 	    return null;
   }
 
-    @Override
-    public int checkEffects(Environment env) {
-        return 0;
+
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        // we enter in the checkEffects only when the function is declared and is in the Environment
+        ArrayList<int[]> pointerEffectStates = new ArrayList<>();
+        for(Node e : this.exp){
+            if(e instanceof DerExpNode) {
+                DerExpNode derExp = (DerExpNode) e;
+                LhsNode value = (LhsNode) derExp.getDerExp();
+                if (value.getEntry().getPointerCounter() > 0) {
+                    // this is a pointer
+                    STentry entry = value.getEntry();
+                    pointerEffectStates.add(entry.getEffectState()); // this is the effect state of LhsNode reference in DerExpNode
+
+                } else {
+                    // is not a pointer and didn't manage effects for these kinds of parameters
+                }
+            }
+            res.addAll(e.checkSemantics(env));
+        }
+        DecFunNode function = entry.getReference();
+
+        if(this.effectDecFun != 0){
+            // main invocation
+            // do nothing
+        } else {
+            // internal invocation with fixed point
+            function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
+            function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
+            if(this.fixed.getPoint() == 0) {
+                this.fixed.setPoint(fixed.getPoint() + 1);
+                function.checkSemantics(env);
+            }
+
+            function.setCallingDecFun(0);
+            function.setPointerEffectStatesArg(pointerEffectStates);
+            this.fixed.fixedPointFunc(env, function, this.fixed.getPoint()); // calling fixed point procedure
+            this.fixed.setPoint(fixed.getPoint() + 1); // setting minimum fixed point
+        }
+
+        return res;
     }
 
 

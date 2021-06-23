@@ -1,4 +1,9 @@
 package ast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class STentry implements Cloneable {
 
     private int nl;
@@ -6,6 +11,14 @@ public class STentry implements Cloneable {
     private int offset;
     private int pointerCounter; // pointer counter inside the table
     private int effectState[]; // current effect state
+
+    /*
+    HashMap<STEntry, Integer>::
+    STEntry :: reference to the element to propagate the effect state
+    Integer :: the level of assignment
+     */
+
+    private HashMap<String,Integer> propagation = new HashMap<String, Integer>();
     private DecFunNode reference;
 
     public STentry (int n, int os) {
@@ -32,6 +45,33 @@ public class STentry implements Cloneable {
 
     // getter and setter
 
+
+    public HashMap<String, Integer> getPropagation() {
+        return propagation;
+    }
+
+    public Integer getLevelPropagation(STentry e){
+        if(this.propagation.containsKey(e))
+            return this.propagation.get(e);
+        else return -1; // no entry
+
+    }
+
+    public void addPropagation(String key, Integer value){
+        if(!this.propagation.containsKey(key)){
+            this.propagation.put(key, value);
+        } else {
+            this.propagation.replace(key, value);
+        }
+    }
+
+    public void setPropagation(HashMap<String, Integer> propagation) {
+        this.propagation = propagation;
+    }
+
+    public boolean checkKeyPropagation(STentry key){
+        return propagation.containsKey(key);
+    }
 
     public int getNl() {
         return nl;
@@ -108,10 +148,19 @@ public class STentry implements Cloneable {
     // toPrint
 
     public String toPrint(String s) { //
-        return s+"STentry: nestlev " + Integer.toString(nl) +"\n"+
-                s+"STentry: type\n" +
-                type.toPrint(s+"") +
-                s+"STentry: offset " + Integer.toString(offset) + "\n";
+        String tmp = "--------- STENTRY ---------\n";
+        tmp += s+"STentry: nestlev " + Integer.toString(nl) +"\n"+
+                s+"STentry: type " +
+                type.toPrint("") + "\n" +
+                s + "STentry: propagation: [ ";
+        int i = 0;
+        for(Map.Entry<String, Integer> entry : propagation.entrySet()){
+            tmp +=  "Entry " + i++ + " -> " + entry.getKey() + " : " + entry.getValue() + ", \n\n";
+        }
+        tmp += "]\n";
+        tmp +=  s+"STentry: offset " + Integer.toString(offset) + "\n";
+        tmp += "-------------------------\n";
+        return tmp;
     }
 
 
@@ -121,22 +170,8 @@ public class STentry implements Cloneable {
         try{
             STentry cloned = (STentry) super.clone();
             cloned.type = (Node) this.type.clone();
-
-
-            /*
-            if(this.effectState == null){
-                if(this.pointerCounter >= 1){
-                    this.effectState = new int[this.pointerCounter + 1];
-                }
-                else {
-                    this.effectState = new int[1];
-                }
-
-            } */
-
             cloned.effectState  = this.effectState.clone();
             if(this.reference!=null) {
-                System.out.println("Reference im STEntry cloned: " + this.reference.toPrint(""));
                 cloned.reference = (DecFunNode) this.reference.clone();
             }else {
                 cloned.reference = null;

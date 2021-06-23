@@ -51,7 +51,6 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
         return new ArrayList<SemanticError>();
     }
 
@@ -72,7 +71,7 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
         return "push "+val+"\n";
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }

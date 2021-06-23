@@ -1,7 +1,5 @@
-
-
 {
+^^^^int x ; ^^^int y = new ; y^ = 1 ; x = new ; x^ = y ; print x^^ ;
 
-^^int x ; ^int y = new ; y^ = 1 ; x = new ; x^ = y ; delete y; print x;
 
 }

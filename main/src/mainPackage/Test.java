@@ -57,7 +57,7 @@ public class Test {
 
         try {
             ast = visitor.visit(parser.block()); //generazione AST
-
+            System.out.println("Compiling on...");
             System.out.println(ast.toPrint(""));
 
             Environment env = new Environment();
@@ -70,7 +70,8 @@ public class Test {
             System.exit(0);
         } else {
             System.out.println("Visualizing AST...");
-            System.out.println(ast.toPrint(""));
+
+            System.out.println(ast.toPrint(":->"));
         }
 
         Node type = ast.typeCheck(); //type-checking bottom-up

@@ -15,7 +15,6 @@ public class BoolNode implements Node, Cloneable {
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
-
     public String toPrint(String s) {
     if (val) return s+"Boolean: True";
     else return s+"Boolean: False";
@@ -46,7 +45,7 @@ public class BoolNode implements Node, Cloneable {
 		return "push "+(val?1:0)+"\n";
 	  }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }

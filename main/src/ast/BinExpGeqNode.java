@@ -68,7 +68,7 @@ public class BinExpGeqNode implements Node , Cloneable{
         return null;
     }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }

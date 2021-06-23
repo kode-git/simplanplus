@@ -24,6 +24,8 @@ public class BlockNode implements Node {
         statements = new ArrayList<Node>();
     }
 
+    // getter and setter
+
     public ArrayList<Node> getDeclarations() {
         return declarations;
     }
@@ -48,53 +50,20 @@ public class BlockNode implements Node {
         this.effectDecFun = effectDecFun;
     }
 
-    public Boolean checkRet() {
-        boolean hasIteRet=false;
-        boolean hasElse=false;
-        if (statements.size() > 0) { // if the block is  not void
-            for (int i = 0; i < statements.size(); i++) {
-                StatementNode temp = (StatementNode)(statements.get(i));
-                if ( temp.getSt() instanceof IteNode) {
-                    hasIteRet= ((IteNode)temp.getSt()).getFg();
-                    if(((IteNode)temp.getSt()).getSize()>1){
-                        hasElse=true;
-                    }
-                }
-                    if (((StatementNode) statements.get(i)).getChRet()) {
-                        if(hasIteRet && hasElse){  // hasIteRet is the return inside IteNode and hasElse is if IteNode has an else statement
-                            System.out.println("Multiple return conflicts with iteration statement" );
-                            System.exit(0);
-                        }
-
-
-                        if (i != statements.size() - 1) {
-                            System.out.println("Mutiple return");
-                            System.exit(0);
-                        } else return true;
-                    }
-                }
-
-        }
-                return hasIteRet; // cases where ite has return statement but DecFunc doesn't
-    }
-
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
 
     public String toPrint(String s) {
-
-
-
-        String declstr="";
+        String out ="";
         for (Node dec:declarations)
-            declstr += dec.toPrint(s+"");
+            out += dec.toPrint(s+"") ;
 
         for (Node st:statements)
-            declstr += st.toPrint(s+"");
+            out += st.toPrint(s+"");
 
 
-        return s+"\nBlockNode:" + declstr ;
+        return "\nBlockNode:" + out ;
     }
 
     @Override
@@ -167,10 +136,42 @@ public class BlockNode implements Node {
 
 
     //Not used
-    @Override
     public int checkEffects(Environment env)
     {
         return 0;
+    }
+
+
+    // checking of Return statement
+
+    public Boolean checkRet() {
+        boolean hasIteRet=false;
+        boolean hasElse=false;
+        if (statements.size() > 0) { // if the block is  not void
+            for (int i = 0; i < statements.size(); i++) {
+                StatementNode temp = (StatementNode)(statements.get(i));
+                if ( temp.getSt() instanceof IteNode) {
+                    hasIteRet= ((IteNode)temp.getSt()).getFg();
+                    if(((IteNode)temp.getSt()).getSize()>1){
+                        hasElse=true;
+                    }
+                }
+                if (((StatementNode) statements.get(i)).getChRet()) {
+                    if(hasIteRet && hasElse){  // hasIteRet is the return inside IteNode and hasElse is if IteNode has an else statement
+                        System.out.println("Multiple return conflicts with iteration statement" );
+                        System.exit(0);
+                    }
+
+
+                    if (i != statements.size() - 1) {
+                        System.out.println("Mutiple return");
+                        System.exit(0);
+                    } else return true;
+                }
+            }
+
+        }
+        return hasIteRet; // cases where ite has return statement but DecFunc doesn't
     }
 
 

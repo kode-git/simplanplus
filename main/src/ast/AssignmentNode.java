@@ -59,8 +59,8 @@ public class AssignmentNode implements Node, Cloneable{
 
     @Override
     public String toPrint(String s) {
-        return s+"Assignment:" + lhs.toPrint(s + "") + " = "
-                + exp.toPrint(s+"") + "";
+        return s+"Assignment:" + lhs.toPrint("") + " = "
+                + exp.toPrint("") ;
     }
 
     @Override
@@ -71,9 +71,8 @@ public class AssignmentNode implements Node, Cloneable{
             System.out.println("Assignment type failed");
             System.exit(0);
         }
-        return new VoidNode(); // return void because this statement don't need to be checked in high level
-        // void -> f : void on upper level
-
+        // return void because this statement don't need to be checked in high level
+        return new VoidNode();
     }
 
     @Override
@@ -81,13 +80,20 @@ public class AssignmentNode implements Node, Cloneable{
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         if(effectDecFun == 0) {
+            // getting the lhsEffects in the table
             int lhsEffects = ((LhsNode) lhs).getEffectsST();
             if (lhsEffects >= 0 && lhsEffects <= 1) {
+
+                // check if the left-side of the assignment is deleted or not,
+                // if we are here, the left-a-side is bottom or rw state
                 Node typeExp = exp.typeCheck();
+
+                // Pointer Reference Assignment
                 if(((exp instanceof DerExpNode))&&(typeExp instanceof PointerTypeNode)){
+                    // Pointer assignment when x = exp, exp is a DerExp with LhsNode as PointerType
                     int diffCount= (((LhsNode<?>) lhs).getCounterST()-((LhsNode<?>) lhs).getCounter());
                     LhsNode<?> myDerExp = ((LhsNode<?>)((DerExpNode)exp).getDerExp());
                     if(diffCount
@@ -100,24 +106,44 @@ public class AssignmentNode implements Node, Cloneable{
                             counterLhs++;
                             counterExp++;
                         }
-
-
-
                     }else {
                         System.out.println("Wrong pointer assignment" );
                          System.exit(1);
                     }
-
                 }
-
-
                 ((LhsNode<?>) lhs).setEffectsST(1);
                 this.effectsST = 1;
+                // End of Pointer Reference Assignment
+
+                // Effect propagation checking
+                if (lhs instanceof LhsNode && exp instanceof DerExpNode){
+
+                    LhsNode left = (LhsNode) lhs;
+                    LhsNode right = (LhsNode) ((DerExpNode) exp).getDerExp();
+
+                    if(left.getCounterST() > 0 && right.getCounterST() > 0) {
+                        // in this case they are pointer
+                        // adding propagation to the left from the right
+                        // this is needed to focus the deletion on EffectState[] of the leftEntry from
+                        // the Counter to 0 index equals to d
+                        // getting the entry of the left and right terms
+                        STentry rightEntry = right.getEntry();
+                        STentry tmp = env.lookup(env.getNestingLevel(), left.getId());
+                        if (tmp == null) {
+                            // this case is caught from checkSemantics
+                            System.out.println("cannot find symbol " + left.getId());
+                            System.exit(1);
+                        }
+                        rightEntry.addPropagation(left.getId(), left.getCounterST() - left.getCounter());
+                    }
+                } else {
+                    // nothing
+                }
+                // End Effect Propagation checking
             } else {
-                System.out.println("error: cannot find symbol " + lhs.toPrint(""));
+                System.out.println("error: cannot find symbol " + ((LhsNode<?>) lhs).getId());
                 System.exit(0);
             }
-
         } else {
             // do nothing
         }
@@ -128,10 +154,10 @@ public class AssignmentNode implements Node, Cloneable{
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
-        // lhs
+        // lhs setting on effectDecFun
         lhs.setEffectDecFun(this.effectDecFun);
         res.addAll(lhs.checkSemantics(env));
-        // exp
+        // exp setting on effectDecFun
         exp.setEffectDecFun(this.effectDecFun);
         res.addAll(exp.checkSemantics(env));
         if(res.size()==0){

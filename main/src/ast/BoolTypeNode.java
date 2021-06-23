@@ -12,7 +12,6 @@ public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
-
     public String toPrint(String s) {
 	return s+"BoolType ";
   }
@@ -43,7 +42,7 @@ public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
 		return "";
   }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }

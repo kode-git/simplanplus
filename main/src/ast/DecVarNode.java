@@ -88,8 +88,8 @@ public class DecVarNode implements Node, Cloneable {
     public String toPrint(String s) {
 
         if (this.exp != null){
-            return s+"DecVar:" + typeNode.toPrint(s+"") + id +"="
-                    + exp.toPrint(s+"") + "";
+            return s+"DecVar:" + typeNode.toPrint("") + id +"="
+                    + exp.toPrint("") + "";
         }
         else {
             return s+"DecVar:"
@@ -109,7 +109,7 @@ public class DecVarNode implements Node, Cloneable {
             exp.setEffectDecFun(this.effectDecFun);
             res.addAll(this.exp.checkSemantics(env));
         }
-        SemanticError err = env.newVarNode( env.getNestingLevel(),this.id,  entry);
+        SemanticError err = env.addEntry( env.getNestingLevel(),this.id,  entry);
         if (err!=null) {
             res.add(err);
         }
@@ -149,13 +149,12 @@ public class DecVarNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         STentry myEntry = env.lookup(env.getNestingLevel(), id);
         if(effectDecFun == 0) {
             // is not a function block
             this.effectsST = myEntry.getEffectState(0);
-
             if (this.effectsST == 0) {
                 myEntry.setEffectState(0, 1);
                 this.effectsST = 1;

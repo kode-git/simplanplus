@@ -185,62 +185,53 @@ public class DecFunNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }
-
-
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList();
         int offset = env.getOffset();
         STentry entry = new STentry(env.getNestingLevel(), offset );
+
+        // define return type :: (void, GenericType :: (int, bool))
         if(!(type instanceof GenericTypeNode)){
-            // is void
-            System.out.println(type);
+            // type :: void
             entry.setReference(this);
             entry.addType(new ArrowTypeNode(args, new VoidNode()));
         }
         else {
-            // is GenericType
+            // type :: GenericType
             entry.setReference(this);
             entry.addType(new ArrowTypeNode(args, type));
         }
-
         env.setOffset(offset - 1);
-
         SemanticError err;
         if(effectDecFun == 1)
-            err = env.newVarNode(env.getNestingLevel(), this.id, entry);
+            // adding of the function declaration inside the table at the current nesting level
+            err = env.addEntry(env.getNestingLevel(), this.id, entry);
         else
             err = null;
-
         if (err != null) {
             res.add(err);
         } else {
-
+            // making new scope :-> \Gamma - []
             env.setNestingLevel(env.getNestingLevel() + 1);
             env.addTable(new HashMap<String, STentry>());
-
-
             int i = 0;
             try {
                 for (Node arg : this.args) {
                     ArgNode argNode = (ArgNode) arg;
                     if (effectDecFun != 1) {
                         if (argNode.getCounter() > 0) {
-                            // this is a pointer arg
+                            // this is a pointer arguments, we need to take the effect state of the var
                             int[] argEffectState = this.getPointerEffectStatesArg().get(i);
-                            System.out.println("ARG: " + argEffectState[i]);
-
                             i = i + 1;
-
                             argNode.setPointerEffectStateArg(argEffectState);
                         }
                     }
-
                     res.addAll(argNode.checkSemantics(env)); // adding in table inside the args checkSemantics
                 }
             } catch(IndexOutOfBoundsException e){
@@ -249,7 +240,10 @@ public class DecFunNode implements Node, Cloneable {
                 System.out.println("Wrong reference for the pointer argument in the function " + id);
                 System.exit(0);
             }
-            env.setNestingLevel(env.getNestingLevel() - 1); // this is because in BlockNode checkSemantics we have NestingLevel + 1
+            // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
+            // the environment NestingLevel + 1 is the environment where there are arguments of the functions
+            // the current one NestingLevel - 1 is the environment where there is the declaration of the function
+            env.setNestingLevel(env.getNestingLevel() - 1);
             this.block.setEffectDecFun(this.effectDecFun);
             res.addAll(this.block.checkSemantics(env));
         }
@@ -267,10 +261,7 @@ public class DecFunNode implements Node, Cloneable {
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.args = (ArrayList<Node>) this.args.clone();
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
-
             return cloned;
-
-
         } catch(CloneNotSupportedException e){
             return null;
         }

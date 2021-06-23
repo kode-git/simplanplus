@@ -25,12 +25,9 @@ public class ArrowTypeNode implements Node, Cloneable {
   }
 
   @Override
-  public void setEffectDecFun(int effectDecFun) {
-    // not used
-  }
+  public void setEffectDecFun(int effectDecFun) {}
 
-  public Node getRet () { //
-    System.out.println(ret);
+  public Node getRet () {
     return ret;
   }
 
@@ -38,20 +35,19 @@ public class ArrowTypeNode implements Node, Cloneable {
     return argList;
   }
 
-
   // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
-  public String toPrint(String s) { //
+  public String toPrint(String s) {
 	String parlstr="";
-    for (Node par:argList)
-      parlstr+=par.toPrint(s+"");
+    for (Node par : argList)
+      parlstr += par.toPrint(s+"");
 	return s+"ArrowType: \n" + parlstr + ret.toPrint(s+"->") ;
   }
   
 
   @Override
 	public ArrayList<SemanticError> checkSemantics(Environment env) {
-		// TODO Auto-generated method stub
+        // leaf node for the return res
 		return new ArrayList<SemanticError>();
 	}
 
@@ -68,8 +64,6 @@ public class ArrowTypeNode implements Node, Cloneable {
     }
   }
 
-
-
   //not used
   public Node typeCheck () {
     return null;
@@ -80,7 +74,7 @@ public class ArrowTypeNode implements Node, Cloneable {
 		return "";
   }
 
-  @Override
+  // not used
   public int checkEffects(Environment env) {
     return 0;
   }

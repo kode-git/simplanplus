@@ -58,14 +58,13 @@ public class RetNode implements Node, Cloneable{
         return null;
     }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         if(this.exp == null) {
             // do nothing
@@ -73,7 +72,6 @@ public class RetNode implements Node, Cloneable{
             exp.setEffectDecFun(this.effectDecFun);
             res.addAll(exp.checkSemantics(env));
         }
-
         return res;
     }
 

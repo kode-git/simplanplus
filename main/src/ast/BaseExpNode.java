@@ -17,7 +17,6 @@ public class BaseExpNode implements Node, Cloneable {
 
     // getter and setter
 
-
     public Node getExp() {
         return exp;
     }
@@ -43,6 +42,7 @@ public class BaseExpNode implements Node, Cloneable {
         this.effectDecFun = effectDecFun;
     }
 
+
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
     @Override
@@ -58,11 +58,10 @@ public class BaseExpNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }
-
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

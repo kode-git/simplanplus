@@ -47,7 +47,6 @@ public class BinExpAndNode implements Node, Cloneable {
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
-
     @Override
     public String toPrint(String s) {
         return s + "BinAndExp: " + left.toPrint(s + "") + "&&" +
@@ -69,12 +68,10 @@ public class BinExpAndNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+
     public int checkEffects(Environment env) {
         return 0;
     }
-
-
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {

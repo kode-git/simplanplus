@@ -45,7 +45,7 @@ public class CallExpNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
+    // not used
     public int checkEffects(Environment env) {
         return 0;
     }
@@ -57,7 +57,6 @@ public class CallExpNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
         call.setEffectDecFun(this.effectDecFun);
         res.addAll(call.checkSemantics(env));
