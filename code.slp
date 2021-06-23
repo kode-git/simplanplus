@@ -1,14 +1,5 @@
 {
-^int x = new;
-^int y = new;
-int z = 10;
-int u = 1 ;
-void f(int m, int n){
-	if (m>n) { print(m+n) ;}
-	else { int x = 1 ; f(m+1,n+1) ; }
-}
-f(5,4) ;
-x^ = 10;
-y^ = 20;
-f(x,6) ;
+^^^^int x ; ^^^int y = new ; y^ = 1 ; x = new ; x^ = y ; print x^^ ;
+
+
 }

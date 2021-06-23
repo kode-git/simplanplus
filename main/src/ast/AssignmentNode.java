@@ -134,7 +134,7 @@ public class AssignmentNode implements Node, Cloneable{
                             System.out.println("cannot find symbol " + left.getId());
                             System.exit(1);
                         }
-                        rightEntry.addPropagation(left.getId(), left.getCounter());
+                        rightEntry.addPropagation(left.getId(), left.getCounterST() - left.getCounter());
                     }
                 } else {
                     // nothing
