@@ -59,13 +59,9 @@ public class DerExpNode implements Node, Cloneable {
         this.derExp = derExp;
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
 
-
-    public int checkEffects(Environment env) {
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
         STentry myEntry=null;
         if(effectDecFun == 0) {
             if (derExp instanceof LhsNode) {
@@ -77,16 +73,18 @@ public class DerExpNode implements Node, Cloneable {
                 effectsST = myEntry.getEffectState(0);
             }
             if (effectsST == 0) {
-                System.out.println("error: variable " + derExp.toPrint("") + " not initialized");
-                System.exit(0);
+                res.add(new SemanticError("error: variable " + derExp.toPrint("") + " not initialized"));
+                return res;
+
             } else if (effectsST == 2) {
-                System.out.println("error: variable " + derExp.toPrint("") + " previously deleted");
-                System.exit(0);
+                res.add(new SemanticError("error: variable " + derExp.toPrint("") + " previously deleted"));
+                return res;
+
             }
         } else {
             // do nothing
         }
-        return effectsST;
+        return res;
     }
 
 
@@ -103,11 +101,11 @@ public class DerExpNode implements Node, Cloneable {
             // derExp :: String
             myEntry=env.lookup(env.getNestingLevel(), derExp + "");
             if(myEntry==null){
-                res.add(new SemanticError("Id " + derExp + " not declared"));
+                res.add(new SemanticError("error: Id " + derExp + " not declared"));
             }
         }
         if(res.size()==0 && effectDecFun == 0) {
-            this.checkEffects(env);
+            res.addAll(this.checkEffects(env));
         }
         return res;
     }
@@ -122,4 +120,10 @@ public class DerExpNode implements Node, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

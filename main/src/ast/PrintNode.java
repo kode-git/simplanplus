@@ -65,13 +65,13 @@ public class PrintNode implements Node, Cloneable {
     }
   }
 
-  public String codeGeneration() {
-		return val.codeGeneration()+"print\n";
+  // not used
+  public int checkEffects(Environment env) {
+    return 0;
   }
 
-
-    public int checkEffects(Environment env) {
-        return 0;
-    }
-
+  public String codeGeneration() {
+    return val.codeGeneration()
+            +"print\n";
+  }
 }  

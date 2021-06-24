@@ -61,12 +61,6 @@ public class BinExpLeqNode implements Node , Cloneable{
         return new BoolTypeNode();
     }
 
-
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     // not used
     public int checkEffects(Environment env) {
         return 0;
@@ -95,4 +89,11 @@ public class BinExpLeqNode implements Node , Cloneable{
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+
+    }
+
 }

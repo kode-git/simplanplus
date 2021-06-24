@@ -62,11 +62,6 @@ public class BinExpGtNode implements Node , Cloneable{
     }
 
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     // not used
     public int checkEffects(Environment env) {
         return 0;
@@ -94,4 +89,10 @@ public class BinExpGtNode implements Node , Cloneable{
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

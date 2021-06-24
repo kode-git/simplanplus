@@ -158,32 +158,27 @@ public class DecFunNode implements Node, Cloneable {
         // case: void with return in function
         if(this.type instanceof VoidNode && this.block.checkRet()) {
             // return error - case of return in void func
-            System.out.println("Function " + id + " is void and can't have return statement");
+            System.out.println("error: Function " + id + " is void and can't have return statement");
             System.exit(0);
         }
 
         // here if type is not void, need to check if return statement is present
         else if(!this.block.checkRet() && !(this.type instanceof VoidNode)){
             // no return statement in type != void
-            System.out.println("Function " + id + " don't have return statement");
+            System.out.println("error: Function " + id + " don't have return statement");
             System.exit(0);
         }
 
 
         // here type != void and there is return as block.typeCheck()
         if (!(SimpLanlib.isSubtype(block.typeCheck(), type))) {
-            System.out.println("Wrong return type for function " + id);
+            System.out.println("error: Wrong return type for function " + id);
             System.exit(0);
         }
 
         return block.typeCheck();
     }
 
-
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
 
     // not used
     public int checkEffects(Environment env) {
@@ -218,7 +213,6 @@ public class DecFunNode implements Node, Cloneable {
             res.add(err);
         } else {
             // making new scope :-> \Gamma - []
-            env.setNestingLevel(env.getNestingLevel() + 1);
             env.addTable(new HashMap<String, STentry>());
             int i = 0;
             try {
@@ -237,7 +231,7 @@ public class DecFunNode implements Node, Cloneable {
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
                 // for callNode parameter and counterST != 0 for the arg reference in DecFun (pointer type)
-                System.out.println("Wrong reference for the pointer argument in the function " + id);
+                System.out.println("error: Wrong reference for the pointer argument in the function " + id);
                 System.exit(0);
             }
             // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
@@ -256,7 +250,6 @@ public class DecFunNode implements Node, Cloneable {
         try{
             DecFunNode cloned = (DecFunNode) super.clone();
             cloned.type = (Node) this.type.clone();
-            System.out.println("DecFun cloned block: " + this.block.toPrint(""));
             cloned.block = (BlockNode) this.block.clone();
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.args = (ArrayList<Node>) this.args.clone();
@@ -266,5 +259,11 @@ public class DecFunNode implements Node, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }
 

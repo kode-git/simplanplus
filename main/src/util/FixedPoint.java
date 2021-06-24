@@ -33,8 +33,9 @@ public class FixedPoint implements Serializable {
 
      Used :: [CallNode]
      */
-    public void fixedPointFunc(Environment env, DecFunNode function, int fixed ){
+    public ArrayList<SemanticError> fixedPointFunc(Environment env, DecFunNode function, int fixed ){
         boolean diff;
+        ArrayList<SemanticError> res = new ArrayList<>();
         do {
             diff = false; // hypothesis that there are not difference
             Environment fixedPointEnv = env.clone();
@@ -44,7 +45,7 @@ public class FixedPoint implements Serializable {
 
                 //fixed point computation
                 //first iteration of the fixed point on effects
-                function.checkSemantics(env);
+                res.addAll(function.checkSemantics(env));
 
                 for(int c=0; c<symTableFixed.size();c++){
                     for (Map.Entry<String, STentry> entry : symTableFinal.get(c).entrySet()) {
@@ -64,6 +65,6 @@ public class FixedPoint implements Serializable {
             }
 
         } while ( diff ); // until matching some differences between tables
-
+        return res;
     }  // end of fixPoint method
 }

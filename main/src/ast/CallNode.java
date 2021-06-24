@@ -16,11 +16,13 @@ public class CallNode implements Node, Cloneable {
   private int effectDecFun;
   private FixedPoint fixed;
   private Environment fixedPointEnv;
+  private int nestinglevel;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
     this.exp = exp;
     fixed = new FixedPoint(0);
+    nestinglevel = 0;
   }
 
   public CallNode(String id, ArrayList<Node> exp, STentry entry){
@@ -28,13 +30,26 @@ public class CallNode implements Node, Cloneable {
       this.exp = exp;
       this.entry = entry;
       fixed = new FixedPoint(0);
+      nestinglevel = 0;
   }
 
   public CallNode(String id){
       this.id = id;
       this.exp = new ArrayList<Node>();
       fixed = new FixedPoint(0);
+      nestinglevel = 0;
   }
+
+  // getter and setter
+
+
+    public int getNestinglevel() {
+        return nestinglevel;
+    }
+
+    public void setNestinglevel(int nestinglevel) {
+        this.nestinglevel = nestinglevel;
+    }
 
     public String getId() {
         return id;
@@ -95,20 +110,21 @@ public class CallNode implements Node, Cloneable {
 
       // if exp is void the string in return is first + last = id + "( )\n"
       for(Node expNode : this.exp){
-            exp += expNode.toPrint(s + "");
+            exp += expNode.toPrint(s + "") + " ";
       }
-
-      return first + exp + last;
+      String nestingLevel = " :: " + "nesting level " + this.nestinglevel;
+        return first + exp + last + nestingLevel ;
     }
 
   public ArrayList<SemanticError> checkSemantics(Environment env) {
 
       ArrayList<SemanticError> res = new ArrayList<SemanticError>();
       int nestingLevel = env.getNestingLevel();
+      this.nestinglevel =nestingLevel; // setting of the nesting Level of the calling invocation
       this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
-          res.add(new SemanticError("Function " +this.id + " not declared"));
+          res.add(new SemanticError("error: Function " +this.id + " not declared"));
       } else{
           for(Node e : this.exp){
               e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
@@ -116,11 +132,12 @@ public class CallNode implements Node, Cloneable {
                   DerExpNode derExp = (DerExpNode) e;
                   LhsNode value = (LhsNode) derExp.getDerExp();
                   value.setEffectDecFun(this.effectDecFun);
-                  value.checkSemantics(env);
+                  res.addAll(value.checkSemantics(env));
               }
               res.addAll(e.checkSemantics(env));
           }
-          res.addAll(checkEffects(env));
+          if(res.size() == 0)
+            res.addAll(checkEffects(env));
       }
       return res;
   }
@@ -146,7 +163,7 @@ public class CallNode implements Node, Cloneable {
       ArrowTypeNode t=null;
       if (entry.getType() instanceof ArrowTypeNode) t=(ArrowTypeNode) entry.getType();
       else {
-          System.out.println("Invocation of a non-function "+id);
+          System.out.println("error: Invocation of a non-function "+id);
           System.exit(0);
       }
       ArrayList<Node> p = t.getArgList();
@@ -163,10 +180,6 @@ public class CallNode implements Node, Cloneable {
           }
       }
       return t.getRet();
-  }
-  
-  public String codeGeneration() {
-	    return null;
   }
 
 
@@ -200,17 +213,51 @@ public class CallNode implements Node, Cloneable {
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
             if(this.fixed.getPoint() == 0) {
                 this.fixed.setPoint(fixed.getPoint() + 1);
-                function.checkSemantics(env);
+                res.addAll(function.checkSemantics(env));
             }
 
             function.setCallingDecFun(0);
             function.setPointerEffectStatesArg(pointerEffectStates);
-            this.fixed.fixedPointFunc(env, function, this.fixed.getPoint()); // calling fixed point procedure
+            res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
             this.fixed.setPoint(fixed.getPoint() + 1); // setting minimum fixed point
         }
 
         return res;
     }
+
+    // TODO: Checking Offset and Pointer case
+    public String codeGeneration() {
+        String parameters = "" ;
+        for (int i=exp.size()-1; i>=0; i--)
+            parameters += exp.get(i).codeGeneration() + "push 0"; // codeGen of the exp
+
+        String getAR = "";
+        for (int i=0; i < nestinglevel-entry.getNestinglevel(); i++)
+            getAR += "lw\n"; // checking the decFun declarations visiting with the use of ARs
+        /*
+            AR format :
+          ---------------
+          control_link
+          parameters
+          access_link
+          local_declarations
+          ---------------
+         */
+
+        return "lfp\n"+ 				// push $fp
+
+                parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0
+                "lfp\n"+                //
+                getAR+ 		// setting AL going up on the static chain
+                // get the jump address and put it on the stack
+                "push "+ entry.getOffset()+"\n"+ // setting of the offset on the stack
+                "lfp\n"+getAR+ 		// going up on the static chain on the decFun AR
+                "add\n"+
+                "lw\n"+ 				// update on the stack the obtained address
+                "js\n";                 // doing js on the address ($ra)s
+    }
+
+
 
 
 

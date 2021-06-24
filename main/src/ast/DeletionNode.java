@@ -59,11 +59,6 @@ public class DeletionNode implements Node, Cloneable{
         return new VoidNode(); // called only in case of delete as last statement of block
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     /*
     propagateDelete :: [Environment, STentry] -> void
     Environment env :: the current environment of the checkSemantics
@@ -83,10 +78,15 @@ public class DeletionNode implements Node, Cloneable{
 
         }
     }
-    public int checkEffects(Environment env) {
+    public ArrayList<SemanticError> checkEffects(Environment env) {
+        ArrayList<SemanticError> res = new ArrayList<>();
         if(effectDecFun == 0) {
 
             STentry entry = env.lookup(env.getNestingLevel(), id);
+            if(entry.getPointerCounter() == 0){
+                res.add(new SemanticError("can't delete a no pointer variable"));
+                return res;
+            }
             effectsST = entry.getEffectState(0);
             if (effectsST >= 0 && effectsST <= 1) {
                 int size = entry.getPointerCounter();
@@ -99,13 +99,13 @@ public class DeletionNode implements Node, Cloneable{
                 propagateDelete(env, entry); // propagate deletion to assigned pointers
 
             } else {
-                System.out.println("error: cannot find symbol " + id);
-                System.exit(0);
+                res.add(new SemanticError(("error: cannot find symbol " + id)));
+                return res;
             }
         } else {
             // do nothing
         }
-        return effectsST;
+        return res;
     }
 
     @Override
@@ -113,11 +113,11 @@ public class DeletionNode implements Node, Cloneable{
        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
        STentry entry = env.lookup(env.getNestingLevel(), id);
         if(entry == null){
-            res.add(new SemanticError("Id " +this.id + " not declared"));
+            res.add(new SemanticError("error: Id " +this.id + " not declared"));
         }
         if(res.size()==0){
 
-            this.checkEffects(env);
+            res.addAll(this.checkEffects(env));
         }
         return res;
     }
@@ -131,4 +131,10 @@ public class DeletionNode implements Node, Cloneable{
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

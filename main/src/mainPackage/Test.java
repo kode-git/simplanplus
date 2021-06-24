@@ -5,16 +5,17 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+import Interpreter.ExecuteVM;
+import ast.SVMVisitorImpl;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-//import Interpreter.ExecuteVM;
 
 import org.antlr.v4.runtime.misc.ParseCancellationException;
+import parser.SVMLexer;
+import parser.SVMParser;
 import parser.SimpLanPlusLexer;
 import parser.SimpLanPlusParser;
-//import parser.SVMLexer;
-// import parser.SVMParser;
 import util.Environment;
 
 
@@ -22,14 +23,16 @@ import util.SemanticError;
 import ast.SimpLanPlusVisitorImpl;
 import ast.Node;
 import util.ThrowingErrorListener;
-// import ast.SVMVisitorImpl;
+import ast.SVMVisitorImpl;
 
 
 public class Test {
     public static void main(String[] args) throws Exception {
 
-        String fileName = "code.slp";
-        FileInputStream is = new FileInputStream(fileName);
+        String fileName = "code";
+        String extension = ".slp";
+        String file = fileName + extension;
+        FileInputStream is = new FileInputStream(file);
         ANTLRInputStream input = new ANTLRInputStream(is);
 
         // lexer
@@ -58,9 +61,10 @@ public class Test {
         try {
             ast = visitor.visit(parser.block()); //generazione AST
             System.out.println("Compiling on...");
-            System.out.println(ast.toPrint(""));
+            //System.out.println(ast.toPrint(""));
 
             Environment env = new Environment();
+            System.out.println("Check Semantics...");
             ArrayList<SemanticError> err = ast.checkSemantics(env);
 
         if (err.size() > 0) {
@@ -71,18 +75,20 @@ public class Test {
         } else {
             System.out.println("Visualizing AST...");
 
-            System.out.println(ast.toPrint(":->"));
+            //System.out.println(ast.toPrint(":->"));
         }
+
+        System.out.println("Type checking...");
 
         Node type = ast.typeCheck(); //type-checking bottom-up
 
         System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
-/*
-				// CODE GENERATION  prova.SimpLanPlus.asm
-				String code=ast.codeGeneration();
+        /*
+        // Code Generation
+                String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
-				out.write(code);
+				out.write(code + "halt");
 				out.close();
 				System.out.println("Code generated! Assembling and running generated code.");
 
@@ -92,7 +98,7 @@ public class Test {
 				CommonTokenStream tokensASM = new CommonTokenStream(lexerASM);
 				SVMParser parserASM = new SVMParser(tokensASM);
 
-				//parserASM.assembly();
+				//parserASM.assembly(); is called in the visitorSVM
 
 				SVMVisitorImpl visitorSVM = new SVMVisitorImpl();
 				visitorSVM.visit(parserASM.assembly());
@@ -103,7 +109,7 @@ public class Test {
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();
-			}    */
+        */
 
         } catch(ParseCancellationException e){
             System.out.println("The program was not in the right format. Exiting the compilation process now");

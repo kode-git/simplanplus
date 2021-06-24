@@ -22,11 +22,6 @@ public class NewExpNode implements Node, Cloneable {
         return new PointerTypeNode<GenericTypeNode>();
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
 
     public int checkEffects(Environment env) {
         return 0;
@@ -51,4 +46,10 @@ public class NewExpNode implements Node, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

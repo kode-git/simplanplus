@@ -42,11 +42,6 @@ public class NegExpNode implements Node, Cloneable {
         return null;
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
 
     public int checkEffects(Environment env) {
         return 0;
@@ -72,4 +67,10 @@ public class NegExpNode implements Node, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

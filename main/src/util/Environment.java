@@ -42,12 +42,13 @@ public class Environment implements Cloneable {
 	}
 
 	public void addTable(HashMap<String, STentry> hm){
+		this.nestingLevel++;
 		this.symTable.add(hm);
 	}
 
 
 	public void removeTable(){
-		this.symTable.remove(symTable.size()-1);
+		this.symTable.remove(this.nestingLevel);
 		this.nestingLevel--;
 	}
 

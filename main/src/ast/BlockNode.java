@@ -69,7 +69,6 @@ public class BlockNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
-        env.setNestingLevel(env.getNestingLevel()+1);
         env.addTable(new HashMap());
         ArrayList<SemanticError> res = new ArrayList();
         if (this.declarations.size() > 0) {
@@ -130,10 +129,6 @@ public class BlockNode implements Node {
         }
     }
 
-    public String codeGeneration() {
-        return null;
-    }
-
 
     //Not used
     public int checkEffects(Environment env)
@@ -172,6 +167,15 @@ public class BlockNode implements Node {
 
         }
         return hasIteRet; // cases where ite has return statement but DecFunc doesn't
+    }
+
+    public String codeGeneration() {
+        String out="";
+        for (Node dec : declarations)
+            out+=dec.codeGeneration();
+        for (Node st : statements)
+            out+=st.codeGeneration();
+        return out; // halt is added in the Test.java
     }
 
 

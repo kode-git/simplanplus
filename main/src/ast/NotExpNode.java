@@ -47,12 +47,6 @@ public class NotExpNode implements Node, Cloneable {
     }
 
 
-
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     // not used
     public int checkEffects(Environment env) {
         return 0;
@@ -76,4 +70,10 @@ public class NotExpNode implements Node, Cloneable {
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }

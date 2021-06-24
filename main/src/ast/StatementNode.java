@@ -13,7 +13,7 @@ public class StatementNode implements Node, Cloneable{
     private int effectDecFun;
     public StatementNode(Node st){
         this.st=st;
-        //checkRet();
+        //t();
     }
 
     public void setSt(Node st) {
@@ -75,11 +75,6 @@ public class StatementNode implements Node, Cloneable{
         return st.typeCheck();
     }
 
-    @Override
-    public String codeGeneration() {
-        return null;
-    }
-
     // not used
     public int checkEffects(Environment env) {
         return 0;
@@ -109,4 +104,10 @@ public class StatementNode implements Node, Cloneable{
             return null;
         }
     }
+
+    @Override
+    public String codeGeneration() {
+        return "";
+    }
+
 }
