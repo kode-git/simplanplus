@@ -1,10 +1,8 @@
 {
-^int x = new;
-^int y = new;
-int z = 10;
-void g(^int x, int y){ if (y==0) delete x ; else { x^ = x^ - 1; g(x,y) ; delete x ;} }
-x^=10;
-y^=20;
-g(x,z);
 
+void f(int m, int n){
+	if (m>n) { print(m+n) ;}
+	else { int x = 1 ; f(m+1,n+1) ; }
+}
+f(5,4) ;
 }

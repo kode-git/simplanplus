@@ -69,7 +69,6 @@ public class BlockNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
-        env.setNestingLevel(env.getNestingLevel()+1);
         env.addTable(new HashMap());
         ArrayList<SemanticError> res = new ArrayList();
         if (this.declarations.size() > 0) {

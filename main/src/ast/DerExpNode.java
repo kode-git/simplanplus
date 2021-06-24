@@ -74,9 +74,11 @@ public class DerExpNode implements Node, Cloneable {
             }
             if (effectsST == 0) {
                 res.add(new SemanticError("error: variable " + derExp.toPrint("") + " not initialized"));
+                return res;
 
             } else if (effectsST == 2) {
                 res.add(new SemanticError("error: variable " + derExp.toPrint("") + " previously deleted"));
+                return res;
 
             }
         } else {

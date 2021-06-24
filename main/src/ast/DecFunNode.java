@@ -213,7 +213,6 @@ public class DecFunNode implements Node, Cloneable {
             res.add(err);
         } else {
             // making new scope :-> \Gamma - []
-            env.setNestingLevel(env.getNestingLevel() + 1);
             env.addTable(new HashMap<String, STentry>());
             int i = 0;
             try {

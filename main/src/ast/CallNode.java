@@ -225,11 +225,11 @@ public class CallNode implements Node, Cloneable {
         return res;
     }
 
-    // TODO: Checking Offset
+    // TODO: Checking Offset and Pointer case
     public String codeGeneration() {
         String parameters = "" ;
         for (int i=exp.size()-1; i>=0; i--)
-            parameters += exp.get(i).codeGeneration(); // codeGen of the exp
+            parameters += exp.get(i).codeGeneration() + "push 0"; // codeGen of the exp
 
         String getAR = "";
         for (int i=0; i < nestinglevel-entry.getNestinglevel(); i++)
@@ -247,7 +247,8 @@ public class CallNode implements Node, Cloneable {
         return "lfp\n"+ 				// push $fp
 
                 parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0
-                "lfp\n"+getAR+ 		// setting AL going up on the static chain
+                "lfp\n"+                //
+                getAR+ 		// setting AL going up on the static chain
                 // get the jump address and put it on the stack
                 "push "+ entry.getOffset()+"\n"+ // setting of the offset on the stack
                 "lfp\n"+getAR+ 		// going up on the static chain on the decFun AR

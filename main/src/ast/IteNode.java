@@ -188,7 +188,7 @@ public class IteNode implements Node, Cloneable{
             return this.exp.codeGeneration() +         // cgen(stable, exp)
                     "push 1\n" +                       // push $a0
                     "beq " + true_branch + "\n" +      // beq $a0 $t1 true_branch
-                    st.get(1).codeGeneration() +       // cgen(stable, st.get(1)
+                    st.get(1).codeGeneration() +       // cgen(stable, st.get(1))
                     "b " + end_if + "\n" +             // jump end_if
                     true_branch + ":\n" +              // true_branch:
                     st.get(0).codeGeneration() +       // cgen(stable, st.get(0)
@@ -202,6 +202,7 @@ public class IteNode implements Node, Cloneable{
                     true_branch + ":\n" +               // true_branch:
                     st.get(0).codeGeneration() +        // cgen(stable, st.get(0))
                     end_if + ":\n";                     // end_if :
+
         }
     }
 }
