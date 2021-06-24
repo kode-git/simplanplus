@@ -1,9 +1,10 @@
 {
-^int x=new;
+^int x = new;
 ^int y = new;
 int z = 10;
-void h(^int x, ^int y){ if(x^ == 10) delete x; else h(x,y); return y;}
-x^ = 10;
-y^= 20;
-h(x,y);
- }
+void g(^int x, int y){ if (y==0) delete x ; else { x^ = x^ - 1; g(x,y) ; delete x ;} }
+x^=10;
+y^=20;
+g(x,z);
+
+}

@@ -83,6 +83,10 @@ public class DeletionNode implements Node, Cloneable{
         if(effectDecFun == 0) {
 
             STentry entry = env.lookup(env.getNestingLevel(), id);
+            if(entry.getPointerCounter() == 0){
+                res.add(new SemanticError("can't delete a no pointer variable"));
+                return res;
+            }
             effectsST = entry.getEffectState(0);
             if (effectsST >= 0 && effectsST <= 1) {
                 int size = entry.getPointerCounter();
