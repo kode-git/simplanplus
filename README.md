@@ -4,9 +4,9 @@
 <p>
         <img src="https://img.shields.io/static/v1?label=build&message=passing&color=%3CCOLOR%3E" alt="alternatetext">
 	<img src="https://img.shields.io/badge/state-working-red" alt="alternatetext">
-	<img src="https://img.shields.io/badge/Version-1.0%20-blue" alt="alternatetext">
-  <img src="https://img.shields.io/badge/parser-ANTLR4-yellow" alt="alternatetext">
-  <img src="https://img.shields.io/badge/code-Java 10-white" alt="alternatetext">
+	<img src="https://img.shields.io/badge/version-1.0%20-blue" alt="alternatetext">
+  <img src="https://img.shields.io/badge/ANTLR-9.2.1-yellow" alt="alternatetext">
+  <img src="https://img.shields.io/badge/Java-13.2-white" alt="alternatetext">
 </p>
 Progetto per il corso di Compilatori ed Interpreti presso Alma Mater Studiorum di Bologna, laura magistrale in Informatica. Il compilatore è basato su grammatiche ANTL4 e programmato in Java (JDK 13.0.6).
 
