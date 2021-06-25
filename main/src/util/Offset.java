@@ -1,6 +1,6 @@
 package util;
 
-public class Offset {
+public class Offset implements Cloneable{
     private int offset=0;
 
     public int getOffset(){
@@ -11,5 +11,15 @@ public class Offset {
     }
     public void increment(){
         this.offset++;
+    }
+    public Offset clone(){
+        try{
+            Offset cloned = (Offset) super.clone();
+            return cloned;
+
+        } catch(CloneNotSupportedException e){
+            return null;
+        }
+
     }
 }

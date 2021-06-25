@@ -185,6 +185,10 @@ public class AssignmentNode implements Node, Cloneable{
      */
     @Override
     public String codeGeneration() {
-        return "";
+        String out = "";
+        out += exp.codeGeneration();
+        out += lhs.codeGeneration();
+
+        return out;
     }
 }

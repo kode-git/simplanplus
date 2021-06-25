@@ -9,13 +9,10 @@ public class ExecuteVM {
  
     private int[] code;
     private int[] memory = new int[MEMSIZE];
-    // [ 5, 4, 3, 2, 1]
-    // AR1 [5,4,3]
-    // AR2 [2,1]
     private int ip = 0;
-    private int sp = MEMSIZE;
-    private int hp = 0;       
-    private int fp = MEMSIZE; 
+    private int sp = 0;
+    private int hp = MEMSIZE - 1; // heap <-
+    private int fp = 0;  // stack ->
     private int ra;           
     private int rv;
     
@@ -25,7 +22,7 @@ public class ExecuteVM {
     
     public void cpu() {
       while ( true ) {
-    	if(hp+1>=sp) {
+    	if(hp+1<sp) {
     		System.out.println("\nRuntime error: Out of memory");
             return;
     	}
@@ -127,7 +124,7 @@ public class ExecuteVM {
              case SVMParser.HALT :
                  // TODO: Check if this result is necessary
             	//to print the result
-             	//System.out.println("\nResult: " + memory[sp] + "\n");
+             	System.out.println("\nResult: " + memory[sp] + "\n");
              	return;
             }
     	} 

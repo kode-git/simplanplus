@@ -64,7 +64,9 @@ public class Test {
             //System.out.println(ast.toPrint(""));
 
             Environment env = new Environment();
-            System.out.println("Check Semantics...");
+
+
+            System.out.println("Check if there are semantics errors...");
             ArrayList<SemanticError> err = ast.checkSemantics(env);
 
         if (err.size() > 0) {
@@ -73,19 +75,20 @@ public class Test {
                 System.out.println("\t" + e);
             System.exit(0);
         } else {
-            // do nothing to make the output cleaner
-            // System.out.println("Visualizing AST...")
-            //System.out.println(ast.toPrint(":->"));
+            System.out.println("Check Semantics ok! Visualizing AST ");
+            System.out.println("--------------------");
+            System.out.println(ast.toPrint(" -> "));
+            System.out.println("--------------------");
         }
 
-        System.out.println("Type checking...");
+            System.out.println("Type checking...");
 
-        Node type = ast.typeCheck(); //type-checking bottom-up
+            Node type = ast.typeCheck(); //type-checking bottom-up
 
-        System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
-
+            System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
         // Code Generation
+            System.out.println("Generating code...");
                 String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
 				out.write(code + "halt");
@@ -107,7 +110,6 @@ public class Test {
 				if (lexerASM.lexicalErrors>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
 
 				System.out.println("Starting Virtual Machine...");
-				System.out.println("Output:");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();
 

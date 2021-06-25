@@ -180,10 +180,12 @@ public class BlockNode implements Node {
 
     public String codeGeneration() {
         String out="";
+        out += "lfp\n";
         for (Node dec : declarations)
             out+=dec.codeGeneration();
         for (Node st : statements)
             out+=st.codeGeneration();
+        out= "sfp\n";
         return out; // halt is added in the Test.java
     }
 

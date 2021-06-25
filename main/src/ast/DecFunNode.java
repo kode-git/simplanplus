@@ -13,6 +13,8 @@ public class DecFunNode implements Node, Cloneable {
     private BlockNode block;
     private int effectDecFun;
     private ArrayList<int[]> pointerEffectStatesArg;
+    private Offset offset;
+    private Offset clonedOffset;
     private ArrayList<Node> parameters = new ArrayList<Node>();
 
 
@@ -186,14 +188,72 @@ public class DecFunNode implements Node, Cloneable {
     //not used
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        return null;
+
+        ArrayList<SemanticError> res = new ArrayList();
+        STentry entry = new STentry(env.getNestingLevel(), clonedOffset.getOffset() );
+
+        // define return type :: (void, GenericType :: (int, bool))
+        if(!(type instanceof GenericTypeNode)){
+            // type :: void
+            entry.setReference(this);
+            entry.addType(new ArrowTypeNode(args, new VoidNode()));
+        }
+        else {
+            // type :: GenericType
+            entry.setReference(this);
+            entry.addType(new ArrowTypeNode(args, type));
+        }
+        clonedOffset.increment();
+        SemanticError err;
+        if(effectDecFun == 1)
+            // adding of the function declaration inside the table at the current nesting level
+            err = env.addEntry(env.getNestingLevel(), this.id, entry);
+        else
+            err = null;
+        if (err != null) {
+            res.add(err);
+        } else {
+            // making new scope :-> \Gamma - []
+            env.addTable(new HashMap<String, STentry>());
+            int i = 0;
+            Offset argOffset = new Offset();
+            argOffset.increment();
+            try {
+                for (Node arg : this.args) {
+                    ArgNode argNode = (ArgNode) arg;
+                    if (effectDecFun != 1) {
+                        if (argNode.getCounter() > 0) {
+                            // this is a pointer arguments, we need to take the effect state of the var
+                            int[] argEffectState = this.getPointerEffectStatesArg().get(i);
+                            i = i + 1;
+                            argNode.setPointerEffectStateArg(argEffectState);
+                        }
+                    }
+                    res.addAll(argNode.checkSemantics(env,argOffset)); // adding in table inside the args checkSemantics
+                }
+            } catch(IndexOutOfBoundsException e){
+                // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
+                // for callNode parameter and counterST != 0 for the arg reference in DecFun (pointer type)
+                res.add(new SemanticError("error: Wrong reference for the pointer argument in the function " + id));
+                return res;
+            }
+            // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
+            // the environment NestingLevel + 1 is the environment where there are arguments of the functions
+            // the current one NestingLevel - 1 is the environment where there is the declaration of the function
+            env.setNestingLevel(env.getNestingLevel() - 1);
+            this.block.setEffectDecFun(this.effectDecFun);
+            res.addAll(this.block.checkSemantics(env));
+        }
+
+        return res;
     }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
         ArrayList<SemanticError> res = new ArrayList();
         STentry entry = new STentry(env.getNestingLevel(), offset.getOffset() );
-
+        this.offset = offset;
+        this.clonedOffset = offset.clone();
         // define return type :: (void, GenericType :: (int, bool))
         if(!(type instanceof GenericTypeNode)){
             // type :: void
@@ -259,6 +319,8 @@ public class DecFunNode implements Node, Cloneable {
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.args = (ArrayList<Node>) this.args.clone();
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
+            cloned.offset = this.offset.clone();
+            cloned.clonedOffset = this.clonedOffset.clone();
             return cloned;
         } catch(CloneNotSupportedException e){
             return null;

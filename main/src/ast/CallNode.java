@@ -205,6 +205,7 @@ public class CallNode implements Node, Cloneable {
             res.addAll(e.checkSemantics(env));
         }
         DecFunNode function = entry.getReference();
+        System.out.println(function);
 
         if(this.effectDecFun != 0){
             // main invocation
@@ -231,7 +232,7 @@ public class CallNode implements Node, Cloneable {
     public String codeGeneration() {
         String parameters = "" ;
         for (int i=exp.size()-1; i>=0; i--)
-            parameters += exp.get(i).codeGeneration() + "push 0"; // codeGen of the exp
+            parameters += exp.get(i).codeGeneration() + "push 0\n"; // codeGen of the exp
 
         String getAR = "";
         for (int i=0; i < nestinglevel-entry.getNestinglevel(); i++)

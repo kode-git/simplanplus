@@ -15,13 +15,28 @@ public int lexicalErrors=0;
 assembly: (instruction)* ;
 
 instruction:
-    ( PUSH n=NUMBER 
-	  | PUSH l=LABEL 		     
-	  | POP		    
-	  | ADD		    
-	  | SUB		    
-	  | MULT	    
-	  | DIV		    
+    ( PUSH n=NUMBER
+	  | PUSH l=LABEL
+	  | PUSHT
+	  | TOPT
+	  | PUSHA
+	  | TOPA
+	  | LIA
+	  | POP
+	  | ADD
+	  | ADDR
+	  | SUB
+	  | SUBR
+	  | MULT
+	  | MULTR
+	  | DIV
+	  | DIVR
+	  | AND
+	  | OR
+	  | NOT
+	  | ANDR
+	  | ORR
+	  | NOTR
 	  | STOREW	  
 	  | LOADW           
 	  | l=LABEL COL     

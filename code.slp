@@ -1,7 +1,9 @@
 {
+int f(){ return 1;}
+int g(){ return 0;}
 
-int f(int x){ print x; return x;}
+if(f() == 1){
+    print f();
+} else print g();
 
-int y = f(10);
-print y + 2;
 }
