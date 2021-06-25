@@ -50,6 +50,7 @@ public class ExecuteVM {
                     case SVMParser.DIV:
                         v1 = pop();
                         v2 = pop();
+
                         try {
                             push(v2 / v1);
                         } catch(ArithmeticException e){

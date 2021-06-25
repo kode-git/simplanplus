@@ -18,15 +18,11 @@ label0:
 lfp
 push 10
 push 4
-add
-push 9
-push 5
-add
 bleq label6
-push 0
+push 1
 b label7
 label6:
-push 1
+push 0
 label7:
 push 1
 beq label4

@@ -76,7 +76,7 @@ public class NegExpNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-
+        // This multiplication is done because the int value is only in positive form in IntNode
         return negExp.codeGeneration() + "push -1\n" + "mult\n";
     }
 
