@@ -1,9 +1,8 @@
 {
-if (-10 == -10){
-    if(10 > 4)
-        print 10+5;
-    else print 10+4;
-}
-print 30*(-3);
+
+int f(){ print 10; return 10 + 4;}
+
+f();
+
 
 }

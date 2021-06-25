@@ -7,15 +7,15 @@ import java.util.HashMap;
 
 public class DecFunNode implements Node, Cloneable {
 
-    private Node type;
-    private String id;
-    private ArrayList<Node> args;
-    private BlockNode block;
-    private int effectDecFun;
-    private ArrayList<int[]> pointerEffectStatesArg;
-    private Offset offset;
-    private Offset clonedOffset;
-    private ArrayList<Node> parameters = new ArrayList<Node>();
+    private Node type; // type of return
+    private String id; // id of entry
+    private ArrayList<Node> args; // arguments of function
+    private BlockNode block; // block of function
+    private int effectDecFun; // effect on the declaration
+    private ArrayList<int[]> pointerEffectStatesArg; // effects on arguments
+    private Offset offset; // main offset
+    private Offset clonedOffset; // internal offset reference
+    private ArrayList<Node> parameters = new ArrayList<Node>(); // parameters passed from caller (only for cgen)
 
 
     // type id (args) {}
@@ -56,6 +56,30 @@ public class DecFunNode implements Node, Cloneable {
         this.block = block;
         this.effectDecFun = 1;
         this.pointerEffectStatesArg = new ArrayList<int[]>();
+    }
+
+    public Offset getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Offset offset) {
+        this.offset = offset;
+    }
+
+    public Offset getClonedOffset() {
+        return clonedOffset;
+    }
+
+    public void setClonedOffset(Offset clonedOffset) {
+        this.clonedOffset = clonedOffset;
+    }
+
+    public ArrayList<Node> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(ArrayList<Node> parameters) {
+        this.parameters = parameters;
     }
 
     public Node getType() {
@@ -151,7 +175,6 @@ public class DecFunNode implements Node, Cloneable {
 
     }
 
-    // TODO BugFix
     @Override
     public Node typeCheck() {
 
@@ -321,52 +344,53 @@ public class DecFunNode implements Node, Cloneable {
             cloned.pointerEffectStatesArg = (ArrayList<int[]>) this.pointerEffectStatesArg.clone();
             cloned.offset = this.offset.clone();
             cloned.clonedOffset = this.clonedOffset.clone();
+            cloned.parameters = (ArrayList<Node>) this.parameters.clone();
             return cloned;
         } catch(CloneNotSupportedException e){
             return null;
         }
     }
 
-    /*
-    cgen(stable,f(e1,...,en)) =
-                push $fp
-                cgen(stable,en)
-                push $a0 ...
-                cgen(stable,e1)
-                push $a0
-                jal f_entry
-     */
     @Override
     public String codeGeneration() {
-        String argCode="";
-        if (args!=null) for (Node arg : args) // cgen(stable, e(i)) :: i in 1.. num(args)
-            argCode += arg.codeGeneration();
+        String out = "";
+        String cgen = "";
+        String pop = "";
+        String popPar = "";
+        if(this.args.size() > 0){
+            for(Node arg : args){
+                cgen += arg.codeGeneration();
+            }
+        }
 
-        String popArg="";
-        if (args!=null)
-            for (Node arg : args) popArg += "pop\n"; // pop on the stack for num(args) times
+        if(this.args.size() > 0)
+            for(Node arg : args)
+                pop += "pop\n";
 
-        String popPar="";
-        // the parameters are pushed in the stack in the callNode.codeGeneration()
-        for (Node par : parameters) popPar += "pop\n"; // pop on the stack for num(par) times
+       if(this.parameters.size() > 0){
+           for(Node par : parameters)
+               popPar += "pop\n";
+       }
 
-        String funl= SimpLanlib.freshFunLabel(); // this is the label called by the jar of the callNode.codeGeneration()
-        SimpLanlib.putCode(funl+":\n"+
-                "cfp\n"+ 		// setting $fp to $sp
-                "lra\n"+ 		// insert $ra :: return address
-                argCode+ 		// insert local variables (not pointers)
-                block.codeGeneration()+ // cgen(stable, block)
-                "srv\n"+ 		// pop $rv :: return value
-                popArg+         // pop args
-                "sra\n"+ 		// pop $ra :: return address
-                "pop\n"+ 		// pop $al :: access link
-                popPar+         // pop parameters
-                "sfp\n"+  		// setting $fp to the value of the control link
-                "lrv\n"+ 		// result of the value in the stack
-                "lra\n"+"js\n"  // jump to $ra
-        );
+        String f_entry = SimpLanlib.freshFunLabel();
+        SimpLanlib.putCode(
+                f_entry + ":" + "\n" +
+                 "cfp\n" +                  // fp <- sp
+                 "lra\n" +                  // stack [ra]
+                  cgen +                    // insert of the local arguments
+                  block.codeGeneration() +  // do block codeGeneration
+                  "srv\n" +                 // store in the stack the return value (case of return :: int)
+                   pop +                    // pop of the local arguments
+                  "sra\n" +                 // pop of the return address
+                  "pop\n" +                 // pop AL
+                  popPar +                  // pop of the caller parameters
+                  "sfp\n" +                 // setting fp <- control link
+                   "lrv\n" +                // push the return value on the stack ( case of return :: int)
+                   "lra\n" +                // set ra from the top of stack
+                   "js\n" );                // jump to ra
 
-        return "push "+ funl +"\n"; // codeGen return string
+
+        return "push " + f_entry + "\n";
     }
 
 }

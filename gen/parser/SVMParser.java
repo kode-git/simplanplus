@@ -167,6 +167,7 @@ public class SVMParser extends Parser {
 		public Token n;
 		public Token l;
 		public TerminalNode PUSH() { return getToken(SVMParser.PUSH, 0); }
+		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public TerminalNode POP() { return getToken(SVMParser.POP, 0); }
 		public TerminalNode ADD() { return getToken(SVMParser.ADD, 0); }
 		public TerminalNode SUB() { return getToken(SVMParser.SUB, 0); }
@@ -195,7 +196,6 @@ public class SVMParser extends Parser {
 		public TerminalNode PRINT() { return getToken(SVMParser.PRINT, 0); }
 		public TerminalNode HALT() { return getToken(SVMParser.HALT, 0); }
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
-		public TerminalNode LABEL() { return getToken(SVMParser.LABEL, 0); }
 		public InstructionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -237,7 +237,7 @@ public class SVMParser extends Parser {
 				setState(12);
 				match(PUSH);
 				setState(13);
-				((InstructionContext)_localctx).l = match(LABEL);
+				match(LABEL);
 				}
 				break;
 			case 3:

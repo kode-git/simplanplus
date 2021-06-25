@@ -205,7 +205,7 @@ public class CallNode implements Node, Cloneable {
             res.addAll(e.checkSemantics(env));
         }
         DecFunNode function = entry.getReference();
-        System.out.println(function);
+        function.setParameters((ArrayList<Node>) exp.clone()); // need only for the size
 
         if(this.effectDecFun != 0){
             // main invocation
@@ -236,18 +236,9 @@ public class CallNode implements Node, Cloneable {
 
         String getAR = "";
         for (int i=0; i < nestinglevel-entry.getNestinglevel(); i++)
-            getAR += "lw\n"; // checking the decFun declarations visiting with the use of ARs
-        /*
-            AR format :
-          ---------------
-          control_link
-          parameters
-          access_link
-          local_declarations
-          ---------------
-         */
+            getAR += "lw\n"; // pop the value x on top of the stack and push MEMORY[x] :: AL going back
 
-        return "lfp\n"+ 				// push $fp
+        return "lfp\n"+ 				// push $fp to save it in the stack [fp]
 
                 parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0
                 "lfp\n"+                //

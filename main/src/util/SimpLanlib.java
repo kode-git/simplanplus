@@ -22,7 +22,7 @@ public class SimpLanlib {
   } 
 
   public static String freshFunLabel() { 
-	return "f"+(funLabCount++)+"entry";
+	return "f"+"entry"+(funLabCount++);
   } 
   
   public static void putCode(String c) { 

@@ -176,13 +176,6 @@ public class AssignmentNode implements Node, Cloneable{
         }
     }
 
-    /*
-    gen(stable,x) =
-          lw $al 0($fp)
-          for (i=0;
-               i < nesting_level - lookup(stable, x).nesting_level; i++) lw $al 0($al) ;
-                    lw $a0 lookup(stable, x).offset($al) ;
-     */
     @Override
     public String codeGeneration() {
         String out = "";

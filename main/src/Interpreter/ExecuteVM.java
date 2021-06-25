@@ -7,10 +7,10 @@ public class ExecuteVM {
     public static final int CODESIZE = 10000;
     public static final int MEMSIZE = 10000;
 
-    private int[] code;     // code area is separated from the memory
-    private int[] memory = new int[MEMSIZE]; // memory with default layout except for code area
-    private int ip = 0;     // code index
-    private int sp = 0; // stack ->next :: stack + 1
+    private int[] code;                      // instructions memory
+    private int[] memory = new int[MEMSIZE]; // activation records memory
+    private int ip = 0;                      // pointer to the next code instruction
+    private int sp = 0;                      // pointer of the next free record of the stack
     private int hp = MEMSIZE - 1; // heap-> next :: heap - 1
     private int fp = 0;  // frame ->next :: frame + 1
     private int ra;     // return address
@@ -162,6 +162,7 @@ public class ExecuteVM {
     }
 
     private int pop() {
+
         return memory[sp--];
     }
 

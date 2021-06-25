@@ -15,7 +15,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     
     @Override 
     public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
-    	visitChildren(ctx);
+    	visitChildren(ctx); // case SVMLexer.LABEL don't match
     	for (Integer refAdd: labelRef.keySet()) {
             code[refAdd]=labelAdd.get(labelRef.get(refAdd));
     	}
@@ -23,7 +23,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     }
     
     @Override 
-    public Void visitInstruction(SVMParser.InstructionContext ctx) { 
+    public Void visitInstruction(SVMParser.InstructionContext ctx) {
     	switch (ctx.getStart().getType()) {
 			case SVMLexer.PUSH:
 				if(ctx.n != null) {
@@ -33,6 +33,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				else if(ctx.l != null){
 					code[i++] = SVMParser.PUSH; 
 		            labelRef.put(i++, ctx.l.getText());
+
 				}
 				break;
 			case SVMLexer.POP:
@@ -49,6 +50,15 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				break;
 			case SVMLexer.DIV:
 				code[i++] = SVMParser.DIV;
+				break;
+			case SVMLexer.AND:
+				code[i++] = SVMParser.AND;
+				break;
+			case SVMLexer.OR:
+				code[i++] = SVMParser.OR;
+				break;
+			case SVMLexer.NOT:
+				code[i++] = SVMParser.NOT;
 				break;
 			case SVMLexer.STOREW:
 				code[i++] = SVMParser.STOREW;
@@ -71,6 +81,10 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				code[i++] = SVMParser.BRANCHLESSEQ; 
                 labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
                 break;
+			case SVMLexer.BRANCHLESS:
+				code[i++] = SVMParser.BRANCHLESS;
+				labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
+				break;
 			case SVMLexer.JS:
 				code[i++] = SVMParser.JS;
 				break;

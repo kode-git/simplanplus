@@ -89,7 +89,6 @@ public class RetNode implements Node, Cloneable{
     }
 
 
-    // TODO: ToCheck with the callNode and decFunNode code generation
     @Override
     public String codeGeneration() {
         return exp.codeGeneration();
