@@ -2,6 +2,7 @@ package ast;
 
 import com.sun.source.tree.ReturnTree;
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 import java.util.ArrayList;
@@ -208,6 +209,11 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
         }
 
         return res;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

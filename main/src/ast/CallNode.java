@@ -3,10 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.Environment;
-import util.FixedPoint;
-import util.SemanticError;
-import util.SimpLanlib;
+import util.*;
 
 public class CallNode implements Node, Cloneable {
 
@@ -141,6 +138,11 @@ public class CallNode implements Node, Cloneable {
       }
       return res;
   }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
+    }
 
     @Override
     public Node clone() {

@@ -3,6 +3,7 @@ package ast;
 import java.util.ArrayList;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 public class PointerTypeNode <T extends GenericTypeNode> implements Node, GenericTypeNode, Cloneable {
@@ -52,6 +53,11 @@ public class PointerTypeNode <T extends GenericTypeNode> implements Node, Generi
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return new ArrayList<SemanticError>();
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

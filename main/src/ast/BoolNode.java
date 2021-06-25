@@ -3,6 +3,7 @@ package ast;
 import java.util.ArrayList;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 public class BoolNode implements Node, Cloneable {
@@ -29,6 +30,11 @@ public class BoolNode implements Node, Cloneable {
 
  	  return new ArrayList<SemanticError>();
  	}
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
+    }
 
     @Override
     public Node clone() {

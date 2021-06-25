@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 import util.SimpLanlib;
 
@@ -78,6 +79,11 @@ public class BinExpSubNode implements Node, Cloneable {
         res.addAll(right.checkSemantics(env));
 
         return res;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

@@ -47,6 +47,11 @@ public class VoidNode implements Node {
     }
 
     @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
+    }
+
+    @Override
     public Node clone() {
         try {
             VoidNode cloned = (VoidNode) super.clone();

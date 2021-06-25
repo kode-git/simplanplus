@@ -1,9 +1,6 @@
 package ast;
 
-import util.Environment;
-import util.SemanticError;
-import util.SimpLanlib;
-import util.VoidNode;
+import util.*;
 
 import java.util.ArrayList;
 
@@ -160,6 +157,11 @@ public class AssignmentNode implements Node, Cloneable{
         }
         return res;
 
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override
