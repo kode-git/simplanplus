@@ -30,7 +30,7 @@ public class IdNode implements Node {
 	  while (j>=0 && tmp==null)
 		  tmp=(env.symTable.get(j--)).get(id);
       if (tmp==null)
-          res.add(new SemanticError("Id "+id+" not declared"));
+          res.add(new SemanticError("error: Id "+id+" not declared"));
       
       else{
     	  		entry = tmp;

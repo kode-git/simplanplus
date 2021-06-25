@@ -16,6 +16,7 @@ public class DecFunNode implements Node, Cloneable {
     private BlockNode block;
     private int effectDecFun;
     private ArrayList<int[]> pointerEffectStatesArg;
+    private ArrayList<Node> parameters = new ArrayList<Node>();
 
 
     // type id (args) {}
@@ -231,8 +232,8 @@ public class DecFunNode implements Node, Cloneable {
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
                 // for callNode parameter and counterST != 0 for the arg reference in DecFun (pointer type)
-                System.out.println("error: Wrong reference for the pointer argument in the function " + id);
-                System.exit(0);
+                res.add(new SemanticError("error: Wrong reference for the pointer argument in the function " + id));
+                return res;
             }
             // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
             // the environment NestingLevel + 1 is the environment where there are arguments of the functions
@@ -260,9 +261,46 @@ public class DecFunNode implements Node, Cloneable {
         }
     }
 
+    /*
+    cgen(stable,f(e1,...,en)) =
+                push $fp
+                cgen(stable,en)
+                push $a0 ...
+                cgen(stable,e1)
+                push $a0
+                jal f_entry
+     */
     @Override
     public String codeGeneration() {
-        return "";
+        String argCode="";
+        if (args!=null) for (Node arg : args) // cgen(stable, e(i)) :: i in 1.. num(args)
+            argCode += arg.codeGeneration();
+
+        String popArg="";
+        if (args!=null)
+            for (Node arg : args) popArg += "pop\n"; // pop on the stack for num(args) times
+
+        String popPar="";
+        // the parameters are pushed in the stack in the callNode.codeGeneration()
+        for (Node par : parameters) popPar += "pop\n"; // pop on the stack for num(par) times
+
+        String funl= SimpLanlib.freshFunLabel(); // this is the label called by the jar of the callNode.codeGeneration()
+        SimpLanlib.putCode(funl+":\n"+
+                "cfp\n"+ 		// setting $fp to $sp
+                "lra\n"+ 		// insert $ra :: return address
+                argCode+ 		// insert local variables (not pointers)
+                block.codeGeneration()+ // cgen(stable, block)
+                "srv\n"+ 		// pop $rv :: return value
+                popArg+         // pop args
+                "sra\n"+ 		// pop $ra :: return address
+                "pop\n"+ 		// pop $al :: access link
+                popPar+         // pop parameters
+                "sfp\n"+  		// setting $fp to the value of the control link
+                "lrv\n"+ 		// result of the value in the stack
+                "lra\n"+"js\n"  // jump to $ra
+        );
+
+        return "push "+ funl +"\n"; // codeGen return string
     }
 
 }

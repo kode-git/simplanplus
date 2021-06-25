@@ -9,7 +9,9 @@ public class ExecuteVM {
  
     private int[] code;
     private int[] memory = new int[MEMSIZE];
-    
+    // [ 5, 4, 3, 2, 1]
+    // AR1 [5,4,3]
+    // AR2 [2,1]
     private int ip = 0;
     private int sp = MEMSIZE;
     private int hp = 0;       
@@ -24,7 +26,7 @@ public class ExecuteVM {
     public void cpu() {
       while ( true ) {
     	if(hp+1>=sp) {
-    		System.out.println("\nError: Out of memory");
+    		System.out.println("\nRuntime error: Out of memory");
             return;
     	}
     	else {
@@ -66,7 +68,7 @@ public class ExecuteVM {
             	// check if object address where we take the method label
             	// is null value (-10000)
                 if (memory[sp] == -10000) {
-                	System.out.println("\nError: Null pointer exception");
+                	System.out.println("\nRuntime Error: Null pointer exception");
                 	return;
                 }  
                 push(memory[pop()]);
@@ -120,7 +122,7 @@ public class ExecuteVM {
                 push(hp);
                 break;
              case SVMParser.PRINT :
-                System.out.println((sp<MEMSIZE)?memory[sp]:"Empty stack!");
+                System.out.println((sp<MEMSIZE)?memory[sp]:"Runtime error: Empty stack!");
                 break;
              case SVMParser.HALT :
                  // TODO: Check if this result is necessary

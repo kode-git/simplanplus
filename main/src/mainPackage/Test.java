@@ -73,8 +73,8 @@ public class Test {
                 System.out.println("\t" + e);
             System.exit(0);
         } else {
-            System.out.println("Visualizing AST...");
-
+            // do nothing to make the output cleaner
+            // System.out.println("Visualizing AST...")
             //System.out.println(ast.toPrint(":->"));
         }
 
@@ -84,7 +84,7 @@ public class Test {
 
         System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
 
-        /*
+
         // Code Generation
                 String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
@@ -107,9 +107,10 @@ public class Test {
 				if (lexerASM.lexicalErrors>0 || parserASM.getNumberOfSyntaxErrors()>0) System.exit(1);
 
 				System.out.println("Starting Virtual Machine...");
+				System.out.println("Output:");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				vm.cpu();
-        */
+
 
         } catch(ParseCancellationException e){
             System.out.println("The program was not in the right format. Exiting the compilation process now");

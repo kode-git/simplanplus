@@ -17,6 +17,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
     	visitChildren(ctx);
     	for (Integer refAdd: labelRef.keySet()) {
+    		System.out.println("Label reference for cgen " + refAdd.intValue());
             code[refAdd]=labelAdd.get(labelRef.get(refAdd));
     	}
     	return null;

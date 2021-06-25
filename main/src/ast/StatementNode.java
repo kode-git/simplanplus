@@ -107,7 +107,7 @@ public class StatementNode implements Node, Cloneable{
 
     @Override
     public String codeGeneration() {
-        return "";
+        return st.codeGeneration();
     }
 
 }

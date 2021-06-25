@@ -30,7 +30,7 @@ public class VarNode implements Node {
         STentry entry = new STentry(env.nestingLevel,type, env.offset--); //separo introducendo "entry"
         
         if ( hm.put(id,entry) != null )
-        		res.add(new SemanticError("Var id "+id+" already declared"));
+        		res.add(new SemanticError("error: Var id "+id+" already declared"));
         
         res.addAll(exp.checkSemantics(env));
         

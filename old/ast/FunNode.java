@@ -35,7 +35,7 @@ public class FunNode implements Node {
       STentry entry = new STentry(env.nestingLevel,env.offset--); //separo introducendo "entry"
       
       if ( hm.put(id,entry) != null )
-        res.add(new SemanticError("Fun id "+id+" already declared"));
+        res.add(new SemanticError("error: Fun id "+id+" already declared"));
       else{
     	  //creare una nuova hashmap per la symTable
 	      env.nestingLevel++;
