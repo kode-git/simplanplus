@@ -99,7 +99,7 @@ public class BinExpAndNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return "";
+        return left.codeGeneration() + right.codeGeneration() + "and\n";
     }
 
 
