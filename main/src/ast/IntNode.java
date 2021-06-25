@@ -21,6 +21,7 @@ public class IntNode implements Node, Cloneable {
   }
   
   public Node typeCheck() {
+
     return new IntTypeNode();
   } 
   

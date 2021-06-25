@@ -80,7 +80,6 @@ public class Test {
         }
 
             System.out.println("Type checking...");
-
             Node type = ast.typeCheck(); //type-checking bottom-up
 
             System.out.println(type.toPrint("Type checking ok! Type of the program is: "));

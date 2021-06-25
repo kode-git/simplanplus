@@ -38,13 +38,13 @@ public class NotExpNode implements Node, Cloneable {
     @Override
     public String toPrint(String s) {
 
-        return s+"!" + expNode.toPrint(s+"") + " ";
+        return s+"NotExp: !" + expNode.toPrint(s+"") + " ";
 
     }
 
     @Override
     public Node typeCheck() {
-        return null;
+        return expNode.typeCheck();
     }
 
 
@@ -79,7 +79,7 @@ public class NotExpNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return "";
+        return expNode.codeGeneration() + "not\n";
     }
 
 }

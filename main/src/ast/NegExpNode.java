@@ -35,12 +35,12 @@ public class NegExpNode implements Node, Cloneable {
 
     @Override
     public String toPrint(String s) {
-        return s+ "!"+ negExp.toPrint(s+ "") +" ";
+        return s+ "NegExp: -"+ negExp.toPrint(s+ "") +" ";
 
     }
     @Override
     public Node typeCheck() {
-        return null;
+        return negExp.typeCheck();
     }
 
 
@@ -76,7 +76,8 @@ public class NegExpNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return negExp.codeGeneration() + "not\n";
+
+        return negExp.codeGeneration() + "push -1\n" + "mult\n";
     }
 
 }

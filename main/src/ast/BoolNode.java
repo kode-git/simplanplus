@@ -22,7 +22,8 @@ public class BoolNode implements Node, Cloneable {
   }
   
   public Node typeCheck() {
-    return new BoolTypeNode();
+    System.out.println("Enter here:" + val);
+      return new BoolTypeNode();
   }    
   
   @Override

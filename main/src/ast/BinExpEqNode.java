@@ -100,8 +100,19 @@ public class BinExpEqNode implements Node , Cloneable{
 
     @Override
     public String codeGeneration() {
-        // it is 0 and 1 because beq take true as false
-        return left.codeGeneration() == right.codeGeneration()?"push 0\n":"push 1\n";
+        String out = "";
+        out += left.codeGeneration();
+        out += right.codeGeneration();
+        String is_equals = SimpLanlib.freshLabel();
+        String end_eq = SimpLanlib.freshLabel();
+        return out +
+                "beq " + is_equals + "\n" +        // if left == right jump to is_equals
+                "push 0\n" +               // else is false :: 0
+                "b " + end_eq + "\n" +     // go to end to avoid is_equals
+                is_equals + ":\n" +        // is_equals:
+                "push 1\n" +               // push true :: 1
+                end_eq + ":\n";            // end_q
+
     }
 
 }

@@ -7,14 +7,14 @@ public class ExecuteVM {
     public static final int CODESIZE = 10000;
     public static final int MEMSIZE = 10000;
 
-    private int[] code;
-    private int[] memory = new int[MEMSIZE];
-    private int ip = 0;
-    private int sp = 0;
-    private int hp = MEMSIZE - 1; // heap <-
-    private int fp = 0;  // stack ->
-    private int ra;
-    private int rv;
+    private int[] code;     // code area is separated from the memory
+    private int[] memory = new int[MEMSIZE]; // memory with default layout except for code area
+    private int ip = 0;     // code index
+    private int sp = 0; // stack ->next :: stack + 1
+    private int hp = MEMSIZE - 1; // heap-> next :: heap - 1
+    private int fp = 0;  // frame ->next :: frame + 1
+    private int ra;     // return address
+    private int rv;     // return value
 
     public ExecuteVM(int[] code) {
         this.code = code;
@@ -50,7 +50,12 @@ public class ExecuteVM {
                     case SVMParser.DIV:
                         v1 = pop();
                         v2 = pop();
-                        push(v2 / v1);
+                        try {
+                            push(v2 / v1);
+                        } catch(ArithmeticException e){
+                            System.out.println("Arithmetic error: / by zero");
+                            return;
+                        }
                         break;
                     case SVMParser.SUB:
                         v1 = pop();
