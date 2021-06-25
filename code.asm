@@ -1,6 +1,6 @@
 lfp
-push 10
-push 10
+push 30
+push 29
 bleq label2
 push 1
 b label3

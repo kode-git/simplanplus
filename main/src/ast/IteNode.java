@@ -94,6 +94,7 @@ public class IteNode implements Node, Cloneable{
 
     @Override
     public Node typeCheck() {
+
         if (!(SimpLanlib.isSubtype(exp.typeCheck(), new BoolTypeNode()))) {
             System.out.println("error: bad condition type ");
             System.exit(0);

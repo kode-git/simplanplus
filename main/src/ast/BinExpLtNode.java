@@ -98,7 +98,24 @@ public class BinExpLtNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return "";
+
+        // left < right == !(right >= left )
+        String out = "";
+        out+= right.codeGeneration();
+        out+= left.codeGeneration();
+        String false_branch_lt = SimpLanlib.freshLabel();
+        String end_lt = SimpLanlib.freshLabel();
+        return  out +                              // cgen of left and right
+                // pop of cgen(stable, left) and cgen(stable, right) with bleq
+                "bleq " + false_branch_lt + "\n" +      // pop two values x,y on top of the stack and jump if right>=left
+                "push 1\n" +                        // true :: 1 in the stack
+                "b " + end_lt + "\n" +             // jump end_lt
+                false_branch_lt + ":\n" +              //false_branch_lt:
+                "push 0\n" +                        // false :: 0 in the stack
+                end_lt + ":\n";                    // end_lt :
+
+
     }
+
 
 }

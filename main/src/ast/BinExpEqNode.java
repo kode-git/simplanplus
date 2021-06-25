@@ -100,7 +100,8 @@ public class BinExpEqNode implements Node , Cloneable{
 
     @Override
     public String codeGeneration() {
-        return left.codeGeneration() == right.codeGeneration()?"push 1\n":"push 0\n";
+        // it is 0 and 1 because beq take true as false
+        return left.codeGeneration() == right.codeGeneration()?"push 0\n":"push 1\n";
     }
 
 }
