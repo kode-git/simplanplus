@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 import util.VoidNode;
 
@@ -120,6 +121,11 @@ public class DeletionNode implements Node, Cloneable{
             res.addAll(this.checkEffects(env));
         }
         return res;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

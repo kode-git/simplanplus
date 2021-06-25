@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 import java.util.ArrayList;
@@ -35,6 +36,11 @@ public class NewExpNode implements Node, Cloneable {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         return new ArrayList<SemanticError>();
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

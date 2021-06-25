@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 import java.util.ArrayList;
@@ -75,15 +76,21 @@ public class DeclarationNode implements Node, Cloneable{
         this.effectDecFun = effectDecFun;
     }
 
+    //not used
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
         ArrayList<SemanticError> res = new ArrayList();
            if (decVar!=null){
                decVar.setEffectDecFun(effectDecFun);
-               res.addAll(decVar.checkSemantics(env));
+               res.addAll(decVar.checkSemantics(env,offset));
            }else {
                decFun.setEffectDecFun(effectDecFun);
-               res.addAll(decFun.checkSemantics(env));
+               res.addAll(decFun.checkSemantics(env,offset));
            }
         return res;
     }

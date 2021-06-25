@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 import java.util.ArrayList;
@@ -56,6 +57,11 @@ public class CallExpNode implements Node, Cloneable {
         call.setEffectDecFun(this.effectDecFun);
         res.addAll(call.checkSemantics(env));
         return res;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

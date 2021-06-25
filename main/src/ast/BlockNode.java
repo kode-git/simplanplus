@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 import util.VoidNode;
 
@@ -71,17 +72,19 @@ public class BlockNode implements Node {
 
         env.addTable(new HashMap());
         ArrayList<SemanticError> res = new ArrayList();
+
         if (this.declarations.size() > 0) {
-            env.setOffset(env.getOffset()-2);
+            Offset blockOffset= new Offset();
+            blockOffset.increment();
+            //env.setOffset(env.getOffset()-2);
             Iterator decV = this.declarations.iterator();
             while(decV.hasNext()) {
                 Node n = (Node) decV.next();
                 n.setEffectDecFun(effectDecFun);
-                res.addAll(n.checkSemantics(env));
+                res.addAll(n.checkSemantics(env,blockOffset));
             }
         }
         if (this.statements.size() > 0) {
-            env.setOffset(env.getOffset()-2);
             Iterator staT = this.statements.iterator();
             while(staT.hasNext()) {
                 Node n = (Node)staT.next();
@@ -92,6 +95,12 @@ public class BlockNode implements Node {
         env.removeTable();
         return res;
     }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
+    }
+
 
     @Override
     public Node clone() {

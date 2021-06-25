@@ -18,5 +18,7 @@ public interface Node extends Cloneable {
 
   ArrayList<SemanticError> checkSemantics(Environment env);
 
+  ArrayList<SemanticError> checkSemantics(Environment env,Offset offset);
+
   Node clone();
 }  

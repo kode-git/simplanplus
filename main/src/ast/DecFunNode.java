@@ -1,9 +1,6 @@
 package ast;
 
-import util.Environment;
-import util.SemanticError;
-import util.SimpLanlib;
-import util.VoidNode;
+import util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -186,11 +183,16 @@ public class DecFunNode implements Node, Cloneable {
         return 0;
     }
 
+    //not used
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
         ArrayList<SemanticError> res = new ArrayList();
-        int offset = env.getOffset();
-        STentry entry = new STentry(env.getNestingLevel(), offset );
+        STentry entry = new STentry(env.getNestingLevel(), offset.getOffset() );
 
         // define return type :: (void, GenericType :: (int, bool))
         if(!(type instanceof GenericTypeNode)){
@@ -203,7 +205,7 @@ public class DecFunNode implements Node, Cloneable {
             entry.setReference(this);
             entry.addType(new ArrowTypeNode(args, type));
         }
-        env.setOffset(offset - 1);
+        offset.increment();
         SemanticError err;
         if(effectDecFun == 1)
             // adding of the function declaration inside the table at the current nesting level
@@ -216,6 +218,8 @@ public class DecFunNode implements Node, Cloneable {
             // making new scope :-> \Gamma - []
             env.addTable(new HashMap<String, STentry>());
             int i = 0;
+            Offset argOffset = new Offset();
+            argOffset.increment();
             try {
                 for (Node arg : this.args) {
                     ArgNode argNode = (ArgNode) arg;
@@ -227,7 +231,7 @@ public class DecFunNode implements Node, Cloneable {
                             argNode.setPointerEffectStateArg(argEffectState);
                         }
                     }
-                    res.addAll(argNode.checkSemantics(env)); // adding in table inside the args checkSemantics
+                    res.addAll(argNode.checkSemantics(env,argOffset)); // adding in table inside the args checkSemantics
                 }
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)

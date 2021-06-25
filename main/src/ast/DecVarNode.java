@@ -1,9 +1,6 @@
 package ast;
 
-import util.Environment;
-import util.SemanticError;
-import util.SimpLanlib;
-import util.VoidNode;
+import util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,14 +91,18 @@ public class DecVarNode implements Node, Cloneable {
                     + id + "";
         }
     }
-
+    //not used
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
 
         ArrayList<SemanticError> res = new ArrayList();
-        int offset=env.getOffset();
-        STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset,counter);
-        env.setOffset(--offset);
+        STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset.getOffset(),counter);
+        offset.increment();
         if (this.exp!=null) {
             exp.setEffectDecFun(this.effectDecFun);
             res.addAll(this.exp.checkSemantics(env));

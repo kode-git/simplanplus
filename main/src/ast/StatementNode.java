@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 import java.util.ArrayList;
@@ -89,6 +90,11 @@ public class StatementNode implements Node, Cloneable{
         res.addAll(st.checkSemantics(env));
        return res;
 
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        return null;
     }
 
     @Override

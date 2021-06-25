@@ -1,6 +1,7 @@
 package ast;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 
 import java.util.ArrayList;
@@ -70,10 +71,10 @@ public class ArgNode implements Node, Cloneable {
     }
 
 
-    public SemanticError checkEffects(Environment env) {
-        int offset=env.getOffset();
-        STentry entry = new STentry(env.getNestingLevel(), this.type, offset,counter);
-        env.setOffset(--offset);
+
+    public SemanticError checkEffects(Environment env, Offset offset) {
+        STentry entry = new STentry(env.getNestingLevel(), this.type, offset.getOffset(),counter);
+        offset.increment();
         SemanticError err = null;
         if(!(this.type instanceof PointerTypeNode)) {
             entry.setEffectState(0,1);
@@ -100,8 +101,13 @@ public class ArgNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
         ArrayList<SemanticError> res = new ArrayList();
-        SemanticError err = checkEffects(env);
+        SemanticError err = checkEffects(env,offset);
         if (err!=null){
             res.add(err);
         }

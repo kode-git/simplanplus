@@ -3,6 +3,7 @@ package ast;
 import java.util.ArrayList;
 
 import util.Environment;
+import util.Offset;
 import util.SemanticError;
 import util.VoidNode;
 
@@ -53,6 +54,11 @@ public class PrintNode implements Node, Cloneable {
       res.addAll(val.checkSemantics(env));
  	  return res;
  	}
+
+  @Override
+  public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+    return null;
+  }
 
   @Override
   public Node clone() {
