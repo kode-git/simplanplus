@@ -11,7 +11,7 @@ public class SimpLanlib {
 
   private static String funCode=""; 
 
-  //valuta se il tipo "a" <= al tipo "b", dove "a" e "b" sono tipi di base: int o bool
+  //if a <: b return true, a,b :: int | bool && (int <: bool || bool <: int != true)
   public static boolean isSubtype (Node a, Node b) {
     return a.getClass().equals(b.getClass()) ; //||
     	  // ( (a instanceof BoolTypeNode) && (b instanceof IntTypeNode) ); //
@@ -22,12 +22,12 @@ public class SimpLanlib {
   } 
 
   public static String freshFunLabel() { 
-	return "function"+(funLabCount++);
+	return "f"+(funLabCount++)+"entry";
   } 
   
   public static void putCode(String c) { 
-    funCode+="\n"+c; //aggiunge una linea vuota di separazione prima di funzione
-  } 
+    funCode+="\n"+c; //insert void line before function
+  }
   
   public static String getCode() { 
     return funCode;

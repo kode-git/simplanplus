@@ -1,7 +1,6 @@
 package mainPackage;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
@@ -23,7 +22,6 @@ import util.SemanticError;
 import ast.SimpLanPlusVisitorImpl;
 import ast.Node;
 import util.ThrowingErrorListener;
-import ast.SVMVisitorImpl;
 
 
 public class Test {
@@ -76,8 +74,8 @@ public class Test {
             System.exit(0);
         } else {
             System.out.println("Check Semantics ok! Visualizing AST ");
-            System.out.println("--------------------");
-            System.out.println(ast.toPrint(" -> "));
+            System.out.print("--------------------");
+            System.out.println(ast.toPrint(""));
             System.out.println("--------------------");
         }
 
@@ -111,6 +109,7 @@ public class Test {
 
 				System.out.println("Starting Virtual Machine...");
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
+				System.out.println("Output: ");
 				vm.cpu();
 
 

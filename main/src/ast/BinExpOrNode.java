@@ -98,7 +98,10 @@ public class BinExpOrNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return "";
+
+        return  left.codeGeneration()+  // cgen(stable, left)
+                right.codeGeneration()+ // cgen(stable, right)
+                "or\n";                // or
     }
 
 }

@@ -1,9 +1,6 @@
 {
-int f(){ return 1;}
-int g(){ return 0;}
+if ( 10 > 10)
+  print 20;
 
-if(f() == 1){
-    print f();
-} else print g();
-
+print 30;
 }

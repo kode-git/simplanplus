@@ -185,7 +185,8 @@ public class BlockNode implements Node {
             out+=dec.codeGeneration();
         for (Node st : statements)
             out+=st.codeGeneration();
-        out= "sfp\n";
+        out+= "sfp\n";
+
         return out; // halt is added in the Test.java
     }
 

@@ -11,8 +11,6 @@ import Interpreter.ExecuteVM;
 
 import parser.SimpLanLexer;
 import parser.SimpLanParser;
-import parser.SVMLexer;
-import parser.SVMParser;
 import util.Environment;
 import util.SemanticError;
 import ast.SimpLanVisitorImpl;

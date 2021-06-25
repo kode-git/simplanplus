@@ -1,7 +1,5 @@
 package Interpreter;
 
-import parser.SVMParser;
-
 public class ExecuteVM {
     
     public static final int CODESIZE = 10000;
