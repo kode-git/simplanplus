@@ -91,7 +91,7 @@ public class RetNode implements Node, Cloneable{
 
     @Override
     public String codeGeneration() {
-        return exp.codeGeneration();
+        return exp.codeGeneration() + "srv\n";
     }
 
 }

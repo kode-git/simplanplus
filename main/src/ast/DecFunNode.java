@@ -16,7 +16,7 @@ public class DecFunNode implements Node, Cloneable {
     private Offset offset; // main offset
     private Offset clonedOffset; // internal offset reference
     private ArrayList<Node> parameters = new ArrayList<Node>(); // parameters passed from caller (only for cgen)
-
+    private String fEntry ="";
 
     // type id (args) {}
     public DecFunNode(Node type, String id, ArrayList<Node> args, BlockNode block) {
@@ -56,6 +56,14 @@ public class DecFunNode implements Node, Cloneable {
         this.block = block;
         this.effectDecFun = 1;
         this.pointerEffectStatesArg = new ArrayList<int[]>();
+    }
+
+    public String getfEntry() {
+        return fEntry;
+    }
+
+    public void setfEntry(String fEntry) {
+        this.fEntry = fEntry;
     }
 
     public Offset getOffset() {
@@ -372,25 +380,24 @@ public class DecFunNode implements Node, Cloneable {
                popPar += "pop\n";
        }
 
-        String f_entry = SimpLanlib.freshFunLabel();
-        SimpLanlib.putCode(
-                f_entry + ":" + "\n" +
-                 "cfp\n" +                  // fp <- sp
-                 "lra\n" +                  // stack [ra]
-                  cgen +                    // insert of the local arguments
-                  block.codeGeneration() +  // do block codeGeneration
-                  "srv\n" +                 // store in the stack the return value (case of return :: int)
-                   pop +                    // pop of the local arguments
-                  "sra\n" +                 // pop of the return address
-                  "pop\n" +                 // pop AL
-                  popPar +                  // pop of the caller parameters
-                  "sfp\n" +                 // setting fp <- control link
-                   "lrv\n" +                // push the return value on the stack ( case of return :: int)
-                   "lra\n" +                // set ra from the top of stack
-                   "js\n" );                // jump to ra
+        this.fEntry = SimpLanlib.freshFunLabel();
+        out +=
+                this.fEntry + ":" + "\n" +
+                        "cfp\n" +                  // fp <- sp
+                        "lra\n" +                  // stack [ra]
+                        cgen +                    // insert of the local arguments
+                        block.codeGeneration() +  // do block codeGeneration
+                        "sra\n" +                 // pop of the return address
+                        // pop +                    // pop of the local arguments
+                         "pop\n" +                 // pop the return address
+                        popPar +                  // pop of the caller parameters
+                        "sfp\n" +                 // setting fp <- control link
+                        "lrv\n" +                // push the return value on the stack ( case of return :: int)
+                        "lra\n" +                // set ra from the top of stack
+                        "js\n";                // jump to ra
 
 
-        return "push " + f_entry + "\n";
+        return  out + "\n";
     }
 
 }
