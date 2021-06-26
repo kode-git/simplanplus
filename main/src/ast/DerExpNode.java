@@ -129,7 +129,7 @@ public class DerExpNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return derExp.codeGeneration();
+        return derExp.codeGeneration(); // r1 <- cgen(stable, derExp)
     }
 
 }

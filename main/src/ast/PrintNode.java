@@ -44,6 +44,7 @@ public class PrintNode implements Node, Cloneable {
   }
 
   public Node typeCheck() {
+    val.typeCheck();
     return new VoidNode();
   }
 
@@ -77,7 +78,7 @@ public class PrintNode implements Node, Cloneable {
   }
 
   public String codeGeneration() {
-    return val.codeGeneration()
-            +"print\n";
+    return val.codeGeneration()   // r1 <- cgen(stable, val); s -> []
+            +"print\n";           // print r1; s -> []
   }
 }  

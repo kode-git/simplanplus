@@ -238,7 +238,35 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
 
     @Override
     public String codeGeneration() {
-        return "";
+
+        if(lhVar instanceof LhsNode){
+            // Pointer case
+            return ""; // TODO
+        } else {
+            // ID case
+            String ar = "";
+            for(int i = 0; i < this.nestingLevel - entry.getNestinglevel(); i++ ){
+                ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
+            }
+            return "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
+                   "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
+                    ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
+                    "lw1 "+ entry.getOffset()+"\n";  // lw al entry.offset(al) :: r1 <- MEMORY[entry.offset + al]; s -> []
+
+        }
+
     }
+
+    /*
+    cgen(stable,x) =
+          lw $al 0($fp)
+          for (i=0;
+               i < nesting_level -
+gives the nesting level of x
+          lookup(stable, x).nesting_level;
+     i++) lw $al 0($al) ;
+lw $a0 lookup(stable, x).offset($al) ;
+
+     */
 
 }

@@ -190,25 +190,26 @@ public class IteNode implements Node, Cloneable{
     public String codeGeneration() {
         String true_branch = SimpLanlib.freshLabel();
         String end_if = SimpLanlib.freshLabel();
+        // s->[]
         if(st.size() == 2) {
             // this is the case with :: if(e) st else st
-            return this.exp.codeGeneration() +         // cgen(stable, exp)
-                    "push 1\n" +                       // push $a0
-                    "beq " + true_branch + "\n" +      // beq $a0 $t1 true_branch
-                    st.get(1).codeGeneration() +       // cgen(stable, st.get(1))
-                    "b " + end_if + "\n" +             // jump end_if
-                    true_branch + ":\n" +              // true_branch:
-                    st.get(0).codeGeneration() +       // cgen(stable, st.get(0)
+            return this.exp.codeGeneration() +         // r1 <- cgen(stable, exp); s->[]
+                    "lir2 1\n" +                       // r2 <- 1; s -> []
+                    "beq " + true_branch + "\n" +      // beq r1 r2 true_branch :: if r1 == r2 goto true_branch; s -> []
+                    st.get(1).codeGeneration() +       // r1 <- cgen(stable, st.get(1)); s -> []
+                    "b " + end_if + "\n" +             // jump end_if; s -> []
+                    true_branch + ":\n" +              // true_branch:; s -> []
+                    st.get(0).codeGeneration() +       // r1 <- cgen(stable, st.get(0)); s -> []
                     end_if + ":\n";                    // end_if :
         } else {
             // this is the case with :: if(e) st
-            return this.exp.codeGeneration() +          // cgen(stable, exp)
-                    "push 1\n" +                        // push $a0
-                    "beq " + true_branch + "\n" +       // beq $a0 $t1 true_branch
-                    "b " + end_if + "\n" +              // jump to end_if
-                    true_branch + ":\n" +               // true_branch:
-                    st.get(0).codeGeneration() +        // cgen(stable, st.get(0))
-                    end_if + ":\n";                     // end_if :
+            return this.exp.codeGeneration() +          // r1 <- cgen(stable, exp); s -> []
+                    "lir2 1\n" +                        // r2 <- 1; s -> []
+                    "beq " + true_branch + "\n" +       // beq r1 r2 true_branch :: if r1 == r2 goto true_branch; s -> []
+                    "b " + end_if + "\n" +              // jump to end_if; s -> []
+                    true_branch + ":\n" +               // true_branch:; s -> []
+                    st.get(0).codeGeneration() +        // r1 <- cgen(stable, st.get(0)); s -> []
+                    end_if + ":\n";                     // end_if :; s -> []
 
         }
     }

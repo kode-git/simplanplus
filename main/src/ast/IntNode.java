@@ -56,7 +56,8 @@ public class IntNode implements Node, Cloneable {
   }
 
   public String codeGeneration() {
-    return "push "+val+"\n";
+
+    return "lir1 "+val+"\n"; // li r1 val; s -> []
   }
 
 }  

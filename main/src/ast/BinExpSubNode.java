@@ -101,9 +101,12 @@ public class BinExpSubNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return left.codeGeneration() + //cgen(stable, left)
-               right.codeGeneration()+ // cgen(stable, right)
-               "sub\n";                  //sub
+        // s -> []
+        return  right.codeGeneration()+  // r1 <- cgen(stable, right) :: right; S -> []
+                "lr1\n" +             // r1 -> top_of_stack :: stack -> right ; s -> [r1]
+                left.codeGeneration()+   // r1 <- cgen(stable, left) :: left; s -> [r1]
+                "sr2\n" +              // r2 <- top_of_stack :: r2 <- right; s -> []
+                "sub\n";                 // add r1 <- r1 - r2 :: left - right; s -> []
     }
 
 }

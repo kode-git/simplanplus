@@ -1,8 +1,8 @@
 {
-
-int f(){ print 10; return 10 + 4;}
-
-f();
-
-
+int x;
+x = 0;
+{
+x = x + 10;
+print x;
+}
 }

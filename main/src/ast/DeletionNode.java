@@ -138,6 +138,7 @@ public class DeletionNode implements Node, Cloneable{
         }
     }
 
+    // TODO with offset setting
     @Override
     public String codeGeneration() {
         return "";

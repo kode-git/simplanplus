@@ -98,19 +98,18 @@ public class BinExpLeqNode implements Node , Cloneable{
 
     @Override
     public String codeGeneration() {
-        String out = "";
-        out+= left.codeGeneration();
-        out+= right.codeGeneration();
         String true_branch_leq = SimpLanlib.freshLabel();
         String end_leq = SimpLanlib.freshLabel();
-        return  out +                              // cgen of left and right
-                // pop of cgen(stable, left) and cgen(stable, right) with bleq
-                "bleq " + true_branch_leq + "\n" +      // pop two values x,y on top of the stack and jump if right>=left
-                "push 0\n" +                        // false :: 0 in the stack
-                "b " + end_leq + "\n" +             // jump end_leq
-                true_branch_leq + ":\n" +              //true_branch_leq:
-                "push 1\n" +                        // true :: 0 in the stack
-                end_leq + ":\n";                    // end_leq :
+        return  right.codeGeneration() +                // r1 <- cgen(stable, left); r1 <- right; s -> []
+                "lr1\n" +                               // r1 -> top_of_stack; s -> [r1] :: s -> [right]
+                left.codeGeneration() +                 // r1 <- cgen(stable, right); r1 <- left; s -> [r1] :: s ->[right]
+                "sr2\n" +                               // r2 <- top_of_stack; r2 <- right; s -> []
+                "bleq " + true_branch_leq + "\n" +      // r1 <= r2 :: left <= right go to true_branch; s -> []
+                "lir1 0\n" +                            // false :: 0 :: r1 <- 0; s -> []
+                "b " + end_leq + "\n" +                 // jump end_leq; s -> []
+                true_branch_leq + ":\n" +               //true_branch_leq:; s -> []
+                "lir1 1\n" +                            // true :: 1 :: r1 <- 1 ; s -> []
+                end_leq + ":\n";                        // end_leq :; s -> []
 
 
     }

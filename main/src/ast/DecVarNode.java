@@ -171,7 +171,7 @@ public class DecVarNode implements Node, Cloneable {
 
     public String codeGeneration() {
         if(this.exp != null)
-            return exp.codeGeneration();
+            return exp.codeGeneration();    // r1 <- cgen(stable, e)
         return "";
     }
 

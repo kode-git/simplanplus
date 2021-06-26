@@ -385,7 +385,6 @@ public class DecFunNode implements Node, Cloneable {
                 this.fEntry + ":" + "\n" +
                         "cfp\n" +                  // fp <- sp
                         "lra\n" +                  // stack [ra]
-                        cgen +                    // insert of the local arguments
                         block.codeGeneration() +  // do block codeGeneration
                         "sra\n" +                 // pop of the return address
                         // pop +                    // pop of the local arguments

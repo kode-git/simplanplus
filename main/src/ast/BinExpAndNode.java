@@ -56,6 +56,7 @@ public class BinExpAndNode implements Node, Cloneable {
 
     @Override
     public Node typeCheck() {
+        System.out.println("Enter here");
         if (!(SimpLanlib.isSubtype(left.typeCheck(), new BoolTypeNode()) &&
                 SimpLanlib.isSubtype(right.typeCheck(), new BoolTypeNode()))) {
             System.out.println("error: bad operand types for binary operator '&&'");
@@ -99,7 +100,12 @@ public class BinExpAndNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return left.codeGeneration() + right.codeGeneration() + "and\n";
+        // s -> []
+        return  right.codeGeneration()+  // r1 <- cgen(stable, right) :: right; S -> []
+                "lr1\n" +             // r1 -> top_of_stack :: stack -> right ; s -> [r1]
+                left.codeGeneration()+   // r1 <- cgen(stable, left) :: left; s -> [r1]
+                "sr2\n" +              // r2 <- top_of_stack :: r2 <- right; s -> []
+                "and\n";                 // add r1 <- r1 && r2 :: left && right; s -> []
     }
 
 

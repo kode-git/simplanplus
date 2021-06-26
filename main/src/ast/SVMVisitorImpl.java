@@ -36,6 +36,18 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 
 				}
 				break;
+			case SVMLexer.LIR1:
+				if(ctx.n != null) {
+					code[i++] = SVMParser.LIR1;
+					code[i++] = Integer.parseInt(ctx.n.getText());
+				}
+				break;
+			case SVMLexer.LIR2:
+				if(ctx.n != null) {
+					code[i++] = SVMParser.LIR2;
+					code[i++] = Integer.parseInt(ctx.n.getText());
+				}
+				break;
 			case SVMLexer.POP:
 				code[i++] = SVMParser.POP;
 				break;
@@ -54,17 +66,48 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 			case SVMLexer.AND:
 				code[i++] = SVMParser.AND;
 				break;
+			case SVMLexer.CRA:
+				code[i++] = SVMParser.CRA;
+				break;
 			case SVMLexer.OR:
 				code[i++] = SVMParser.OR;
 				break;
 			case SVMLexer.NOT:
 				code[i++] = SVMParser.NOT;
 				break;
-			case SVMLexer.STOREW:
-				code[i++] = SVMParser.STOREW;
+			case SVMLexer.STOREW:  // tokens.size() = 3
+				code[i++] = SVMParser.STOREW; // token 1
+				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
 				break;
-			case SVMLexer.LOADW:
-				code[i++] = SVMParser.LOADW;
+			case SVMLexer.LOADW: // tokens.size() = 3
+				code[i++] = SVMParser.LOADW;	// token 1
+				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
+				break;
+			case SVMLexer.SWR1:  // tokens.size() = 3
+				code[i++] = SVMParser.SWR1; // token 1
+				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
+				break;
+			case SVMLexer.LWR1: // tokens.size() = 3
+				code[i++] = SVMParser.LWR1;	// token 1
+				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
+				break;
+			case SVMLexer.LOADR1:
+				code[i++] = SVMParser.LOADR1;
+				break;
+			case SVMLexer.LOADR2:
+				code[i++] = SVMParser.LOADR2;
+				break;
+			case SVMLexer.LOADAL:
+				code[i++] = SVMParser.LOADAL;
+				break;
+			case SVMLexer.STOREAL:
+				code[i++] = SVMParser.STOREAL;
+				break;
+			case SVMLexer.STORER1:
+				code[i++] = SVMParser.STORER1;
+				break;
+			case SVMLexer.STORER2:
+				code[i++] = SVMParser.STORER2;
 				break;
 			case SVMLexer.LABEL:
 				labelAdd.put(ctx.l.getText(),i);
@@ -85,8 +128,8 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				code[i++] = SVMParser.BRANCHLESS;
 				labelRef.put(i++,(ctx.l!=null? ctx.l.getText():null));
 				break;
-			case SVMLexer.JS:
-				code[i++] = SVMParser.JS;
+			case SVMLexer.JR:
+				code[i++] = SVMParser.JR;
 				break;
 			case SVMLexer.LOADRA:
 				code[i++] = SVMParser.LOADRA;

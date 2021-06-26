@@ -101,22 +101,19 @@ public class BinExpGeqNode implements Node , Cloneable{
 
     @Override
     public String codeGeneration() {
-        // (left >= right) == (right <= left)
-        String out = "";
-        out+= right.codeGeneration();
-        out+= left.codeGeneration();
+
         String true_branch_geq = SimpLanlib.freshLabel();
         String end_geq = SimpLanlib.freshLabel();
-        return  out +                              // cgen of left and right
-                // pop of cgen(stable, left) and cgen(stable, right) with bleq
-                "bleq " + true_branch_geq + "\n" +      // pop two values x,y on top of the stack and jump if right>=left
-                "push 0\n" +                        // false :: 0 in the stack
-                "b " + end_geq + "\n" +             // jump end_geq
-                true_branch_geq + ":\n" +              //true_branch_geq:
-                "push 1\n" +                        // true :: 1 in the stack
-                end_geq + ":\n";                    // end_geq :
-
-
+        return  left.codeGeneration() +                  // r1 <- cgen(stable, right); s -> []
+                "lr1\n" +                                   // r1 -> top_of_stack; s -> [r1] :: s -> [left]
+                right.codeGeneration() +                     // r1 <- cgen(stable, left); s -> [r1]
+                "sr2\n" +                                   // r2 <- top_of_stack; s -> [] :: r2 <- left
+                "bleq " + true_branch_geq + "\n" +         // if r1 <= r2 :: right <= left go to true_branch_geq; s -> []
+                "lir1 0\n" +                                // false :: 0; r1 <- 0; ; s -> []
+                "b " + end_geq + "\n" +                     // jump end_geq; s -> []
+                true_branch_geq + ":\n" +                  // true_branch_geq:; s -> []
+                "lir1 1\n" +                                // true :: 1; r1 <- 1; s -> []
+                end_geq + ":\n";                            // end_geq : ; s -> []
     }
 
 }

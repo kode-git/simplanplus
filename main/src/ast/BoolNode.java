@@ -48,7 +48,8 @@ public class BoolNode implements Node, Cloneable {
     }
 
     public String codeGeneration() {
-		return "push "+(val?1:0)+"\n";
+
+      return "lir1 "+(val?1:0)+"\n";   // li r1 val? 1 : 0; s -> []
 	  }
 
     // not used

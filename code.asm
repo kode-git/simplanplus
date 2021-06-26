@@ -1,11 +1,11 @@
 lfp
-push fentry0
+lir1 0
 lfp
-lfp
-push 1
-lfp
+lir1 10
+lr1
+sr2
 add
-lw
-js
+print
+sfp
 sfp
 halt

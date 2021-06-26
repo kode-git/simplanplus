@@ -18,9 +18,9 @@ public class IntTypeNode implements Node, GenericTypeNode, Cloneable {
 	    return s+"IntType ";
     }
 
-    // not used
+
     public Node typeCheck() {
-    return null;
+    return this;
   }
 
 

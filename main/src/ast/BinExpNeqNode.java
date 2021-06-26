@@ -100,18 +100,20 @@ public class BinExpNeqNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        String out = "";
-        out += left.codeGeneration();
-        out += right.codeGeneration();
+
         String is_equals = SimpLanlib.freshLabel();
-        String end_neq = SimpLanlib.freshLabel();
-        return out +
-                "beq " + is_equals + "\n" +        // if left == right jump to is_equals
-                "push 1\n" +               // else is true :: 1
-                "b " + end_neq + "\n" +     // go to end to avoid is_equals
-                is_equals + ":\n" +        // is_equals:
-                "push 0\n" +               // push false :: 0
-                end_neq + ":\n";            // end_neq
+        String end_eq = SimpLanlib.freshLabel();
+
+        return   right.codeGeneration() +            // r1 <- cgen(stable, right) ; s -> []
+                "lr1\n" +                          // r1 -> top_of_stack; s -> [r1]
+                left.codeGeneration() +            // r1 <- cgen(stable, left); s -> [r1]
+                "sr2\n" +                            // r2 <- top_of_stack; s -> []
+                "beq " + is_equals + "\n" +        // if r1 == r2 :: left == right jump to is_equals; s -> []
+                "lir1 1\n" +                       // else is true :: 1; r1 <- 1; ; s -> []
+                "b " + end_eq + "\n" +             // go to end to avoid is_equals s -> []
+                is_equals + ":\n" +                // is_equals: s -> []
+                "lir1 0\n" +                       // is false :: 0; r1 <- 0; s -> []
+                end_eq + ":\n";                    // end_q s -> []
 
     }
 

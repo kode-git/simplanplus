@@ -17,9 +17,9 @@ public class BoolTypeNode implements Node, GenericTypeNode, Cloneable {
 	return s+"BoolType ";
   }
     
-  //not used
+
   public Node typeCheck() {
-    return null;
+    return this;
   }
   
   @Override

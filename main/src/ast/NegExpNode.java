@@ -77,7 +77,10 @@ public class NegExpNode implements Node, Cloneable {
     @Override
     public String codeGeneration() {
         // This multiplication is done because the int value is only in positive form in IntNode
-        return negExp.codeGeneration() + "push -1\n" + "mult\n";
+        return negExp.codeGeneration() +    // r1 <- cgen(stable, negExp); s -> []
+                "lir2 -1\n" +               // r2 <- -1; s -> []
+                "mult\n";                   // r1 <- r1 * r2 :: r1 * -1; s -> []
     }
 
 }
+

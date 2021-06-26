@@ -79,7 +79,9 @@ public class NotExpNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return expNode.codeGeneration() + "not\n";
+
+        return expNode.codeGeneration() +  // r1 <- cgen(stable, expNode); s -> []
+                "not\n";                   // not r1 ::  if r1 == 0 r1 <- 1 else r1 <- 0; s -> []
     }
 
 }

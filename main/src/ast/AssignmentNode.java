@@ -10,6 +10,7 @@ public class AssignmentNode implements Node, Cloneable{
     private Node exp;
     private int effectsST;
     private int effectDecFun;
+    private int nestingLevel;
 
     public AssignmentNode(Node lhs, Node exp){
         this.lhs = lhs;
@@ -146,6 +147,7 @@ public class AssignmentNode implements Node, Cloneable{
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
+        this.nestingLevel = env.getNestingLevel();
         // lhs setting on effectDecFun
         lhs.setEffectDecFun(this.effectDecFun);
         res.addAll(lhs.checkSemantics(env));
@@ -176,12 +178,44 @@ public class AssignmentNode implements Node, Cloneable{
         }
     }
 
+    /*
+    cgen(stable,x = e;) =
+               cgen(e)
+               lw $al 0($fp)
+               for (i=0;
+                      i < nesting_level -
+                          lookup(stable, x).nesting_level;
+                      i++) lw $al 0($al) ;
+                 sw $a0 lookup(stable, x).offset($al)
+     */
     @Override
     public String codeGeneration() {
-        String out = "";
-        out += exp.codeGeneration();
-        out += lhs.codeGeneration();
 
-        return out;
+
+
+        if(lhs instanceof LhsNode){
+            LhsNode lhsGen = (LhsNode) lhs;
+            STentry entry = lhsGen.getEntry();
+            if(lhsGen.getLhVar() instanceof String){
+                // case no pointer
+
+                String ar = "";
+                for(int i = 0; i < this.nestingLevel - entry.getNestinglevel(); i++ ){
+                    ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
+                }
+                return  exp.codeGeneration() +           // r1 <- cgen(stable, exp) s -> []
+                        "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
+                        "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
+                        ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
+                        "sw1 "+ entry.getOffset()+"\n";  // sw r1 entry.offset(al) :: r1 <- MEMORY[al + entry.offset]; s -> []
+
+            } else {
+                // pointer assignment
+                return "";
+            }
+
+        }
+        // is always an LhsNode
+        return "";
     }
 }

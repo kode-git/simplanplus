@@ -77,7 +77,8 @@ public class CallExpNode implements Node, Cloneable {
 
     @Override
     public String codeGeneration() {
-        return call.codeGeneration();
+
+        return call.codeGeneration(); // r1 <- cgen(stable, call)
     }
 
 }

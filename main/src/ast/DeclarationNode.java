@@ -135,10 +135,10 @@ public class DeclarationNode implements Node, Cloneable{
     public String codeGeneration() {
         if(decVar==null){
             // It is a DecFunNode
-            return decFun.codeGeneration();
+            return decFun.codeGeneration();     // cgen(stable, decFun) :: r1 not valid here
         } else {
             // else is a DecFunNode
-            return  decVar.codeGeneration();
+            return  decVar.codeGeneration();    // cgen(stable, decVar) :: r1 not valid here
         }
     }
 

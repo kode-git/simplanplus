@@ -234,20 +234,12 @@ public class CallNode implements Node, Cloneable {
         for (int i=0; i< exp.size(); i++)
             parameters += exp.get(i).codeGeneration(); // codeGen of the exp
 
-        String getAR = "";
-        for (int i=0; i < nestinglevel-entry.getNestinglevel(); i++)
-            getAR += "lw\n"; // pop the value x on top of the stack and push MEMORY[x] :: AL going back
         String f_entry = this.entry.getReference().getfEntry();
         return "lfp\n"+ 				// push $fp to save it in the stack [fp]
 
                 parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0
-                "lfp\n"+                //
-                getAR+ 		// setting AL going up on the static chain
-                // get the jump address and put it on the stack
-                "push "+ entry.getOffset()+"\n"+ // setting of the offset on the stack
-                "lfp\n"+getAR+ 		// going up on the static chain on the decFun AR
-                "add\n"+
-                "lw\n"+ 				// update on the stack the obtained address
+                "setra\n"  +         // ra <- ip
+
                 "b " + f_entry + "\n";                 // doing js on the address ($ra)s
     }
 

@@ -15,6 +15,11 @@ public class ExecuteVM {
     private int fp = 0;  // frame ->next :: frame + 1
     private int ra;     // return address
     private int rv;     // return value
+    private int r1;      // register r1
+    private int r2;      // register r2
+    private int offset; // temporal offset for sw and lw
+    private int number; // for li on r1 and r2
+    private int al;     // access link
 
     public ExecuteVM(int[] code) {
         this.code = code;
@@ -38,43 +43,69 @@ public class ExecuteVM {
                         pop();
                         break;
                     case SVMParser.ADD:
-                        v1 = pop();
-                        v2 = pop();
-                        push(v2 + v1);
+                        r1 = r1 + r2;
                         break;
                     case SVMParser.MULT:
-                        v1 = pop();
-                        v2 = pop();
-                        push(v2 * v1);
+                        r1 = r1 * r2;
                         break;
                     case SVMParser.DIV:
-                        v1 = pop();
-                        v2 = pop();
-
                         try {
-                            push(v2 / v1);
+                            r1 = r1 / r2;
                         } catch(ArithmeticException e){
                             System.out.println("Arithmetic error: / by zero");
                             return;
                         }
                         break;
                     case SVMParser.SUB:
-                        v1 = pop();
-                        v2 = pop();
-                        push(v2 - v1);
+                        r1 = r1 - r2;
                         break;
                     case SVMParser.STOREW: //
-                        address = pop();
-                        memory[address] = pop();
+                        offset = code[ip++];
+                        address = al + offset;
+                        try {
+                            memory[address] = al;
+                        } catch(ArrayIndexOutOfBoundsException e){
+                            System.out.println("\nRuntime error: Index out of memory");
+                            return;
+                        }
                         break;
                     case SVMParser.LOADW: //
-                        // check if object address where we take the method label
-                        // is null value (-10000)
-                        if (memory[sp] == -10000) {
+                        offset = code[ip++];
+
+                        address = al + offset;
+                        if (memory[address] == -10000) {
                             System.out.println("\nRuntime Error: Null pointer exception");
                             return;
                         }
-                        push(memory[pop()]);
+                        al = memory[al + offset];
+                        break;
+                    case SVMParser.LWR1: //
+                        offset = code[ip++];
+
+                        address = al + offset;
+                        if (memory[address] == -10000) {
+                            System.out.println("\nRuntime Error: Null pointer exception");
+                            return;
+                        }
+                        r1 = memory[al + offset];
+                        break;
+                    case SVMParser.SWR1: // r1 == al ::  sw al offset(al)
+                        offset = code[ip++];
+                        address = al + offset;
+                        try {
+                            memory[address] = r1;
+                        } catch(ArrayIndexOutOfBoundsException e){
+                            System.out.println("\nRuntime error: Index out of memory");
+                            return;
+                        }
+                        break;
+                    case SVMParser.LIR1:
+                        number = code[ip++];
+                        r1 = number;
+                        break;
+                    case SVMParser.LIR2:
+                        number = code[ip++];
+                        r2 = number;
                         break;
                     case SVMParser.BRANCH:
                         address = code[ip];
@@ -82,45 +113,56 @@ public class ExecuteVM {
                         break;
                     case SVMParser.BRANCHEQ: //
                         address = code[ip++];
-                        v1 = pop();
-                        v2 = pop();
-                        if (v2 == v1) ip = address;
+                        if (r1 == r2) ip = address;
                         break;
                     case SVMParser.BRANCHLESSEQ:
                         address = code[ip++];
-                        v1 = pop();
-                        v2 = pop();
-                        if (v2 <= v1) ip = address;
+                        if (r1 <= r2) ip = address;
                         break;
                     case SVMParser.BRANCHLESS:
                         address = code[ip++];
-                        v1 = pop();
-                        v2 = pop();
-                        if (v2 < v1) ip = address;
+                        if (r1 < r2) ip = address;
                         break;
                     case SVMParser.AND:
-                        v1 = pop();
-                        v2 = pop();
-                        if (v1 == v2 && v2 == 1) // 1 & 1 = 1
-                            push(1); // true
-                        else push(0); // false
+                        if (r1 == 0 || r2 == 0) // 1 & 1 = 1
+                            r1 = 0;
+                        else r1 = 1; // false
                         break;
                     case SVMParser.OR:
-                        v1 = pop();
-                        v2 = pop();
-                        if (v1 == v2 && v2 == 0) // 0 | 0 = 0
-                            push(0);     // false
-                        else push(1);    // true
+                        if (r1 == 0 && r2 == 0) // 0 | 0 = 0
+                            r1 = 0;    // false
+                        else r1 = 1;  // true
                         break;
                     case SVMParser.NOT:
-                        v1 = pop();
-                        if (v1 == 1) push(0);
-                        else push(1);
+                        if (r1 == 0) r1 = 1;
+                        else r1 = 0;
                         break;
-                    case SVMParser.JS: //
-                        address = pop();
-                        ra = ip;
-                        ip = address;
+                    case SVMParser.JR: //
+                        ip = ra; // setted by CRA
+                        break;
+                    case SVMParser.CRA:
+                        ra = ip + 3; // Avoid the jal instruction
+                        // cra
+                        // jal f_entry
+                        // point here
+                        break;
+                    case SVMParser.STORER1:
+                        r1 = pop();
+                        break;
+                    case SVMParser.LOADR1:
+                        push(r1);
+                        break;
+                    case SVMParser.STOREAL:
+                        al = pop();
+                        break;
+                    case SVMParser.LOADAL:
+                        push(al);
+                        break;
+                    case SVMParser.STORER2:
+                        r2 = pop();
+                        break;
+                    case SVMParser.LOADR2:
+                        push(r2);
                         break;
                     case SVMParser.STORERA: //
                         ra = pop();
@@ -150,7 +192,7 @@ public class ExecuteVM {
                         push(hp);
                         break;
                     case SVMParser.PRINT:
-                        System.out.println((sp < MEMSIZE) ? memory[sp] : "Runtime error: Empty stack!");
+                        System.out.println(r1);
                         break;
                     case SVMParser.HALT:
                         //to print the result

@@ -99,20 +99,19 @@ public class BinExpGtNode implements Node , Cloneable{
 
     @Override
     public String codeGeneration() {
-        String out = "";
-        // x > y == !(x <= y)
-        out+= left.codeGeneration();
-        out+= right.codeGeneration();
+        // (left > right) == !(left <= right)
         String false_branch_gt = SimpLanlib.freshLabel();
         String end_gt = SimpLanlib.freshLabel();
-        return  out +                              // cgen of left and right
-                // pop of cgen(stable, left) and cgen(stable, right) with beq
-                "bleq " + false_branch_gt + "\n" +      // //pop two values x,y on top of the stack and jump if right>=left
-                "push 1\n" +                        // true :: 1 in the stack
-                "b " + end_gt + "\n" +             // jump end_if
-                false_branch_gt + ":\n" +              // false_branch_gt:
-                "push 0\n" +                        // false :: 0 in the stack
-                end_gt + ":\n";                    // end_gt :
+        return  right.codeGeneration() +                    // r1 <- cgen(stable, right); s -> []; r1 <- right
+                "lr1\n" +                                   // r1 -> top_of_stack; s -> [r1]; s -> [right]
+                left.codeGeneration() +                     // r1 <- cgen(stable, left); s -> [r1]; r1 <- left
+                "sr2\n" +                                   // r2 <- top_of_stack; s -> []; r2 <- right
+                "bleq " + false_branch_gt + "\n" +           // if r1 <= r2 :: left <= right go to false_branch_geq; s -> []
+                "lir1 1\n" +                                 // true :: 1; r1 <- 1; ; s -> []
+                "b " + end_gt + "\n" +                      // jump end_geq; s -> []
+                false_branch_gt + ":\n" +                   // false_branch_geq:; s -> []
+                "lir1 0\n" +                                // false :: 0; r1 <- 0; s -> []
+                end_gt + ":\n";                             // end_geq : ; s -> []
     }
 
 }
