@@ -179,20 +179,14 @@ public class BlockNode implements Node {
         return hasIteRet; // cases where ite has return statement but DecFunc doesn't
     }
 
+    
+
     public String codeGeneration() {
         String out="";
-        out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp]
-        out += "lfp\n";
-        /*
-        if(nestingLevel == 0) // first block
-            out += "sw 0\n";            // sw al 0(al) :: al = 2 :: MEMORY[al + 0] = MEMORY[2] = 2
-        out += "swsp\n";                 // sw r1 0(fp) :: sw <- MEM[0 + fp]
-        out+= "lr1\n";                    // r1 -> top_of_stack:: s ->[..][r1]
-        out+= "lal\n";                    // al <- r1 :: s-> [..] :: al <- MEM[0 + fp]
-        out += "lal\n";                  // al -> top_of_stack; s -> [al,fp]
-        */
+        out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp,fp]
+        out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp,fp]
 
-        out += "cfp\n";                   // fp <- sp; sp -> [fp]
+        out += "cfp\n";                   // fp <- sp; sp -> [fp, fp]
         for (Node dec : declarations) {
             out +="push 0\n";               // s->[d(0)...d(n)] n in 0 .. dec.size() - 1
             out += dec.codeGeneration();   // cgen(stable, dec) :: r1 not valid here -> [ƒp]

@@ -29,8 +29,8 @@ instruction:
 	  | LOADW  offset=NUMBER
 	  | LWR1   offset=NUMBER
 	  | SWR1   offset=NUMBER
-	  | LWSP  offset=NUMBER
-	  | SWSP offset=NUMBER
+	  | LWFP  offset=NUMBER
+	  | SWFP offset=NUMBER
 	  | l=LABEL COL     
 	  | BRANCH l=LABEL
 	  | BRANCHEQ l=LABEL
@@ -87,8 +87,8 @@ STOREW	 : 'sw' ; 	// store the value of r1 in the MEMORY[offset + al] :: MEMORY[
 LOADW	 : 'lw' ;	// set the value of r1 at MEMORY[sp + offset] :: al = MEMORY[al + offset]
 SWR1      : 'sw1' ; // store the value of r1 in the MEMORY[offset + al] :: MEMORY[al + offset] = r1
 LWR1	 : 'lw1' ;	// set the value of r1 at MEMORY[al + offset] :: r1 = MEMORY[al + offset]
-SWSP    : 'swsp' ;  // set the value of r1 in the memory[offset + rsp] :: MEMORY[sp + offset] = r1
-LWSP	 : 'lwsp' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
+SWFP    : 'swfp' ;  // set the value of r1 in the memory[offset + rsp] :: MEMORY[sp + offset] = r1
+LWFP	 : 'lwfp' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
 // -------------- JUMPING INSTRUCTIONS -------------
 CRA      : 'cra' ; // set ra to the address of caller
 JR	     : 'jr' ;	// jump to the instruction pointed by ra

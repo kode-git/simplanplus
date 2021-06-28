@@ -178,15 +178,14 @@ public class DecVarNode implements Node, Cloneable {
     // int x;
     public String codeGeneration() {
         if(this.exp != null) {
-            //System.out.println("my offset is at " +entry.getOffset());
 
             // case with assignment, need to sw, the offset is the same because we
             // have the declaration in the same level (no AL ascent)
-
             return exp.codeGeneration() +          // r1 <- cgen(stable, e); s -> []
-                    "swsp " + entry.getOffset() + "\n";    // sw r1 entry.offset(sp); s -> []//TODO store word da fp
+                    "swfp " + entry.getOffset() + "\n";    // sw r1 entry.offset(fp)
+
         }
-        return "";
+            return "";
 
 
     }

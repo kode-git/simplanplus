@@ -91,12 +91,12 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				code[i++] = SVMParser.LWR1;	// token 1
 				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
 				break;
-			case SVMLexer.LWSP:
-				code[i++] = SVMParser.LWSP;
+			case SVMLexer.LWFP:
+				code[i++] = SVMParser.LWFP;
 				code[i++] = Integer.parseInt(ctx.offset.getText());
 				break;
-			case SVMLexer.SWSP:  // tokens.size() = 3
-				code[i++] = SVMParser.SWSP; // token 1
+			case SVMLexer.SWFP:  // tokens.size() = 3
+				code[i++] = SVMParser.SWFP; // token 1
 				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
 				break;
 			case SVMLexer.LOADR1:

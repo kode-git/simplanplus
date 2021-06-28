@@ -13,7 +13,7 @@ public class ExecuteVM {
     public int sp = 0;                      // pointer of the next free record of the stack
     private int hp = MEMSIZE - 1; // heap-> next :: heap - 1
     private int fp = 2;  // frame ->next :: frame + 1
-    private int ra;     // return address
+    private int ra=0;     // return address
     private int rv;     // return value
     private int r1;      // register r1
     private int r2;      // register r2
@@ -99,20 +99,19 @@ public class ExecuteVM {
                             return;
                         }
                         break;
-                    case SVMParser.LWSP: //
+                    case SVMParser.LWFP: //
                         offset = code[ip++];
 
-                        address = sp + offset;
+                        address = fp + offset;
                         if (memory[address] == -10000) {
                             System.out.println("\nRuntime Error: Null pointer exception");
                             return;
                         }
-                        r1 = memory[sp + offset];
+                        r1 = memory[fp + offset];
                         break;
-                    case SVMParser.SWSP: // r1 == al ::  sw al offset(al)
+                    case SVMParser.SWFP: //
                         offset = code[ip++];
-                        address = sp + offset;
-                        //System.out.println("ADDRESS: " + address);
+                        address = fp + offset;
                         try {
                             memory[address] = r1;
                         } catch(ArrayIndexOutOfBoundsException e){

@@ -362,24 +362,12 @@ public class DecFunNode implements Node, Cloneable {
     @Override
     public String codeGeneration() {
         String out = "";
-        String cgen = "";
-        String pop = "";
         String popPar = "";
-        if(this.args.size() > 0){
-            for(Node arg : args){
-                cgen += arg.codeGeneration();
-            }
-        }
 
-        if(this.args.size() > 0)
-            for(Node arg : args)
-                pop += "pop\n";
-
-       if(this.parameters.size() > 0){
-           for(Node par : parameters)
+       if(this.args.size() > 0){
+           for(Node par : args)
                popPar += "pop\n";
        }
-
         this.fEntry = SimpLanlib.freshFunLabel();
         out +=
                 this.fEntry + ":" + "\n" +
@@ -389,7 +377,7 @@ public class DecFunNode implements Node, Cloneable {
                         "sra\n" +                 // ra <- top_of_stack; s -> [x(1).... x(n), fp]
                         popPar +                  // pop of the caller parameters; s -> [fp]
                         "sfp\n" +                 // fp <- top_of_stack; s -> []
-                        "js\n";                // jump to ra; ra = ip_caller + 1 instruction; s -> []
+                        "jr\n";                // jump to ra; ra = ip_caller + 1 instruction; s -> []
 
 
         return  out + "\n";

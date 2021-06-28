@@ -22,7 +22,7 @@ public class SVMParser extends Parser {
 	public static final int
 		PUSH=1, POP=2, ADD=3, SUB=4, MULT=5, DIV=6, BRANCHEQ=7, BRANCHLESSEQ=8, 
 		BRANCHLESS=9, AND=10, OR=11, NOT=12, STOREW=13, LOADW=14, SWR1=15, LWR1=16, 
-		SWSP=17, LWSP=18, CRA=19, JR=20, BRANCH=21, LOADRA=22, STORERA=23, LOADRV=24, 
+		SWFP=17, LWFP=18, CRA=19, JR=20, BRANCH=21, LOADRA=22, STORERA=23, LOADRV=24, 
 		STORERV=25, LOADFP=26, STOREFP=27, LOADHP=28, STOREHP=29, STORER1=30, 
 		LOADR1=31, STORER2=32, LOADR2=33, STOREAL=34, LOADAL=35, LIR1=36, LIR2=37, 
 		PRINT=38, COPYFP=39, COPYAL=40, HALT=41, COL=42, LABEL=43, NUMBER=44, 
@@ -40,7 +40,7 @@ public class SVMParser extends Parser {
 		return new String[] {
 			null, "'push'", "'pop'", "'add'", "'sub'", "'mult'", "'div'", "'beq'", 
 			"'bleq'", "'bless'", "'and'", "'or'", "'not'", "'sw'", "'lw'", "'sw1'", 
-			"'lw1'", "'swsp'", "'lwsp'", "'cra'", "'jr'", "'b'", "'lra'", "'sra'", 
+			"'lw1'", "'swfp'", "'lwfp'", "'cra'", "'jr'", "'b'", "'lra'", "'sra'", 
 			"'lrv'", "'srv'", "'lfp'", "'sfp'", "'lhp'", "'shp'", "'sr1'", "'lr1'", 
 			"'sr2'", "'lr2'", "'sal'", "'lal'", "'lir1'", "'lir2'", "'print'", "'cfp'", 
 			"'cal'", "'halt'", "':'"
@@ -51,7 +51,7 @@ public class SVMParser extends Parser {
 		return new String[] {
 			null, "PUSH", "POP", "ADD", "SUB", "MULT", "DIV", "BRANCHEQ", "BRANCHLESSEQ", 
 			"BRANCHLESS", "AND", "OR", "NOT", "STOREW", "LOADW", "SWR1", "LWR1", 
-			"SWSP", "LWSP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
+			"SWFP", "LWFP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
 			"STORERV", "LOADFP", "STOREFP", "LOADHP", "STOREHP", "STORER1", "LOADR1", 
 			"STORER2", "LOADR2", "STOREAL", "LOADAL", "LIR1", "LIR2", "PRINT", "COPYFP", 
 			"COPYAL", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", "ERR"
@@ -144,7 +144,7 @@ public class SVMParser extends Parser {
 			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PUSH) | (1L << POP) | (1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << BRANCHEQ) | (1L << BRANCHLESSEQ) | (1L << BRANCHLESS) | (1L << AND) | (1L << OR) | (1L << NOT) | (1L << STOREW) | (1L << LOADW) | (1L << SWR1) | (1L << LWR1) | (1L << SWSP) | (1L << LWSP) | (1L << CRA) | (1L << JR) | (1L << BRANCH) | (1L << LOADRA) | (1L << STORERA) | (1L << LOADRV) | (1L << STORERV) | (1L << LOADFP) | (1L << STOREFP) | (1L << LOADHP) | (1L << STOREHP) | (1L << STORER1) | (1L << LOADR1) | (1L << STORER2) | (1L << LOADR2) | (1L << STOREAL) | (1L << LOADAL) | (1L << LIR1) | (1L << LIR2) | (1L << PRINT) | (1L << COPYFP) | (1L << COPYAL) | (1L << HALT) | (1L << LABEL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PUSH) | (1L << POP) | (1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << BRANCHEQ) | (1L << BRANCHLESSEQ) | (1L << BRANCHLESS) | (1L << AND) | (1L << OR) | (1L << NOT) | (1L << STOREW) | (1L << LOADW) | (1L << SWR1) | (1L << LWR1) | (1L << SWFP) | (1L << LWFP) | (1L << CRA) | (1L << JR) | (1L << BRANCH) | (1L << LOADRA) | (1L << STORERA) | (1L << LOADRV) | (1L << STORERV) | (1L << LOADFP) | (1L << STOREFP) | (1L << LOADHP) | (1L << STOREHP) | (1L << STORER1) | (1L << LOADR1) | (1L << STORER2) | (1L << LOADR2) | (1L << STOREAL) | (1L << LOADAL) | (1L << LIR1) | (1L << LIR2) | (1L << PRINT) | (1L << COPYFP) | (1L << COPYAL) | (1L << HALT) | (1L << LABEL))) != 0)) {
 				{
 				{
 				setState(4);
@@ -185,8 +185,8 @@ public class SVMParser extends Parser {
 		public TerminalNode LOADW() { return getToken(SVMParser.LOADW, 0); }
 		public TerminalNode LWR1() { return getToken(SVMParser.LWR1, 0); }
 		public TerminalNode SWR1() { return getToken(SVMParser.SWR1, 0); }
-		public TerminalNode LWSP() { return getToken(SVMParser.LWSP, 0); }
-		public TerminalNode SWSP() { return getToken(SVMParser.SWSP, 0); }
+		public TerminalNode LWFP() { return getToken(SVMParser.LWFP, 0); }
+		public TerminalNode SWFP() { return getToken(SVMParser.SWFP, 0); }
 		public TerminalNode COL() { return getToken(SVMParser.COL, 0); }
 		public TerminalNode BRANCH() { return getToken(SVMParser.BRANCH, 0); }
 		public TerminalNode BRANCHEQ() { return getToken(SVMParser.BRANCHEQ, 0); }
@@ -343,7 +343,7 @@ public class SVMParser extends Parser {
 			case 15:
 				{
 				setState(30);
-				match(LWSP);
+				match(LWFP);
 				setState(31);
 				((InstructionContext)_localctx).offset = match(NUMBER);
 				}
@@ -351,7 +351,7 @@ public class SVMParser extends Parser {
 			case 16:
 				{
 				setState(32);
-				match(SWSP);
+				match(SWFP);
 				setState(33);
 				((InstructionContext)_localctx).offset = match(NUMBER);
 				}

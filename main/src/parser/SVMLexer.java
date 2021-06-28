@@ -22,7 +22,7 @@ public class SVMLexer extends Lexer {
 	public static final int
 		PUSH=1, POP=2, ADD=3, SUB=4, MULT=5, DIV=6, BRANCHEQ=7, BRANCHLESSEQ=8, 
 		BRANCHLESS=9, AND=10, OR=11, NOT=12, STOREW=13, LOADW=14, SWR1=15, LWR1=16, 
-		SWSP=17, LWSP=18, CRA=19, JR=20, BRANCH=21, LOADRA=22, STORERA=23, LOADRV=24, 
+		SWFP=17, LWFP=18, CRA=19, JR=20, BRANCH=21, LOADRA=22, STORERA=23, LOADRV=24, 
 		STORERV=25, LOADFP=26, STOREFP=27, LOADHP=28, STOREHP=29, STORER1=30, 
 		LOADR1=31, STORER2=32, LOADR2=33, STOREAL=34, LOADAL=35, LIR1=36, LIR2=37, 
 		PRINT=38, COPYFP=39, COPYAL=40, HALT=41, COL=42, LABEL=43, NUMBER=44, 
@@ -39,7 +39,7 @@ public class SVMLexer extends Lexer {
 		return new String[] {
 			"PUSH", "POP", "ADD", "SUB", "MULT", "DIV", "BRANCHEQ", "BRANCHLESSEQ", 
 			"BRANCHLESS", "AND", "OR", "NOT", "STOREW", "LOADW", "SWR1", "LWR1", 
-			"SWSP", "LWSP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
+			"SWFP", "LWFP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
 			"STORERV", "LOADFP", "STOREFP", "LOADHP", "STOREHP", "STORER1", "LOADR1", 
 			"STORER2", "LOADR2", "STOREAL", "LOADAL", "LIR1", "LIR2", "PRINT", "COPYFP", 
 			"COPYAL", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", "ERR"
@@ -51,7 +51,7 @@ public class SVMLexer extends Lexer {
 		return new String[] {
 			null, "'push'", "'pop'", "'add'", "'sub'", "'mult'", "'div'", "'beq'", 
 			"'bleq'", "'bless'", "'and'", "'or'", "'not'", "'sw'", "'lw'", "'sw1'", 
-			"'lw1'", "'swsp'", "'lwsp'", "'cra'", "'jr'", "'b'", "'lra'", "'sra'", 
+			"'lw1'", "'swfp'", "'lwfp'", "'cra'", "'jr'", "'b'", "'lra'", "'sra'", 
 			"'lrv'", "'srv'", "'lfp'", "'sfp'", "'lhp'", "'shp'", "'sr1'", "'lr1'", 
 			"'sr2'", "'lr2'", "'sal'", "'lal'", "'lir1'", "'lir2'", "'print'", "'cfp'", 
 			"'cal'", "'halt'", "':'"
@@ -62,7 +62,7 @@ public class SVMLexer extends Lexer {
 		return new String[] {
 			null, "PUSH", "POP", "ADD", "SUB", "MULT", "DIV", "BRANCHEQ", "BRANCHLESSEQ", 
 			"BRANCHLESS", "AND", "OR", "NOT", "STOREW", "LOADW", "SWR1", "LWR1", 
-			"SWSP", "LWSP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
+			"SWFP", "LWFP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
 			"STORERV", "LOADFP", "STOREFP", "LOADHP", "STOREHP", "STORER1", "LOADR1", 
 			"STORER2", "LOADR2", "STOREAL", "LOADAL", "LIR1", "LIR2", "PRINT", "COPYFP", 
 			"COPYAL", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", "ERR"
@@ -199,9 +199,9 @@ public class SVMLexer extends Lexer {
 		"\3\2\2\2\u0096\u0097\7n\2\2\u0097\u0098\7y\2\2\u0098\36\3\2\2\2\u0099"+
 		"\u009a\7u\2\2\u009a\u009b\7y\2\2\u009b\u009c\7\63\2\2\u009c \3\2\2\2\u009d"+
 		"\u009e\7n\2\2\u009e\u009f\7y\2\2\u009f\u00a0\7\63\2\2\u00a0\"\3\2\2\2"+
-		"\u00a1\u00a2\7u\2\2\u00a2\u00a3\7y\2\2\u00a3\u00a4\7u\2\2\u00a4\u00a5"+
+		"\u00a1\u00a2\7u\2\2\u00a2\u00a3\7y\2\2\u00a3\u00a4\7h\2\2\u00a4\u00a5"+
 		"\7r\2\2\u00a5$\3\2\2\2\u00a6\u00a7\7n\2\2\u00a7\u00a8\7y\2\2\u00a8\u00a9"+
-		"\7u\2\2\u00a9\u00aa\7r\2\2\u00aa&\3\2\2\2\u00ab\u00ac\7e\2\2\u00ac\u00ad"+
+		"\7h\2\2\u00a9\u00aa\7r\2\2\u00aa&\3\2\2\2\u00ab\u00ac\7e\2\2\u00ac\u00ad"+
 		"\7t\2\2\u00ad\u00ae\7c\2\2\u00ae(\3\2\2\2\u00af\u00b0\7l\2\2\u00b0\u00b1"+
 		"\7t\2\2\u00b1*\3\2\2\2\u00b2\u00b3\7d\2\2\u00b3,\3\2\2\2\u00b4\u00b5\7"+
 		"n\2\2\u00b5\u00b6\7t\2\2\u00b6\u00b7\7c\2\2\u00b7.\3\2\2\2\u00b8\u00b9"+

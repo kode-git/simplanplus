@@ -1,20 +1,4 @@
 {
-int x;
-x=10;
-{
-int t;
-t=7;
-print x;
-{
-int z;
-int h;
-z=x;
-h=3;
-
-{
-
-}
-
-}
-}
+int f(){return 10;}
+print f();
 }

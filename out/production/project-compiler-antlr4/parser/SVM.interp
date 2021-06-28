@@ -16,8 +16,8 @@ null
 'lw'
 'sw1'
 'lw1'
-'swsp'
-'lwsp'
+'swfp'
+'lwfp'
 'cra'
 'jr'
 'b'
@@ -65,8 +65,8 @@ STOREW
 LOADW
 SWR1
 LWR1
-SWSP
-LWSP
+SWFP
+LWFP
 CRA
 JR
 BRANCH
