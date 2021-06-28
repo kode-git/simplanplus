@@ -189,6 +189,7 @@ public class ExecuteVM {
                         break;
                     case SVMParser.LOADRA: //
                         push(ra);
+
                         break;
                     case SVMParser.STORERV: //
                         rv = pop();

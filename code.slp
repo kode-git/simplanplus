@@ -1,4 +1,5 @@
-{
-int f(){return 10;}
-print f();
+{int x=7;
+void f(){print x; print 9;} //sta stampando il return address 22! da controllare pop su decfun(?)
+f();
+print(x);
 }

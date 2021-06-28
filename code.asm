@@ -1,26 +1,43 @@
-lfp     // [fp]
-lfp     // [fp,fp]
-cfp     // fp <- sp
-push 0  //[0,fp,fp]
+lfp
+lfp
+cfp
+push 0
+lir1 7
+swfp 1
+push 0
+
+lfp
+lfp
+sal
+lw1 2
+lr1
+cfp
+cra
+b fentry0
+lfp
+sal
+lw1 1
+print
+pop
+pop
+sal
+sfp
+halt
+
 fentry0:
-cfp    // [
 lra
 lfp
 lfp
 cfp
-lir1 10
-srv
+lfp
+sal
+lw 0
+lw1 1
+print
+lir1 9
+print
 sal
 sfp
 sra
 sfp
 jr
-
-lfp
-cra
-b fentry0
-print
-pop
-sal
-sfp
-halt

@@ -369,18 +369,19 @@ public class DecFunNode implements Node, Cloneable {
                popPar += "pop\n";
        }
         this.fEntry = SimpLanlib.freshFunLabel();
-        out +=
+        SimpLanlib.putCode(
                 this.fEntry + ":" + "\n" +
-                        "cfp\n" +                  // fp <- sp; s -> [x(1).... x(n), fp]
+                       // "cfp\n" +                  // fp <- sp; s -> [x(1).... x(n), fp]
                         "lra\n" +                  // s -> [ra, x(n).... x(1), fp]
                         block.codeGeneration() +  // r1 <- cgen(stable, block); s -> [ra, x(1).... x(n), fp]
                         "sra\n" +                 // ra <- top_of_stack; s -> [x(1).... x(n), fp]
                         popPar +                  // pop of the caller parameters; s -> [fp]
-                        "sfp\n" +                 // fp <- top_of_stack; s -> []
-                        "jr\n";                // jump to ra; ra = ip_caller + 1 instruction; s -> []
+                        "sfp\n"+                 // fp <- top_of_stack; s -> []
+                        "jr\n");                // jump to ra; ra = ip_caller + 1 instruction; s -> []
 
 
         return  out + "\n";
+       // return "push "+ this.fEntry +"\n";
     }
 
 }

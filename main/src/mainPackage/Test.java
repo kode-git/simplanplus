@@ -21,6 +21,7 @@ import util.Environment;
 import util.SemanticError;
 import ast.SimpLanPlusVisitorImpl;
 import ast.Node;
+import util.SimpLanlib;
 import util.ThrowingErrorListener;
 
 
@@ -88,7 +89,7 @@ public class Test {
             System.out.println("Generating code...");
                 String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
-				out.write(code + "halt");
+				out.write(code + "halt\n" + SimpLanlib.getCode());
 				out.close();
 				System.out.println("Code generated! Assembling and running generated code.");
 

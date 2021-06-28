@@ -235,10 +235,27 @@ public class CallNode implements Node, Cloneable {
             parameters += exp.get(i).codeGeneration() // r1 <- cgen(stable, e(i)) i in 1, exp.size() - 1; s -> s[e(i)]
                        + "lr1\n" ;      // r1 -> top_of_stack; s -> [e(i), .., e(0), fp]
 
+        String ar = "";
+        for(int i = 0; i < this.nestinglevel - entry.getNestinglevel(); i++ ){
+            ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
+        }
+
+
+
+
+
         String f_entry = this.entry.getReference().getfEntry();
         return "lfp\n"+ 				// push $fp to save it in the stack [fp]
+                /////////////// risalita della catena statica
+                "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
+                "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
+                ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
+                "lw1 "+ entry.getOffset()+"\n"+  // lw r1 entry.offset(al) :: r1 <- MEMORY[entry.offset + al]; s -> []
+                "lr1\n"+ //inserisco activation link in stack
+                "cfp\n"+  //punto il frame pointer all'activation link
+                ///////////////
                 parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0; s-> [e(n), .., e(0), fp]
-                "cra\n"  +              // ra <- ip + 3
+                "cra\n"  +              // ra <- ip + 3 //TODO cos'è?
                 "b " + f_entry + "\n";  // doing js on the address ra; ip <- ra; s -> [e(n), .., e(0), fp]
     }
 
