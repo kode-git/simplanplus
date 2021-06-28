@@ -112,7 +112,7 @@ public class ExecuteVM {
                     case SVMParser.SWSP: // r1 == al ::  sw al offset(al)
                         offset = code[ip++];
                         address = sp + offset;
-                        System.out.println("ADDRESS: " + address);
+                        //System.out.println("ADDRESS: " + address);
                         try {
                             memory[address] = r1;
                         } catch(ArrayIndexOutOfBoundsException e){

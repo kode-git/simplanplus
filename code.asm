@@ -1,32 +1,51 @@
 lfp
-sw 0
-swsp
-lr1
-lal
-lal
+lfp
 cfp
 push 0
 lir1 10
-swsp 1
 lfp
-swsp
-lr1
-lal
-lal
+sal
+sw1 1
+lfp
+lfp
 cfp
+push 0
+lir1 7
+lfp
+sal
+sw1 1
 lfp
 sal
 lw 0
 lw1 1
 print
 lfp
-swsp
-lr1
-lal
-lal
+lfp
+cfp
+push 0
+push 0
+lfp
+sal
+lw 0
+lw 0
+lw1 1
+lfp
+sal
+sw1 1
+lir1 3
+lfp
+sal
+sw1 2
+lfp
+lfp
 cfp
 sal
 sfp
+pop
+pop
+sal
+sfp
+pop
 sal
 sfp
 pop
