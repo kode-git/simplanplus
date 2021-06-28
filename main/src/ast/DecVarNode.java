@@ -13,6 +13,8 @@ public class DecVarNode implements Node, Cloneable {
     private int counter=0; // pointer counter
     private int effectsST;
     private int effectDecFun;
+    private STentry entry;
+    private Offset offset;
 
     public DecVarNode (Node myType, String id) {
         this.typeNode = myType;
@@ -101,7 +103,8 @@ public class DecVarNode implements Node, Cloneable {
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
 
         ArrayList<SemanticError> res = new ArrayList();
-        STentry entry = new STentry(env.getNestingLevel(), this.typeNode, offset.getOffset(),counter);
+        this.entry = new STentry(env.getNestingLevel(), this.typeNode, offset.getOffset(),counter);
+        this.offset = offset;
         offset.increment();
         if (this.exp!=null) {
             exp.setEffectDecFun(this.effectDecFun);
@@ -124,6 +127,8 @@ public class DecVarNode implements Node, Cloneable {
             DecVarNode cloned = (DecVarNode) super.clone();
             cloned.typeNode = (Node) this.typeNode.clone();
             cloned.exp = (Node) this.exp.clone();
+            cloned.offset = this.offset.clone();
+            cloned.entry = this.entry.clone();
 
             return cloned;
         } catch(CloneNotSupportedException e){
@@ -169,10 +174,18 @@ public class DecVarNode implements Node, Cloneable {
         }
     }
 
+    // int x = 10;
+    // int x;
     public String codeGeneration() {
         if(this.exp != null)
-            return exp.codeGeneration();    // r1 <- cgen(stable, e)
+
+            // case with assignment, need to sw, the offset is the same because we
+            // have the declaration in the same level (no AL ascent)
+            return exp.codeGeneration() +          // r1 <- cgen(stable, e); s -> []
+                    "swsp " + entry.getOffset() + "\n";    // sw r1 entry.offset(sp); s -> []
         return "";
+
+
     }
 
 }

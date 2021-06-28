@@ -232,15 +232,14 @@ public class CallNode implements Node, Cloneable {
     public String codeGeneration() {
         String parameters = "" ;
         for (int i=0; i< exp.size(); i++)
-            parameters += exp.get(i).codeGeneration(); // codeGen of the exp
+            parameters += exp.get(i).codeGeneration() // r1 <- cgen(stable, e(i)) i in 1, exp.size() - 1; s -> s[e(i)]
+                       + "lr1\n" ;      // r1 -> top_of_stack; s -> [e(i), .., e(0), fp]
 
         String f_entry = this.entry.getReference().getfEntry();
         return "lfp\n"+ 				// push $fp to save it in the stack [fp]
-
-                parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0
-                "setra\n"  +         // ra <- ip
-
-                "b " + f_entry + "\n";                 // doing js on the address ($ra)s
+                parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0; s-> [e(n), .., e(0), fp]
+                "cra\n"  +              // ra <- ip + 3
+                "b " + f_entry + "\n";  // doing js on the address ra; ip <- ra; s -> [e(n), .., e(0), fp]
     }
 
 

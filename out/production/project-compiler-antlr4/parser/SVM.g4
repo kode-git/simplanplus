@@ -25,8 +25,12 @@ instruction:
 	  | AND
 	  | OR
 	  | NOT
-	  | STOREW offset=NUMBER // sw a0 fp + offset
+	  | STOREW offset=NUMBER
 	  | LOADW  offset=NUMBER
+	  | LWR1   offset=NUMBER
+	  | SWR1   offset=NUMBER
+	  | LWSP  offset=NUMBER
+	  | SWSP offset=NUMBER
 	  | l=LABEL COL     
 	  | BRANCH l=LABEL
 	  | BRANCHEQ l=LABEL
@@ -39,7 +43,8 @@ instruction:
 	  | STORERV         
 	  | LOADFP          
 	  | STOREFP         
-	  | COPYFP          
+	  | COPYFP
+	  | COPYAL
 	  | LOADHP          
 	  | STOREHP
 	  | PRINT
@@ -49,6 +54,8 @@ instruction:
 	  | LOADR1
 	  | STORER2
 	  | LOADR2
+	  | STOREAL
+	  | LOADAL
 	  | LIR1 n=NUMBER
 	  | LIR2 n=NUMBER
 	  ) ;
@@ -76,9 +83,12 @@ OR : 'or'; // r1 = 0 if r1 || r2 is false else r1 = 1
 NOT : 'not'; // if r1 = 1 then r1 = 0 else r1 = 1
 
 // -------------- LOAD WORD AND STORE WORD -------------
-STOREW	 : 'sw' ; 	// store the value of r1 in the MEMORY[offset + sp] :: MEMORY[sp + offset] = r1
-LOADW	 : 'lw' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
-
+STOREW	 : 'sw' ; 	// store the value of r1 in the MEMORY[offset + al] :: MEMORY[al + offset] = r1
+LOADW	 : 'lw' ;	// set the value of r1 at MEMORY[sp + offset] :: al = MEMORY[al + offset]
+SWR1      : 'sw1' ; // store the value of r1 in the MEMORY[offset + al] :: MEMORY[al + offset] = r1
+LWR1	 : 'lw1' ;	// set the value of r1 at MEMORY[al + offset] :: r1 = MEMORY[al + offset]
+SWSP    : 'swsp' ;  // set the value of r1 in the memory[offset + rsp] :: MEMORY[sp + offset] = r1
+LWSP	 : 'lwsp' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
 // -------------- JUMPING INSTRUCTIONS -------------
 CRA      : 'cra' ; // set ra to the address of caller
 JR	     : 'jr' ;	// jump to the instruction pointed by ra
@@ -103,6 +113,10 @@ LOADR1   : 'lr1' ; // load r1 in the top of stack
 STORER2  : 'sr2' ; // store top into r2
 LOADR2   : 'lr2' ; // load r2 in the top of stack
 
+STOREAL : 'sal' ; // store top into al
+LOADAL :  'lal' ; // load al in the top of stack
+
+
 // -------------- LI ISTRUCTIONS -------------
 LIR1        : 'lir1' ; //set r1 with the value number n
 LIR2        : 'lir2' ; //set r2 with the value number n
@@ -112,6 +126,7 @@ PRINT	 : 'print' ;	// print top of stack
 
 // -------------- REGISTER COPYING -------------
 COPYFP   : 'cfp' ;  // copy sp in fp :: fp <- sp
+COPYAL    : 'cal' ; // copy sp in al :: al <- sp
 
 // -------------- HALT -------------
 HALT	 : 'halt' ;	// stop execution

@@ -110,6 +110,10 @@ public class Test {
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				System.out.println("Output: ");
 				vm.cpu();
+				for(int i = 0; i < 13; i++) {
+                    System.out.print(vm.memory[i] + " ");
+                }
+				System.out.println("\nSP: " + vm.sp);
 
 
         } catch(ParseCancellationException e){

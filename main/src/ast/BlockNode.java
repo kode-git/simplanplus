@@ -14,6 +14,7 @@ public class BlockNode implements Node {
     private ArrayList<Node> declarations;
     private ArrayList<Node> statements;
     private int effectDecFun;
+    private int nestingLevel;
 
     public BlockNode (ArrayList<Node> d, ArrayList<Node> s) {
         declarations=d;
@@ -72,7 +73,7 @@ public class BlockNode implements Node {
 
         env.addTable(new HashMap());
         ArrayList<SemanticError> res = new ArrayList();
-
+        this.nestingLevel = env.getNestingLevel();
         if (this.declarations.size() > 0) {
             Offset blockOffset= new Offset();
             blockOffset.increment();
@@ -181,10 +182,22 @@ public class BlockNode implements Node {
     public String codeGeneration() {
         String out="";
         out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp]
-        for (Node dec : declarations)
-            out+=dec.codeGeneration();   // cgen(stable, dec) :: r1 not valid heres -> [ƒp]
+        if(nestingLevel == 0) // first block
+            out += "sw 0\n";            // sw al 0(al) :: al = 2 :: MEMORY[al + 0] = MEMORY[2] = 2
+        out += "swsp\n";                 // sw r1 0(fp) :: sw <- MEM[0 + fp]
+        out+= "lr1\n";                    // r1 -> top_of_stack:: s ->[..][r1]
+        out+= "lal\n";                    // al <- r1 :: s-> [..] :: al <- MEM[0 + fp]
+        out += "lal\n";                  // al -> top_of_stack; s -> [al,fp]
+        out += "cfp\n";                   // fp <- sp; sp -> [fp]
+        for (Node dec : declarations) {
+            out +="push 0\n";               // s->[d(0)...d(n)] n in 0 .. dec.size() - 1
+            out += dec.codeGeneration();   // cgen(stable, dec) :: r1 not valid here -> [ƒp]
+        }
         for (Node st : statements)
-            out+=st.codeGeneration();    // cgen(stable, st) :: r1 not valid heres -> [ƒp]
+            out+=st.codeGeneration();    // cgen(stable, st) :: r1 not valid here -> [ƒp]
+        for(Node dec : declarations)
+            out += "pop\n";             // s -> [al, fp]
+        out +="sal\n";                  // al <- top_of_stack; s ->  [fp]
         out+= "sfp\n";                   // fp <- top_of_stack; s-> []
 
         return out; // halt is added in the Test.java

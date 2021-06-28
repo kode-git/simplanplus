@@ -8,18 +8,18 @@ public class ExecuteVM {
     public static final int MEMSIZE = 10000;
 
     private int[] code;                      // instructions memory
-    private int[] memory = new int[MEMSIZE]; // activation records memory
+    public int[] memory = new int[MEMSIZE]; // activation records memory
     private int ip = 0;                      // pointer to the next code instruction
-    private int sp = 0;                      // pointer of the next free record of the stack
+    public int sp = 0;                      // pointer of the next free record of the stack
     private int hp = MEMSIZE - 1; // heap-> next :: heap - 1
-    private int fp = 0;  // frame ->next :: frame + 1
+    private int fp = 2;  // frame ->next :: frame + 1
     private int ra;     // return address
     private int rv;     // return value
     private int r1;      // register r1
     private int r2;      // register r2
     private int offset; // temporal offset for sw and lw
     private int number; // for li on r1 and r2
-    private int al;     // access link
+    private int al = 2;     // access link
 
     public ExecuteVM(int[] code) {
         this.code = code;
@@ -77,7 +77,7 @@ public class ExecuteVM {
                             System.out.println("\nRuntime Error: Null pointer exception");
                             return;
                         }
-                        al = memory[al + offset];
+                        al = memory[address]; // lw al address :: lw al offset + al :: lw al offset(al)
                         break;
                     case SVMParser.LWR1: //
                         offset = code[ip++];
@@ -92,6 +92,27 @@ public class ExecuteVM {
                     case SVMParser.SWR1: // r1 == al ::  sw al offset(al)
                         offset = code[ip++];
                         address = al + offset;
+                        try {
+                            memory[address] = r1;
+                        } catch(ArrayIndexOutOfBoundsException e){
+                            System.out.println("\nRuntime error: Index out of memory");
+                            return;
+                        }
+                        break;
+                    case SVMParser.LWSP: //
+                        offset = code[ip++];
+
+                        address = sp + offset;
+                        if (memory[address] == -10000) {
+                            System.out.println("\nRuntime Error: Null pointer exception");
+                            return;
+                        }
+                        r1 = memory[sp + offset];
+                        break;
+                    case SVMParser.SWSP: // r1 == al ::  sw al offset(al)
+                        offset = code[ip++];
+                        address = sp + offset;
+                        System.out.println("ADDRESS: " + address);
                         try {
                             memory[address] = r1;
                         } catch(ArrayIndexOutOfBoundsException e){
@@ -185,6 +206,9 @@ public class ExecuteVM {
                     case SVMParser.COPYFP: //
                         fp = sp;
                         break;
+                    case SVMParser.COPYAL: //
+                        al = sp;
+                        break;
                     case SVMParser.STOREHP: //
                         hp = pop();
                         break;
@@ -204,7 +228,6 @@ public class ExecuteVM {
     }
 
     private int pop() {
-
         return memory[sp--];
     }
 
