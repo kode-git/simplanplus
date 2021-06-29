@@ -89,7 +89,7 @@ public class Test {
             System.out.println("Generating code...");
                 String code=ast.codeGeneration();
 				BufferedWriter out = new BufferedWriter(new FileWriter(fileName+".asm"));
-				out.write(code + "halt\n" + SimpLanlib.getCode());
+				out.write(code + "halt" + SimpLanlib.getCode());
 				out.close();
 				System.out.println("Code generated! Assembling and running generated code.");
 
@@ -113,9 +113,6 @@ public class Test {
 				vm.cpu();
 				for(int i=0;i<20;i++)
 				    System.out.print(vm.memory[i]+ " ");
-            for(int i=0;i<20;i++)
-				System.out.println(vm.code[i]);
-
 
         } catch(ParseCancellationException e){
             System.out.println("The program was not in the right format. Exiting the compilation process now");

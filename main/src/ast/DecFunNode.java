@@ -380,7 +380,7 @@ public class DecFunNode implements Node, Cloneable {
                         "jr\n");                // jump to ra; ra = ip_caller + 1 instruction; s -> []
 
 
-        return  out + "\n";
+        return  out ;
        // return "push "+ this.fEntry +"\n";
     }
 

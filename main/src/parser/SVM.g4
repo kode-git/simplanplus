@@ -56,6 +56,7 @@ instruction:
 	  | LOADR2
 	  | STOREAL
 	  | LOADAL
+	  | LWAFP n=NUMBER
 	  | LIR1 n=NUMBER
 	  | LIR2 n=NUMBER
 	  ) ;
@@ -89,6 +90,7 @@ SWR1      : 'sw1' ; // store the value of r1 in the MEMORY[offset + al] :: MEMOR
 LWR1	 : 'lw1' ;	// set the value of r1 at MEMORY[al + offset] :: r1 = MEMORY[al + offset]
 SWFP    : 'swfp' ;  // set the value of r1 in the memory[offset + rsp] :: MEMORY[sp + offset] = r1
 LWFP	 : 'lwfp' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
+LWAFP    : 'lwafp'; // set the value of al at MEMORY[sp + offset] :: al = MEMORY[sp + offset]
 // -------------- JUMPING INSTRUCTIONS -------------
 CRA      : 'cra' ; // set ra to the address of caller
 JR	     : 'jr' ;	// jump to the instruction pointed by ra

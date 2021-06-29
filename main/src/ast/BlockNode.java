@@ -183,10 +183,10 @@ public class BlockNode implements Node {
 
     public String codeGeneration() {
         String out="";
-        out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp,fp]
+        out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp]
         out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp,fp]
 
-        out += "cfp\n";                   // fp <- sp; sp -> [fp, fp]
+        out += "cfp\n";                   // fp <- sp; s -> [fp, fp]
         for (Node dec : declarations) {
             out +="push 0\n";               // s->[d(0)...d(n)] n in 0 .. dec.size() - 1
             out += dec.codeGeneration();   // cgen(stable, dec) :: r1 not valid here -> [ƒp]
@@ -194,7 +194,8 @@ public class BlockNode implements Node {
         for (Node st : statements)
             out+=st.codeGeneration();    // cgen(stable, st) :: r1 not valid here -> [ƒp]
         for(Node dec : declarations)
-            out += "pop\n";             // s -> [al, fp]
+            out += "pop\n";             // s -> [al, fp, fp]
+
         out +="sal\n";                  // al <- top_of_stack; s ->  [fp]
         out+= "sfp\n";                   // fp <- top_of_stack; s-> []
 

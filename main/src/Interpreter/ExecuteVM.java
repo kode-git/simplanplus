@@ -83,6 +83,7 @@ public class ExecuteVM {
                         offset = code[ip++];
 
                         address = al + offset;
+
                         if (memory[address] == -10000) {
                             System.out.println("\nRuntime Error: Null pointer exception");
                             return;
@@ -98,6 +99,16 @@ public class ExecuteVM {
                             System.out.println("\nRuntime error: Index out of memory");
                             return;
                         }
+                        break;
+                    case SVMParser.LWAFP:
+                        offset = code[ip++];
+
+                        address = fp + offset;
+                        if (memory[address] == -10000) {
+                            System.out.println("\nRuntime Error: Null pointer exception");
+                            return;
+                        }
+                        al = memory[fp + offset];
                         break;
                     case SVMParser.LWFP: //
                         offset = code[ip++];
@@ -115,7 +126,7 @@ public class ExecuteVM {
                         try {
                             memory[address] = r1;
                         } catch(ArrayIndexOutOfBoundsException e){
-                            System.out.println("\nRuntime error: Index out of memory");
+                            System.out.println("\nRuntime Error: Null pointer exception");
                             return;
                         }
                         break;
@@ -158,10 +169,11 @@ public class ExecuteVM {
                         else r1 = 0;
                         break;
                     case SVMParser.JR: //
-                        ip = ra; // setted by CRA
+                        address = ra;
+                        ip = address;
                         break;
                     case SVMParser.CRA:
-                        ra = ip + 3; // Avoid the jal instruction
+                        ra = ip + 2; // Avoid the jal instruction
                         // cra
                         // jal f_entry
                         // point here
@@ -189,11 +201,9 @@ public class ExecuteVM {
                         break;
                     case SVMParser.LOADRA: //
                         push(ra);
-                        System.out.println(ra + " ra PUSHATO");
-
                         break;
                     case SVMParser.STORERV: //
-                        rv = pop();
+                        rv = r1;
                         break;
                     case SVMParser.LOADRV: //
                         push(rv);

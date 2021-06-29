@@ -45,7 +45,7 @@ public class RetNode implements Node, Cloneable{
         if(this.exp == null){
             return first + "";
         } else {
-            return first + " " + exp.toPrint(s + "") +
+            return first + " " + exp.getClass() + ": " + exp.toPrint(s + "") +
                     "";
         }
     }

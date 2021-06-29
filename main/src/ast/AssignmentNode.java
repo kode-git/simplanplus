@@ -206,6 +206,7 @@ public class AssignmentNode implements Node, Cloneable{
                 return  exp.codeGeneration() +           // r1 <- cgen(stable, exp) s -> []
                         "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
                         "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
+                        //"lwafp 0\n" +                        // fp -> top_of_stack :: s -> [fp]
                         ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
                         "sw1 "+ entry.getOffset()+"\n";  // sw r1 entry.offset(al) :: r1 <- MEMORY[al + entry.offset]; s -> []
 

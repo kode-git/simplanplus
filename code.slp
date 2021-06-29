@@ -1,8 +1,13 @@
-{int z=7;
-
-void f(){ int h=3; print 8;} //sta stampando il return address 22! da controllare pop su decfun(?)
 {
-int z;
-f();
+int x = 4;
+void  f(int x) {
+    int y = 20;
+    print(y);
+   print(x);
+}
+{
+f(x);
+
 }
 }
+

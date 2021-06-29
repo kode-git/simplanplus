@@ -22,11 +22,11 @@ public class SVMParser extends Parser {
 	public static final int
 		PUSH=1, POP=2, ADD=3, SUB=4, MULT=5, DIV=6, BRANCHEQ=7, BRANCHLESSEQ=8, 
 		BRANCHLESS=9, AND=10, OR=11, NOT=12, STOREW=13, LOADW=14, SWR1=15, LWR1=16, 
-		SWFP=17, LWFP=18, CRA=19, JR=20, BRANCH=21, LOADRA=22, STORERA=23, LOADRV=24, 
-		STORERV=25, LOADFP=26, STOREFP=27, LOADHP=28, STOREHP=29, STORER1=30, 
-		LOADR1=31, STORER2=32, LOADR2=33, STOREAL=34, LOADAL=35, LIR1=36, LIR2=37, 
-		PRINT=38, COPYFP=39, COPYAL=40, HALT=41, COL=42, LABEL=43, NUMBER=44, 
-		WHITESP=45, ERR=46;
+		SWFP=17, LWFP=18, LWAFP=19, CRA=20, JR=21, BRANCH=22, LOADRA=23, STORERA=24, 
+		LOADRV=25, STORERV=26, LOADFP=27, STOREFP=28, LOADHP=29, STOREHP=30, STORER1=31, 
+		LOADR1=32, STORER2=33, LOADR2=34, STOREAL=35, LOADAL=36, LIR1=37, LIR2=38, 
+		PRINT=39, COPYFP=40, COPYAL=41, HALT=42, COL=43, LABEL=44, NUMBER=45, 
+		WHITESP=46, ERR=47;
 	public static final int
 		RULE_assembly = 0, RULE_instruction = 1;
 	private static String[] makeRuleNames() {
@@ -40,10 +40,10 @@ public class SVMParser extends Parser {
 		return new String[] {
 			null, "'push'", "'pop'", "'add'", "'sub'", "'mult'", "'div'", "'beq'", 
 			"'bleq'", "'bless'", "'and'", "'or'", "'not'", "'sw'", "'lw'", "'sw1'", 
-			"'lw1'", "'swfp'", "'lwfp'", "'cra'", "'jr'", "'b'", "'lra'", "'sra'", 
-			"'lrv'", "'srv'", "'lfp'", "'sfp'", "'lhp'", "'shp'", "'sr1'", "'lr1'", 
-			"'sr2'", "'lr2'", "'sal'", "'lal'", "'lir1'", "'lir2'", "'print'", "'cfp'", 
-			"'cal'", "'halt'", "':'"
+			"'lw1'", "'swfp'", "'lwfp'", "'lwafp'", "'cra'", "'jr'", "'b'", "'lra'", 
+			"'sra'", "'lrv'", "'srv'", "'lfp'", "'sfp'", "'lhp'", "'shp'", "'sr1'", 
+			"'lr1'", "'sr2'", "'lr2'", "'sal'", "'lal'", "'lir1'", "'lir2'", "'print'", 
+			"'cfp'", "'cal'", "'halt'", "':'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -51,10 +51,10 @@ public class SVMParser extends Parser {
 		return new String[] {
 			null, "PUSH", "POP", "ADD", "SUB", "MULT", "DIV", "BRANCHEQ", "BRANCHLESSEQ", 
 			"BRANCHLESS", "AND", "OR", "NOT", "STOREW", "LOADW", "SWR1", "LWR1", 
-			"SWFP", "LWFP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", "LOADRV", 
-			"STORERV", "LOADFP", "STOREFP", "LOADHP", "STOREHP", "STORER1", "LOADR1", 
-			"STORER2", "LOADR2", "STOREAL", "LOADAL", "LIR1", "LIR2", "PRINT", "COPYFP", 
-			"COPYAL", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", "ERR"
+			"SWFP", "LWFP", "LWAFP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", 
+			"LOADRV", "STORERV", "LOADFP", "STOREFP", "LOADHP", "STOREHP", "STORER1", 
+			"LOADR1", "STORER2", "LOADR2", "STOREAL", "LOADAL", "LIR1", "LIR2", "PRINT", 
+			"COPYFP", "COPYAL", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", "ERR"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -144,7 +144,7 @@ public class SVMParser extends Parser {
 			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PUSH) | (1L << POP) | (1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << BRANCHEQ) | (1L << BRANCHLESSEQ) | (1L << BRANCHLESS) | (1L << AND) | (1L << OR) | (1L << NOT) | (1L << STOREW) | (1L << LOADW) | (1L << SWR1) | (1L << LWR1) | (1L << SWFP) | (1L << LWFP) | (1L << CRA) | (1L << JR) | (1L << BRANCH) | (1L << LOADRA) | (1L << STORERA) | (1L << LOADRV) | (1L << STORERV) | (1L << LOADFP) | (1L << STOREFP) | (1L << LOADHP) | (1L << STOREHP) | (1L << STORER1) | (1L << LOADR1) | (1L << STORER2) | (1L << LOADR2) | (1L << STOREAL) | (1L << LOADAL) | (1L << LIR1) | (1L << LIR2) | (1L << PRINT) | (1L << COPYFP) | (1L << COPYAL) | (1L << HALT) | (1L << LABEL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PUSH) | (1L << POP) | (1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << BRANCHEQ) | (1L << BRANCHLESSEQ) | (1L << BRANCHLESS) | (1L << AND) | (1L << OR) | (1L << NOT) | (1L << STOREW) | (1L << LOADW) | (1L << SWR1) | (1L << LWR1) | (1L << SWFP) | (1L << LWFP) | (1L << LWAFP) | (1L << CRA) | (1L << JR) | (1L << BRANCH) | (1L << LOADRA) | (1L << STORERA) | (1L << LOADRV) | (1L << STORERV) | (1L << LOADFP) | (1L << STOREFP) | (1L << LOADHP) | (1L << STOREHP) | (1L << STORER1) | (1L << LOADR1) | (1L << STORER2) | (1L << LOADR2) | (1L << STOREAL) | (1L << LOADAL) | (1L << LIR1) | (1L << LIR2) | (1L << PRINT) | (1L << COPYFP) | (1L << COPYAL) | (1L << HALT) | (1L << LABEL))) != 0)) {
 				{
 				{
 				setState(4);
@@ -212,6 +212,7 @@ public class SVMParser extends Parser {
 		public TerminalNode LOADR2() { return getToken(SVMParser.LOADR2, 0); }
 		public TerminalNode STOREAL() { return getToken(SVMParser.STOREAL, 0); }
 		public TerminalNode LOADAL() { return getToken(SVMParser.LOADAL, 0); }
+		public TerminalNode LWAFP() { return getToken(SVMParser.LWAFP, 0); }
 		public TerminalNode LIR1() { return getToken(SVMParser.LIR1, 0); }
 		public TerminalNode LIR2() { return getToken(SVMParser.LIR2, 0); }
 		public TerminalNode NUMBER() { return getToken(SVMParser.NUMBER, 0); }
@@ -241,7 +242,7 @@ public class SVMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68);
+			setState(70);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
@@ -519,7 +520,7 @@ public class SVMParser extends Parser {
 			case 42:
 				{
 				setState(64);
-				match(LIR1);
+				match(LWAFP);
 				setState(65);
 				((InstructionContext)_localctx).n = match(NUMBER);
 				}
@@ -527,8 +528,16 @@ public class SVMParser extends Parser {
 			case 43:
 				{
 				setState(66);
-				match(LIR2);
+				match(LIR1);
 				setState(67);
+				((InstructionContext)_localctx).n = match(NUMBER);
+				}
+				break;
+			case 44:
+				{
+				setState(68);
+				match(LIR2);
+				setState(69);
 				((InstructionContext)_localctx).n = match(NUMBER);
 				}
 				break;
@@ -547,30 +556,30 @@ public class SVMParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\60I\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61K\4\2\t\2\4\3\t"+
 		"\3\3\2\7\2\b\n\2\f\2\16\2\13\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3G\n\3\3\3"+
-		"\2\2\4\2\4\2\2\2q\2\t\3\2\2\2\4F\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\13"+
-		"\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\3\3\2\2\2\13\t\3\2\2\2\f\r\7\3\2\2"+
-		"\rG\7.\2\2\16\17\7\3\2\2\17G\7-\2\2\20G\7\4\2\2\21G\7\5\2\2\22G\7\6\2"+
-		"\2\23G\7\7\2\2\24G\7\b\2\2\25G\7\f\2\2\26G\7\r\2\2\27G\7\16\2\2\30\31"+
-		"\7\17\2\2\31G\7.\2\2\32\33\7\20\2\2\33G\7.\2\2\34\35\7\22\2\2\35G\7.\2"+
-		"\2\36\37\7\21\2\2\37G\7.\2\2 !\7\24\2\2!G\7.\2\2\"#\7\23\2\2#G\7.\2\2"+
-		"$%\7-\2\2%G\7,\2\2&\'\7\27\2\2\'G\7-\2\2()\7\t\2\2)G\7-\2\2*+\7\n\2\2"+
-		"+G\7-\2\2,-\7\13\2\2-G\7-\2\2.G\7\26\2\2/G\7\30\2\2\60G\7\31\2\2\61G\7"+
-		"\32\2\2\62G\7\33\2\2\63G\7\34\2\2\64G\7\35\2\2\65G\7)\2\2\66G\7*\2\2\67"+
-		"G\7\36\2\28G\7\37\2\29G\7(\2\2:G\7+\2\2;G\7\25\2\2<G\7 \2\2=G\7!\2\2>"+
-		"G\7\"\2\2?G\7#\2\2@G\7$\2\2AG\7%\2\2BC\7&\2\2CG\7.\2\2DE\7\'\2\2EG\7."+
-		"\2\2F\f\3\2\2\2F\16\3\2\2\2F\20\3\2\2\2F\21\3\2\2\2F\22\3\2\2\2F\23\3"+
-		"\2\2\2F\24\3\2\2\2F\25\3\2\2\2F\26\3\2\2\2F\27\3\2\2\2F\30\3\2\2\2F\32"+
-		"\3\2\2\2F\34\3\2\2\2F\36\3\2\2\2F \3\2\2\2F\"\3\2\2\2F$\3\2\2\2F&\3\2"+
-		"\2\2F(\3\2\2\2F*\3\2\2\2F,\3\2\2\2F.\3\2\2\2F/\3\2\2\2F\60\3\2\2\2F\61"+
-		"\3\2\2\2F\62\3\2\2\2F\63\3\2\2\2F\64\3\2\2\2F\65\3\2\2\2F\66\3\2\2\2F"+
-		"\67\3\2\2\2F8\3\2\2\2F9\3\2\2\2F:\3\2\2\2F;\3\2\2\2F<\3\2\2\2F=\3\2\2"+
-		"\2F>\3\2\2\2F?\3\2\2\2F@\3\2\2\2FA\3\2\2\2FB\3\2\2\2FD\3\2\2\2G\5\3\2"+
-		"\2\2\4\tF";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3I"+
+		"\n\3\3\3\2\2\4\2\4\2\2\2t\2\t\3\2\2\2\4H\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2"+
+		"\2\b\13\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\3\3\2\2\2\13\t\3\2\2\2\f\r\7"+
+		"\3\2\2\rI\7/\2\2\16\17\7\3\2\2\17I\7.\2\2\20I\7\4\2\2\21I\7\5\2\2\22I"+
+		"\7\6\2\2\23I\7\7\2\2\24I\7\b\2\2\25I\7\f\2\2\26I\7\r\2\2\27I\7\16\2\2"+
+		"\30\31\7\17\2\2\31I\7/\2\2\32\33\7\20\2\2\33I\7/\2\2\34\35\7\22\2\2\35"+
+		"I\7/\2\2\36\37\7\21\2\2\37I\7/\2\2 !\7\24\2\2!I\7/\2\2\"#\7\23\2\2#I\7"+
+		"/\2\2$%\7.\2\2%I\7-\2\2&\'\7\30\2\2\'I\7.\2\2()\7\t\2\2)I\7.\2\2*+\7\n"+
+		"\2\2+I\7.\2\2,-\7\13\2\2-I\7.\2\2.I\7\27\2\2/I\7\31\2\2\60I\7\32\2\2\61"+
+		"I\7\33\2\2\62I\7\34\2\2\63I\7\35\2\2\64I\7\36\2\2\65I\7*\2\2\66I\7+\2"+
+		"\2\67I\7\37\2\28I\7 \2\29I\7)\2\2:I\7,\2\2;I\7\26\2\2<I\7!\2\2=I\7\"\2"+
+		"\2>I\7#\2\2?I\7$\2\2@I\7%\2\2AI\7&\2\2BC\7\25\2\2CI\7/\2\2DE\7\'\2\2E"+
+		"I\7/\2\2FG\7(\2\2GI\7/\2\2H\f\3\2\2\2H\16\3\2\2\2H\20\3\2\2\2H\21\3\2"+
+		"\2\2H\22\3\2\2\2H\23\3\2\2\2H\24\3\2\2\2H\25\3\2\2\2H\26\3\2\2\2H\27\3"+
+		"\2\2\2H\30\3\2\2\2H\32\3\2\2\2H\34\3\2\2\2H\36\3\2\2\2H \3\2\2\2H\"\3"+
+		"\2\2\2H$\3\2\2\2H&\3\2\2\2H(\3\2\2\2H*\3\2\2\2H,\3\2\2\2H.\3\2\2\2H/\3"+
+		"\2\2\2H\60\3\2\2\2H\61\3\2\2\2H\62\3\2\2\2H\63\3\2\2\2H\64\3\2\2\2H\65"+
+		"\3\2\2\2H\66\3\2\2\2H\67\3\2\2\2H8\3\2\2\2H9\3\2\2\2H:\3\2\2\2H;\3\2\2"+
+		"\2H<\3\2\2\2H=\3\2\2\2H>\3\2\2\2H?\3\2\2\2H@\3\2\2\2HA\3\2\2\2HB\3\2\2"+
+		"\2HD\3\2\2\2HF\3\2\2\2I\5\3\2\2\2\4\tH";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -154,6 +154,10 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 			case SVMLexer.LOADFP:
 				code[i++] = SVMParser.LOADFP;
 				break;
+			case SVMLexer.LWAFP:
+				code[i++] = SVMParser.LWAFP;
+				code[i++] = Integer.parseInt(ctx.n.getText());
+				break;
 			case SVMLexer.STOREFP:
 				code[i++] = SVMParser.STOREFP;
 				break;
