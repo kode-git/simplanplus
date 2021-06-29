@@ -42,6 +42,7 @@ lw1 1
 print
 lfp
 sal
+lw 0
 lw1 1
 print
 pop

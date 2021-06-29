@@ -17,6 +17,7 @@ public class DecFunNode implements Node, Cloneable {
     private Offset clonedOffset; // internal offset reference
     private ArrayList<Node> parameters = new ArrayList<Node>(); // parameters passed from caller (only for cgen)
     private String fEntry ="";
+    private int nestingLevel;
 
     // type id (args) {}
     public DecFunNode(Node type, String id, ArrayList<Node> args, BlockNode block) {
@@ -219,9 +220,11 @@ public class DecFunNode implements Node, Cloneable {
     //not used
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
+        //////////////////////////
+        //env.setNestingLevel(this.nestingLevel);
+        /////////////////////////////
         ArrayList<SemanticError> res = new ArrayList();
-        STentry entry = new STentry(env.getNestingLevel(), clonedOffset.getOffset() );
+        STentry entry = new STentry(this.nestingLevel, clonedOffset.getOffset() );
 
         // define return type :: (void, GenericType :: (int, bool))
         if(!(type instanceof GenericTypeNode)){
@@ -238,7 +241,7 @@ public class DecFunNode implements Node, Cloneable {
         SemanticError err;
         if(effectDecFun == 1)
             // adding of the function declaration inside the table at the current nesting level
-            err = env.addEntry(env.getNestingLevel(), this.id, entry);
+            err = env.addEntry(this.nestingLevel, this.id, entry);
         else
             err = null;
         if (err != null) {
@@ -246,6 +249,9 @@ public class DecFunNode implements Node, Cloneable {
         } else {
             // making new scope :-> \Gamma - []
             env.addTable(new HashMap<String, STentry>());
+            ///////////////
+            this.nestingLevel++;
+            //////////////
             int i = 0;
             Offset argOffset = new Offset();
             argOffset.increment();
@@ -260,7 +266,7 @@ public class DecFunNode implements Node, Cloneable {
                             argNode.setPointerEffectStateArg(argEffectState);
                         }
                     }
-                    res.addAll(argNode.checkSemantics(env,argOffset)); // adding in table inside the args checkSemantics
+                    res.addAll(argNode.checkSemantics(env,argOffset,this.nestingLevel)); // adding in table inside the args checkSemantics
                 }
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
@@ -281,6 +287,9 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+        ///////////////////////
+        this.nestingLevel= env.getNestingLevel();
+        ////////////////////////////////
         ArrayList<SemanticError> res = new ArrayList();
         STentry entry = new STentry(env.getNestingLevel(), offset.getOffset() );
         this.offset = offset;

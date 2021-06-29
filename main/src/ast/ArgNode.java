@@ -94,6 +94,32 @@ public class ArgNode implements Node, Cloneable {
         return err;
     }
 
+
+    public SemanticError checkEffects(Environment env, Offset offset, int nestingLevel) {
+        STentry entry = new STentry(nestingLevel, this.type, offset.getOffset(),counter);
+        offset.increment();
+        SemanticError err = null;
+        if(!(this.type instanceof PointerTypeNode)) {
+            entry.setEffectState(0,1);
+            err = env.addEntry(nestingLevel, this.id, entry); // this is the case of no pointer
+        } else {
+            // do aliasing
+            if (this.pESArg!=null) {
+                entry.setEffectState(this.pESArg);
+            }else {
+                //
+                this.pESArg= new int[counter+1];
+
+            }
+
+            err = env.addEntry(nestingLevel, this.id, entry); // this is the case of pointer
+        }
+        return err;
+    }
+
+
+
+
     @Override
     public void setEffectDecFun(int effectDecFun) {
         // not used because arguments is always child of a DecFun
@@ -108,6 +134,16 @@ public class ArgNode implements Node, Cloneable {
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
         ArrayList<SemanticError> res = new ArrayList();
         SemanticError err = checkEffects(env,offset);
+        if (err!=null){
+            res.add(err);
+        }
+        return res;
+    }
+
+
+    public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset, int nestingLevel) {
+        ArrayList<SemanticError> res = new ArrayList();
+        SemanticError err = checkEffects(env,offset,nestingLevel);
         if (err!=null){
             res.add(err);
         }
