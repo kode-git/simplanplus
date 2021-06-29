@@ -7,7 +7,7 @@ public class ExecuteVM {
     public static final int CODESIZE = 10000;
     public static final int MEMSIZE = 10000;
 
-    private int[] code;                      // instructions memory
+    public int[] code;                      // instructions memory
     public int[] memory = new int[MEMSIZE]; // activation records memory
     private int ip = 0;                      // pointer to the next code instruction
     public int sp = 0;                      // pointer of the next free record of the stack
@@ -189,6 +189,7 @@ public class ExecuteVM {
                         break;
                     case SVMParser.LOADRA: //
                         push(ra);
+                        System.out.println(ra + " ra PUSHATO");
 
                         break;
                     case SVMParser.STORERV: //

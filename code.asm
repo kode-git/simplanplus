@@ -8,16 +8,19 @@ push 0
 
 lfp
 lfp
+cfp
+push 0
+lfp
+lfp
 sal
-lw1 2
-lr1
+lw 0
+lal
 cfp
 cra
 b fentry0
-lfp
+pop
 sal
-lw1 1
-print
+sfp
 pop
 pop
 sal
@@ -29,13 +32,12 @@ lra
 lfp
 lfp
 cfp
-lfp
-sal
-lw 0
-lw1 1
+push 0
+lir1 3
+swfp 1
+lir1 8
 print
-lir1 9
-print
+pop
 sal
 sfp
 sra

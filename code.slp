@@ -1,5 +1,8 @@
-{int x=7;
-void f(){print x; print 9;} //sta stampando il return address 22! da controllare pop su decfun(?)
+{int z=7;
+
+void f(){ int h=3; print 8;} //sta stampando il return address 22! da controllare pop su decfun(?)
+{
+int z;
 f();
-print(x);
+}
 }

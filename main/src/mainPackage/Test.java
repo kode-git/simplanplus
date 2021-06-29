@@ -111,6 +111,10 @@ public class Test {
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				System.out.println("Output: ");
 				vm.cpu();
+				for(int i=0;i<20;i++)
+				    System.out.print(vm.memory[i]+ " ");
+            for(int i=0;i<20;i++)
+				System.out.println(vm.code[i]);
 
 
         } catch(ParseCancellationException e){

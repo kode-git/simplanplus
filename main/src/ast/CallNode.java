@@ -246,12 +246,13 @@ public class CallNode implements Node, Cloneable {
 
         String f_entry = this.entry.getReference().getfEntry();
         return "lfp\n"+ 				// push $fp to save it in the stack [fp]
-                /////////////// risalita della catena statica
+                /////////////// risalita della catena statica //TODO sbagliato
                 "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
                 "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
                 ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
-                "lw1 "+ entry.getOffset()+"\n"+  // lw r1 entry.offset(al) :: r1 <- MEMORY[entry.offset + al]; s -> []
-                "lr1\n"+ //inserisco activation link in stack
+              //  "lw1 "+ entry.getOffset()+"\n"+  // lw r1 entry.offset(al) :: r1 <- MEMORY[entry.offset + al]; s -> []
+               // "lr1\n"+ //inserisco activation link in stack
+                "lal\n"+ //load the access link into the top of the stack
                 "cfp\n"+  //punto il frame pointer all'activation link
                 ///////////////
                 parameters +            // cgen(stable, exp.get(i)) :: for i in exp.size() - 1 to 0; s-> [e(n), .., e(0), fp]
