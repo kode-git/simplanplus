@@ -1,13 +1,20 @@
 {
 int x = 4;
+int t=9;
 void  f(int x) {
     int y = 20;
     print(y);
    print(x);
+   print t;
+
+   t=t-1;
+   print t;
+   //f(t);
+
 }
 {
 f(x);
-
+print t;
 }
 }
 

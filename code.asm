@@ -5,6 +5,9 @@ push 0
 lir1 4
 swfp 1
 push 0
+lir1 9
+swfp 2
+push 0
 lfp
 lfp
 cfp
@@ -21,8 +24,14 @@ lw1 1
 lr1
 cra
 b fentry0
+lfp
+sal
+lw 0
+lw1 2
+print
 sal
 sfp
+pop
 pop
 pop
 sal
@@ -44,6 +53,32 @@ lfp
 sal
 lw 0
 lw1 1
+print
+lfp
+sal
+lw 0
+lw 0
+lw1 2
+print
+lir1 1
+lr1
+lfp
+sal
+lw 0
+lw 0
+lw1 2
+sr2
+sub
+lfp
+sal
+lw 0
+lw 0
+sw1 2
+lfp
+sal
+lw 0
+lw 0
+lw1 2
 print
 pop
 sal

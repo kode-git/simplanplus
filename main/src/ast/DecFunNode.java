@@ -17,7 +17,7 @@ public class DecFunNode implements Node, Cloneable {
     private Offset clonedOffset; // internal offset reference
     private ArrayList<Node> parameters = new ArrayList<Node>(); // parameters passed from caller (only for cgen)
     private String fEntry ="";
-    private int nestingLevel;
+    private int nestingLevel; //used only with fixed point computation, in order to keep the nesting level right
 
     // type id (args) {}
     public DecFunNode(Node type, String id, ArrayList<Node> args, BlockNode block) {
@@ -249,7 +249,7 @@ public class DecFunNode implements Node, Cloneable {
         } else {
             // making new scope :-> \Gamma - []
             env.addTable(new HashMap<String, STentry>());
-            ///////////////
+            /////////////////used only with fixed point computation, in order to keep the nesting level right
             this.nestingLevel++;
             //////////////
             int i = 0;
@@ -287,9 +287,7 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
-        ///////////////////////
-        this.nestingLevel= env.getNestingLevel();
-        ////////////////////////////////
+        this.nestingLevel= env.getNestingLevel();// setting the nesting level for the fixed point computation
         ArrayList<SemanticError> res = new ArrayList();
         STentry entry = new STentry(env.getNestingLevel(), offset.getOffset() );
         this.offset = offset;

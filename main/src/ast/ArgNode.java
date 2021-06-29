@@ -94,7 +94,7 @@ public class ArgNode implements Node, Cloneable {
         return err;
     }
 
-
+//used only with fixed point computation, in order to keep the nesting level right
     public SemanticError checkEffects(Environment env, Offset offset, int nestingLevel) {
         STentry entry = new STentry(nestingLevel, this.type, offset.getOffset(),counter);
         offset.increment();
@@ -140,7 +140,7 @@ public class ArgNode implements Node, Cloneable {
         return res;
     }
 
-
+    //used only with fixed point computation, in order to keep the nesting level right
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset, int nestingLevel) {
         ArrayList<SemanticError> res = new ArrayList();
         SemanticError err = checkEffects(env,offset,nestingLevel);
