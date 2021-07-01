@@ -27,7 +27,7 @@ public class ExecuteVM {
 
     public void cpu() {
         while (true) {
-            if (hp + 1 < sp) {
+            if (hp < sp + 1) {
                 System.out.println("\nRuntime error: Out of memory");
                 return;
             } else {

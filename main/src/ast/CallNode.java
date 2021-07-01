@@ -14,6 +14,7 @@ public class CallNode implements Node, Cloneable {
   private FixedPoint fixed;
   private Environment fixedPointEnv;
   private int nestinglevel;
+  private String f_entry;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
@@ -240,11 +241,10 @@ public class CallNode implements Node, Cloneable {
             ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
         }
 
-
-
-
-
-        String f_entry = this.entry.getReference().getfEntry();
+        if(this.f_entry == null){
+            System.out.println("f_entry set to the reference of the DecFun");
+            this.f_entry = this.entry.getReference().getfEntry();
+        }
 
         return "lfp\n"+ 				// push $fp to save it in the stack [fp]
                 "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]

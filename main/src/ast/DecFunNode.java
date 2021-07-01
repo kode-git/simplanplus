@@ -16,9 +16,8 @@ public class DecFunNode implements Node, Cloneable {
     private Offset offset; // main offset
     private Offset clonedOffset; // internal offset reference
     private ArrayList<Node> parameters = new ArrayList<Node>(); // parameters passed from caller (only for cgen)
-    private String fEntry ="";
-    private int nestingLevel; //used only with fixed point computation, in order to keep the nesting level right
-
+    private String fEntry = SimpLanlib.freshFunLabel();
+    private int nestingLevel; //used only with fixed point computation, in order to keep the nesting level rights
     // type id (args) {}
     public DecFunNode(Node type, String id, ArrayList<Node> args, BlockNode block) {
         this.type = type;
@@ -217,12 +216,12 @@ public class DecFunNode implements Node, Cloneable {
         return 0;
     }
 
-    //not used
+
     @Override
-    public ArrayList<SemanticError> checkSemantics(Environment env) {
-        //////////////////////////
+    public ArrayList<SemanticError> checkSemantics(Environment env) { // this is the function invocation for the fixed point
+
         //env.setNestingLevel(this.nestingLevel);
-        /////////////////////////////
+
         ArrayList<SemanticError> res = new ArrayList();
         STentry entry = new STentry(this.nestingLevel, clonedOffset.getOffset() );
 
@@ -251,7 +250,6 @@ public class DecFunNode implements Node, Cloneable {
             env.addTable(new HashMap<String, STentry>());
             /////////////////used only with fixed point computation, in order to keep the nesting level right
             this.nestingLevel++;
-            //////////////
             int i = 0;
             Offset argOffset = new Offset();
             argOffset.increment();
@@ -287,7 +285,7 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
-        this.nestingLevel= env.getNestingLevel();// setting the nesting level for the fixed point computation
+        this.nestingLevel= env.getNestingLevel(); // setting the nesting level for the fixed point computation
         ArrayList<SemanticError> res = new ArrayList();
         STentry entry = new STentry(env.getNestingLevel(), offset.getOffset() );
         this.offset = offset;
@@ -375,7 +373,7 @@ public class DecFunNode implements Node, Cloneable {
            for(Node par : args)
                popPar += "pop\n";
        }
-        this.fEntry = SimpLanlib.freshFunLabel();
+        //this.fEntry = SimpLanlib.freshFunLabel();
         SimpLanlib.putCode(
                 this.fEntry + ":" + "\n" +
                        // "cfp\n" +                  // fp <- sp; s -> [x(1).... x(n), fp]
