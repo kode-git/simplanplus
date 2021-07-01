@@ -25,8 +25,8 @@ public class SVMParser extends Parser {
 		SWFP=17, LWFP=18, LWAFP=19, CRA=20, JR=21, BRANCH=22, LOADRA=23, STORERA=24, 
 		LOADRV=25, STORERV=26, LOADFP=27, STOREFP=28, LOADHP=29, STOREHP=30, STORER1=31, 
 		LOADR1=32, STORER2=33, LOADR2=34, STOREAL=35, LOADAL=36, LIR1=37, LIR2=38, 
-		PRINT=39, COPYFP=40, COPYAL=41, HALT=42, COL=43, LABEL=44, NUMBER=45, 
-		WHITESP=46, ERR=47;
+		PRINT=39, COPYFP=40, COPYAL=41, MOVEFP=42, HALT=43, COL=44, LABEL=45, 
+		NUMBER=46, WHITESP=47, ERR=48;
 	public static final int
 		RULE_assembly = 0, RULE_instruction = 1;
 	private static String[] makeRuleNames() {
@@ -43,7 +43,7 @@ public class SVMParser extends Parser {
 			"'lw1'", "'swfp'", "'lwfp'", "'lwafp'", "'cra'", "'jr'", "'b'", "'lra'", 
 			"'sra'", "'lrv'", "'srv'", "'lfp'", "'sfp'", "'lhp'", "'shp'", "'sr1'", 
 			"'lr1'", "'sr2'", "'lr2'", "'sal'", "'lal'", "'lir1'", "'lir2'", "'print'", 
-			"'cfp'", "'cal'", "'halt'", "':'"
+			"'cfp'", "'cal'", "'mfp'", "'halt'", "':'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -54,7 +54,8 @@ public class SVMParser extends Parser {
 			"SWFP", "LWFP", "LWAFP", "CRA", "JR", "BRANCH", "LOADRA", "STORERA", 
 			"LOADRV", "STORERV", "LOADFP", "STOREFP", "LOADHP", "STOREHP", "STORER1", 
 			"LOADR1", "STORER2", "LOADR2", "STOREAL", "LOADAL", "LIR1", "LIR2", "PRINT", 
-			"COPYFP", "COPYAL", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", "ERR"
+			"COPYFP", "COPYAL", "MOVEFP", "HALT", "COL", "LABEL", "NUMBER", "WHITESP", 
+			"ERR"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -144,7 +145,7 @@ public class SVMParser extends Parser {
 			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PUSH) | (1L << POP) | (1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << BRANCHEQ) | (1L << BRANCHLESSEQ) | (1L << BRANCHLESS) | (1L << AND) | (1L << OR) | (1L << NOT) | (1L << STOREW) | (1L << LOADW) | (1L << SWR1) | (1L << LWR1) | (1L << SWFP) | (1L << LWFP) | (1L << LWAFP) | (1L << CRA) | (1L << JR) | (1L << BRANCH) | (1L << LOADRA) | (1L << STORERA) | (1L << LOADRV) | (1L << STORERV) | (1L << LOADFP) | (1L << STOREFP) | (1L << LOADHP) | (1L << STOREHP) | (1L << STORER1) | (1L << LOADR1) | (1L << STORER2) | (1L << LOADR2) | (1L << STOREAL) | (1L << LOADAL) | (1L << LIR1) | (1L << LIR2) | (1L << PRINT) | (1L << COPYFP) | (1L << COPYAL) | (1L << HALT) | (1L << LABEL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PUSH) | (1L << POP) | (1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << BRANCHEQ) | (1L << BRANCHLESSEQ) | (1L << BRANCHLESS) | (1L << AND) | (1L << OR) | (1L << NOT) | (1L << STOREW) | (1L << LOADW) | (1L << SWR1) | (1L << LWR1) | (1L << SWFP) | (1L << LWFP) | (1L << LWAFP) | (1L << CRA) | (1L << JR) | (1L << BRANCH) | (1L << LOADRA) | (1L << STORERA) | (1L << LOADRV) | (1L << STORERV) | (1L << LOADFP) | (1L << STOREFP) | (1L << LOADHP) | (1L << STOREHP) | (1L << STORER1) | (1L << LOADR1) | (1L << STORER2) | (1L << LOADR2) | (1L << STOREAL) | (1L << LOADAL) | (1L << LIR1) | (1L << LIR2) | (1L << PRINT) | (1L << COPYFP) | (1L << COPYAL) | (1L << MOVEFP) | (1L << HALT) | (1L << LABEL))) != 0)) {
 				{
 				{
 				setState(4);
@@ -200,6 +201,7 @@ public class SVMParser extends Parser {
 		public TerminalNode LOADFP() { return getToken(SVMParser.LOADFP, 0); }
 		public TerminalNode STOREFP() { return getToken(SVMParser.STOREFP, 0); }
 		public TerminalNode COPYFP() { return getToken(SVMParser.COPYFP, 0); }
+		public TerminalNode MOVEFP() { return getToken(SVMParser.MOVEFP, 0); }
 		public TerminalNode COPYAL() { return getToken(SVMParser.COPYAL, 0); }
 		public TerminalNode LOADHP() { return getToken(SVMParser.LOADHP, 0); }
 		public TerminalNode STOREHP() { return getToken(SVMParser.STOREHP, 0); }
@@ -242,7 +244,7 @@ public class SVMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
+			setState(72);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
@@ -448,87 +450,87 @@ public class SVMParser extends Parser {
 			case 30:
 				{
 				setState(52);
-				match(COPYAL);
+				match(MOVEFP);
+				setState(53);
+				((InstructionContext)_localctx).offset = match(NUMBER);
 				}
 				break;
 			case 31:
 				{
-				setState(53);
-				match(LOADHP);
+				setState(54);
+				match(COPYAL);
 				}
 				break;
 			case 32:
 				{
-				setState(54);
-				match(STOREHP);
+				setState(55);
+				match(LOADHP);
 				}
 				break;
 			case 33:
 				{
-				setState(55);
-				match(PRINT);
+				setState(56);
+				match(STOREHP);
 				}
 				break;
 			case 34:
 				{
-				setState(56);
-				match(HALT);
+				setState(57);
+				match(PRINT);
 				}
 				break;
 			case 35:
 				{
-				setState(57);
-				match(CRA);
+				setState(58);
+				match(HALT);
 				}
 				break;
 			case 36:
 				{
-				setState(58);
-				match(STORER1);
+				setState(59);
+				match(CRA);
 				}
 				break;
 			case 37:
 				{
-				setState(59);
-				match(LOADR1);
+				setState(60);
+				match(STORER1);
 				}
 				break;
 			case 38:
 				{
-				setState(60);
-				match(STORER2);
+				setState(61);
+				match(LOADR1);
 				}
 				break;
 			case 39:
 				{
-				setState(61);
-				match(LOADR2);
+				setState(62);
+				match(STORER2);
 				}
 				break;
 			case 40:
 				{
-				setState(62);
-				match(STOREAL);
+				setState(63);
+				match(LOADR2);
 				}
 				break;
 			case 41:
 				{
-				setState(63);
-				match(LOADAL);
+				setState(64);
+				match(STOREAL);
 				}
 				break;
 			case 42:
 				{
-				setState(64);
-				match(LWAFP);
 				setState(65);
-				((InstructionContext)_localctx).n = match(NUMBER);
+				match(LOADAL);
 				}
 				break;
 			case 43:
 				{
 				setState(66);
-				match(LIR1);
+				match(LWAFP);
 				setState(67);
 				((InstructionContext)_localctx).n = match(NUMBER);
 				}
@@ -536,8 +538,16 @@ public class SVMParser extends Parser {
 			case 44:
 				{
 				setState(68);
-				match(LIR2);
+				match(LIR1);
 				setState(69);
+				((InstructionContext)_localctx).n = match(NUMBER);
+				}
+				break;
+			case 45:
+				{
+				setState(70);
+				match(LIR2);
+				setState(71);
 				((InstructionContext)_localctx).n = match(NUMBER);
 				}
 				break;
@@ -556,30 +566,31 @@ public class SVMParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61K\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\62M\4\2\t\2\4\3\t"+
 		"\3\3\2\7\2\b\n\2\f\2\16\2\13\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3I"+
-		"\n\3\3\3\2\2\4\2\4\2\2\2t\2\t\3\2\2\2\4H\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2"+
-		"\2\b\13\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\3\3\2\2\2\13\t\3\2\2\2\f\r\7"+
-		"\3\2\2\rI\7/\2\2\16\17\7\3\2\2\17I\7.\2\2\20I\7\4\2\2\21I\7\5\2\2\22I"+
-		"\7\6\2\2\23I\7\7\2\2\24I\7\b\2\2\25I\7\f\2\2\26I\7\r\2\2\27I\7\16\2\2"+
-		"\30\31\7\17\2\2\31I\7/\2\2\32\33\7\20\2\2\33I\7/\2\2\34\35\7\22\2\2\35"+
-		"I\7/\2\2\36\37\7\21\2\2\37I\7/\2\2 !\7\24\2\2!I\7/\2\2\"#\7\23\2\2#I\7"+
-		"/\2\2$%\7.\2\2%I\7-\2\2&\'\7\30\2\2\'I\7.\2\2()\7\t\2\2)I\7.\2\2*+\7\n"+
-		"\2\2+I\7.\2\2,-\7\13\2\2-I\7.\2\2.I\7\27\2\2/I\7\31\2\2\60I\7\32\2\2\61"+
-		"I\7\33\2\2\62I\7\34\2\2\63I\7\35\2\2\64I\7\36\2\2\65I\7*\2\2\66I\7+\2"+
-		"\2\67I\7\37\2\28I\7 \2\29I\7)\2\2:I\7,\2\2;I\7\26\2\2<I\7!\2\2=I\7\"\2"+
-		"\2>I\7#\2\2?I\7$\2\2@I\7%\2\2AI\7&\2\2BC\7\25\2\2CI\7/\2\2DE\7\'\2\2E"+
-		"I\7/\2\2FG\7(\2\2GI\7/\2\2H\f\3\2\2\2H\16\3\2\2\2H\20\3\2\2\2H\21\3\2"+
-		"\2\2H\22\3\2\2\2H\23\3\2\2\2H\24\3\2\2\2H\25\3\2\2\2H\26\3\2\2\2H\27\3"+
-		"\2\2\2H\30\3\2\2\2H\32\3\2\2\2H\34\3\2\2\2H\36\3\2\2\2H \3\2\2\2H\"\3"+
-		"\2\2\2H$\3\2\2\2H&\3\2\2\2H(\3\2\2\2H*\3\2\2\2H,\3\2\2\2H.\3\2\2\2H/\3"+
-		"\2\2\2H\60\3\2\2\2H\61\3\2\2\2H\62\3\2\2\2H\63\3\2\2\2H\64\3\2\2\2H\65"+
-		"\3\2\2\2H\66\3\2\2\2H\67\3\2\2\2H8\3\2\2\2H9\3\2\2\2H:\3\2\2\2H;\3\2\2"+
-		"\2H<\3\2\2\2H=\3\2\2\2H>\3\2\2\2H?\3\2\2\2H@\3\2\2\2HA\3\2\2\2HB\3\2\2"+
-		"\2HD\3\2\2\2HF\3\2\2\2I\5\3\2\2\2\4\tH";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\5\3K\n\3\3\3\2\2\4\2\4\2\2\2w\2\t\3\2\2\2\4J\3\2\2\2\6\b\5\4\3\2\7"+
+		"\6\3\2\2\2\b\13\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\3\3\2\2\2\13\t\3\2\2"+
+		"\2\f\r\7\3\2\2\rK\7\60\2\2\16\17\7\3\2\2\17K\7/\2\2\20K\7\4\2\2\21K\7"+
+		"\5\2\2\22K\7\6\2\2\23K\7\7\2\2\24K\7\b\2\2\25K\7\f\2\2\26K\7\r\2\2\27"+
+		"K\7\16\2\2\30\31\7\17\2\2\31K\7\60\2\2\32\33\7\20\2\2\33K\7\60\2\2\34"+
+		"\35\7\22\2\2\35K\7\60\2\2\36\37\7\21\2\2\37K\7\60\2\2 !\7\24\2\2!K\7\60"+
+		"\2\2\"#\7\23\2\2#K\7\60\2\2$%\7/\2\2%K\7.\2\2&\'\7\30\2\2\'K\7/\2\2()"+
+		"\7\t\2\2)K\7/\2\2*+\7\n\2\2+K\7/\2\2,-\7\13\2\2-K\7/\2\2.K\7\27\2\2/K"+
+		"\7\31\2\2\60K\7\32\2\2\61K\7\33\2\2\62K\7\34\2\2\63K\7\35\2\2\64K\7\36"+
+		"\2\2\65K\7*\2\2\66\67\7,\2\2\67K\7\60\2\28K\7+\2\29K\7\37\2\2:K\7 \2\2"+
+		";K\7)\2\2<K\7-\2\2=K\7\26\2\2>K\7!\2\2?K\7\"\2\2@K\7#\2\2AK\7$\2\2BK\7"+
+		"%\2\2CK\7&\2\2DE\7\25\2\2EK\7\60\2\2FG\7\'\2\2GK\7\60\2\2HI\7(\2\2IK\7"+
+		"\60\2\2J\f\3\2\2\2J\16\3\2\2\2J\20\3\2\2\2J\21\3\2\2\2J\22\3\2\2\2J\23"+
+		"\3\2\2\2J\24\3\2\2\2J\25\3\2\2\2J\26\3\2\2\2J\27\3\2\2\2J\30\3\2\2\2J"+
+		"\32\3\2\2\2J\34\3\2\2\2J\36\3\2\2\2J \3\2\2\2J\"\3\2\2\2J$\3\2\2\2J&\3"+
+		"\2\2\2J(\3\2\2\2J*\3\2\2\2J,\3\2\2\2J.\3\2\2\2J/\3\2\2\2J\60\3\2\2\2J"+
+		"\61\3\2\2\2J\62\3\2\2\2J\63\3\2\2\2J\64\3\2\2\2J\65\3\2\2\2J\66\3\2\2"+
+		"\2J8\3\2\2\2J9\3\2\2\2J:\3\2\2\2J;\3\2\2\2J<\3\2\2\2J=\3\2\2\2J>\3\2\2"+
+		"\2J?\3\2\2\2J@\3\2\2\2JA\3\2\2\2JB\3\2\2\2JC\3\2\2\2JD\3\2\2\2JF\3\2\2"+
+		"\2JH\3\2\2\2K\5\3\2\2\2\4\tJ";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

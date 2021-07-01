@@ -139,7 +139,7 @@ public class ExecuteVM {
                         r2 = number;
                         break;
                     case SVMParser.BRANCH:
-                        address = code[ip];
+                        address = code[ip]; // TODO Why is ip and not ip++
                         ip = address;
                         break;
                     case SVMParser.BRANCHEQ: //
@@ -219,6 +219,10 @@ public class ExecuteVM {
                         break;
                     case SVMParser.COPYAL: //
                         al = sp;
+                        break;
+                    case SVMParser.MOVEFP:
+                        offset = code[ip++];
+                        fp = sp - offset;
                         break;
                     case SVMParser.STOREHP: //
                         hp = pop();

@@ -44,6 +44,7 @@ instruction:
 	  | LOADFP          
 	  | STOREFP         
 	  | COPYFP
+	  | MOVEFP offset=NUMBER
 	  | COPYAL
 	  | LOADHP          
 	  | STOREHP
@@ -130,6 +131,8 @@ PRINT	 : 'print' ;	// print top of stack
 COPYFP   : 'cfp' ;  // copy sp in fp :: fp <- sp
 COPYAL    : 'cal' ; // copy sp in al :: al <- sp
 
+// ----------- MOVE -----------------
+MOVEFP  : 'mfp'; // fp <- sp - offset
 // -------------- HALT -------------
 HALT	 : 'halt' ;	// stop execution
 

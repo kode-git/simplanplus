@@ -277,7 +277,7 @@ public class DecFunNode implements Node, Cloneable {
             // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
             // the environment NestingLevel + 1 is the environment where there are arguments of the functions
             // the current one NestingLevel - 1 is the environment where there is the declaration of the function
-            env.setNestingLevel(env.getNestingLevel() - 1);
+            // env.setNestingLevel(env.getNestingLevel() - 1);
             this.block.setEffectDecFun(this.effectDecFun);
             res.addAll(this.block.checkSemantics(env));
         }

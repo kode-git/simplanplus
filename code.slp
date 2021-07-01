@@ -1,20 +1,7 @@
 {
-int x = 4;
-int t=9;
-void  f(int x) {
-    int y = 20;
-    print(y);
-   print(x);
-   print t;
+void h(int x, int y){ if (y==0) print x ; else { x = x - 1; h(y,x) ;} }
 
-   t=t-1;
-   print t;
-   //f(t);
+h(5,3);
 
-}
-{
-f(x);
-print t;
-}
 }
 

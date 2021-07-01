@@ -95,6 +95,9 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				code[i++] = SVMParser.LWFP;
 				code[i++] = Integer.parseInt(ctx.offset.getText());
 				break;
+			case SVMLexer.MOVEFP:
+				code[i++] = SVMParser.MOVEFP;
+				code[i++] = Integer.parseInt(ctx.offset.getText());
 			case SVMLexer.SWFP:  // tokens.size() = 3
 				code[i++] = SVMParser.SWFP; // token 1
 				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
