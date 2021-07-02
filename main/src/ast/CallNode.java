@@ -207,23 +207,23 @@ public class CallNode implements Node, Cloneable {
         }
         DecFunNode function = entry.getReference();
         function.setParameters((ArrayList<Node>) exp.clone()); // need only for the size
-
         if(this.effectDecFun != 0){
-            // main invocation
+            FixedPoint.functionsFp.put(id,0);
+
+            // inner invocation
             // do nothing
         } else {
-            // internal invocation with fixed point
+            // main invocation with fixed point
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
-            if(this.fixed.getPoint() == 0) {
-                this.fixed.setPoint(fixed.getPoint() + 1);
-                res.addAll(function.checkSemantics(env));
+            if( !FixedPoint.functionsFp.containsKey(id)) {
+                 res.addAll(function.checkSemantics(env));
+            }else {
+                this.fixed.setPoint(this.fixed.getPoint() + 1);
+                function.setPointerEffectStatesArg(pointerEffectStates);
+                res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
+                this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
             }
-
-            function.setCallingDecFun(0);
-            function.setPointerEffectStatesArg(pointerEffectStates);
-            res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
-            this.fixed.setPoint(fixed.getPoint() + 1); // setting minimum fixed point
         }
 
         return res;

@@ -13,6 +13,9 @@ public class FixedPoint implements Serializable {
     // there is 1 instance for every callNode cloned and different instance for different callNode in the AST
     int point; // using for fixed point on the effects controls for callNode
 
+    public static  HashMap<String,Integer> functionsFp = new HashMap<>();
+
+
     public FixedPoint(int point){
         this.point = point;
     }
@@ -45,7 +48,7 @@ public class FixedPoint implements Serializable {
 
                 //fixed point computation
                 //first iteration of the fixed point on effects
-                res.addAll(function.checkSemantics(env));
+                res.addAll(function.checkSemantics(fixedPointEnv));
 
                 for(int c=0; c<symTableFixed.size();c++){
                     for (Map.Entry<String, STentry> entry : symTableFinal.get(c).entrySet()) {

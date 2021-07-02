@@ -219,11 +219,11 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) { // this is the function invocation for the fixed point
-
+        int nestingLv = this.nestingLevel;
         //env.setNestingLevel(this.nestingLevel);
 
         ArrayList<SemanticError> res = new ArrayList();
-        STentry entry = new STentry(this.nestingLevel, clonedOffset.getOffset() );
+        STentry entry = new STentry(nestingLv, clonedOffset.getOffset() );
 
         // define return type :: (void, GenericType :: (int, bool))
         if(!(type instanceof GenericTypeNode)){
@@ -240,7 +240,7 @@ public class DecFunNode implements Node, Cloneable {
         SemanticError err;
         if(effectDecFun == 1)
             // adding of the function declaration inside the table at the current nesting level
-            err = env.addEntry(this.nestingLevel, this.id, entry);
+            err = env.addEntry(nestingLv, this.id, entry);
         else
             err = null;
         if (err != null) {
@@ -249,7 +249,7 @@ public class DecFunNode implements Node, Cloneable {
             // making new scope :-> \Gamma - []
             env.addTable(new HashMap<String, STentry>());
             /////////////////used only with fixed point computation, in order to keep the nesting level right
-            this.nestingLevel++;
+            nestingLv++;
             int i = 0;
             Offset argOffset = new Offset();
             argOffset.increment();
@@ -264,7 +264,7 @@ public class DecFunNode implements Node, Cloneable {
                             argNode.setPointerEffectStateArg(argEffectState);
                         }
                     }
-                    res.addAll(argNode.checkSemantics(env,argOffset,this.nestingLevel)); // adding in table inside the args checkSemantics
+                    res.addAll(argNode.checkSemantics(env,argOffset,nestingLv)); // adding in table inside the args checkSemantics
                 }
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
@@ -278,6 +278,8 @@ public class DecFunNode implements Node, Cloneable {
             // env.setNestingLevel(env.getNestingLevel() - 1);
             this.block.setEffectDecFun(this.effectDecFun);
             res.addAll(this.block.checkSemantics(env));
+            env.removeTable();
+            nestingLv--;
         }
 
         return res;
@@ -285,6 +287,7 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+
         this.nestingLevel= env.getNestingLevel(); // setting the nesting level for the fixed point computation
         ArrayList<SemanticError> res = new ArrayList();
         STentry entry = new STentry(env.getNestingLevel(), offset.getOffset() );
@@ -338,9 +341,11 @@ public class DecFunNode implements Node, Cloneable {
             // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
             // the environment NestingLevel + 1 is the environment where there are arguments of the functions
             // the current one NestingLevel - 1 is the environment where there is the declaration of the function
-            env.setNestingLevel(env.getNestingLevel() - 1);
+            //env.setNestingLevel(env.getNestingLevel() - 1);
             this.block.setEffectDecFun(this.effectDecFun);
             res.addAll(this.block.checkSemantics(env));
+            env.removeTable();
+
         }
 
         return res;

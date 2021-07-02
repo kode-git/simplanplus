@@ -238,6 +238,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
 
     @Override
     public String codeGeneration() {
+        System.out.println(nestingLevel + " nesting level");
 
         if(lhVar instanceof LhsNode){
             // Pointer case

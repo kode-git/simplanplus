@@ -112,7 +112,7 @@ public class ArgNode implements Node, Cloneable {
 
             }
 
-            err = env.addEntry(nestingLevel, this.id, entry); // this is the case of pointer
+          err = env.addEntry(nestingLevel, this.id, entry); // this is the case of pointer
         }
         return err;
     }
