@@ -108,7 +108,7 @@ public class BinExpGeqNode implements Node , Cloneable{
                 "lr1\n" +                                   // r1 -> top_of_stack; s -> [r1] :: s -> [left]
                 right.codeGeneration() +                     // r1 <- cgen(stable, left); s -> [r1]
                 "sr2\n" +                                   // r2 <- top_of_stack; s -> [] :: r2 <- left
-                "bleq " + true_branch_geq + "\n" +         // if r1 <= r2 :: right <= left go to true_branch_geq; s -> []
+                "bless " + true_branch_geq + "\n" +         // if r1 < r2 == !r1 >= r2 :: right <= left go to true_branch_geq; s -> []
                 "lir1 0\n" +                                // false :: 0; r1 <- 0; ; s -> []
                 "b " + end_geq + "\n" +                     // jump end_geq; s -> []
                 true_branch_geq + ":\n" +                  // true_branch_geq:; s -> []

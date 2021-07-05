@@ -380,13 +380,15 @@ public class DecFunNode implements Node, Cloneable {
        }
         //this.fEntry = SimpLanlib.freshFunLabel();
         SimpLanlib.putCode(
+                // s -> [ra, e(n), .., e(0), al, fp]
                 this.fEntry + ":" + "\n" +
-                       // "cfp\n" +                  // fp <- sp; s -> [x(1).... x(n), fp]
-                        "lra\n" +                  // s -> [ra, x(n).... x(1), fp]
-                        block.codeGeneration() +  // r1 <- cgen(stable, block); s -> [ra, x(1).... x(n), fp]
-                        "sra\n" +                 // ra <- top_of_stack; s -> [x(1).... x(n), fp]
-                        popPar +                  // pop of the caller parameters; s -> [fp]
-                        "sfp\n"+                 // fp <- top_of_stack; s -> []
+                       // "cfp\n" +                  // fp <- sp; s -> [ra, e(n), .., e(0), al, fp]
+                        //"lra\n" +                  //
+                        block.codeGeneration() +  // r1 <- cgen(stable, block); s -> [ra, x(1).... x(n),al, fp]; fp <- b.fp; al <- b.al;
+                        "sra\n" +                 // ra <- top_of_stack; s -> [e(n), .., e(0), al, fp]
+                        popPar +                  // pop of the caller parameters; s -> [al, fp]
+                        "pop\n" +                 // remove al from stack,  s -> [al, fp]
+                        "sfp\n"+                 // fp <- top_of_stack; s -> [fp]
                         "jr\n");                // jump to ra; ra = ip_caller + 1 instruction; s -> []
 
 

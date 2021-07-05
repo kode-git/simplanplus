@@ -38,6 +38,7 @@ public class FixedPoint implements Serializable {
      */
     public ArrayList<SemanticError> fixedPointFunc(Environment env, DecFunNode function, int fixed ){
         boolean diff;
+        System.out.println("Nesting lvl passed in the fixed point: " + env.getNestingLevel());
         ArrayList<SemanticError> res = new ArrayList<>();
         do {
             diff = false; // hypothesis that there are not difference

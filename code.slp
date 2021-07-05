@@ -1,31 +1,15 @@
-/*{ // 2 2
-int t=1;
-void h(int x, int y){ // 2 2
-           int z = 1931;
-           if(t==2){
-           t=2;
-           print t;
-           h(x,y);
-           }
-           t=t+3;
-           //print t;
-      }
-
-h(5,3);
-
-print t;
-} */
 {
 int t=1;
-void h(int x){ // 2 2
-            print t;
-            t=t+1;
-            if(t<500)
-                h(t);
 
-      }
+void f(int n){
+if (n == 0) {
+        print 0;
+    } else {
+        print n;
+        f(n - 1);
+    }
+}
 
-h(5);
+f(10);
 
-print 16;
 }

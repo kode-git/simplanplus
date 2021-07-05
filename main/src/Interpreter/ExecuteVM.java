@@ -169,11 +169,22 @@ public class ExecuteVM {
                         else r1 = 0;
                         break;
                     case SVMParser.JR: //
+                        //ra = pop();
                         address = ra;
                         ip = address;
+                        //System.out.println("JR RA:" + ra + " IP: " + ip + ", AL: " + al + "FP:  " + fp);
+                        //System.out.println("Memory: ");
+                        for(int i = 0; i < 50; i++){
+                            //System.out.print(memory[i] + " ");
+                        }
+
+                        //System.out.println("MEMORY ERROR AT: "+ memory[1202]);
+                        //System.out.println("CODE: " + code[ip]);
                         break;
                     case SVMParser.CRA:
-                        ra = ip + 2; // Avoid the jal instruction
+                        //System.out.println("CRA in the callNode: " + "IP: " + ip + ", RA: " + ra + ", AL: " + al + "; FP: " + fp);
+                        ra = ip + 3; // Avoid the jal instruction
+                        //push(ra);
                         // cra
                         // jal f_entry
                         // point here

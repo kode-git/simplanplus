@@ -71,7 +71,8 @@ public class BlockNode implements Node {
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
 
-        env.addTable(new HashMap());
+        // new scope entry, we need to make a new hashmap in the Symbol table
+        env.addTable(new HashMap()); // env.nestingLevel++
         ArrayList<SemanticError> res = new ArrayList();
         this.nestingLevel = env.getNestingLevel();
         if (this.declarations.size() > 0) {
@@ -93,6 +94,9 @@ public class BlockNode implements Node {
                 res.addAll(n.checkSemantics(env));
             }
         }
+
+        // exit from the block, we need to reduce the scope
+        // and update the Symbol Table
         env.removeTable();
         return res;
     }
@@ -182,19 +186,20 @@ public class BlockNode implements Node {
     
 
     public String codeGeneration() {
+        // s -> [ra, x(1).... x(n), fp]
         String out="";
         out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp]
-        out += "lfp\n";                  // fp -> top_of_stack; s -> [ƒp,fp]
+        out += "lfp\n";                  // fp -> top_of_stack; s -> [al,fp]
 
-        out += "cfp\n";                   // fp <- sp; s -> [fp, fp]
+        out += "cfp\n";                   // fp <- sp; s -> [al, fp]
         for (Node dec : declarations) {
             out +="push 0\n";               // s->[d(0)...d(n)] n in 0 .. dec.size() - 1
-            out += dec.codeGeneration();   // cgen(stable, dec) :: r1 not valid here -> [ƒp]
+            out += dec.codeGeneration();   // cgen(stable, dec) :: r1 not valid here; s -> [d(0)...d(n), al, ƒp]
         }
         for (Node st : statements)
-            out+=st.codeGeneration();    // cgen(stable, st) :: r1 not valid here -> [ƒp]
+            out+=st.codeGeneration();    // cgen(stable, st) :: r1 not valid here; s -> [d(0)...d(n), al,ƒp]
         for(Node dec : declarations)
-            out += "pop\n";             // s -> [al, fp, fp]
+            out += "pop\n";             // s -> [al, fp]
 
         out +="sal\n";                  // al <- top_of_stack; s ->  [fp]
         out+= "sfp\n";                   // fp <- top_of_stack; s-> []
