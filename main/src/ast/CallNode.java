@@ -205,7 +205,12 @@ public class CallNode implements Node, Cloneable {
             }
             res.addAll(e.checkSemantics(env));
         }
+
         DecFunNode function = entry.getReference();
+        if(function == null){
+            res.add(new SemanticError("Error: Function identifier mismatch for the call: " + id));
+            return res;
+        }
         function.setParameters((ArrayList<Node>) exp.clone()); // need only for the size
         if(this.effectDecFun != 0){
             FixedPoint.functionsFp.put(id,0);

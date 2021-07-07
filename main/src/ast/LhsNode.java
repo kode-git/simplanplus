@@ -240,9 +240,26 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
     public String codeGeneration() {
         System.out.println(nestingLevel + " nesting level");
 
-        if(lhVar instanceof LhsNode){
+        if(lhVar instanceof LhsNode && counterST > 0){
             // Pointer case
-            return ""; // TODO
+            String out = "";
+            String hr = "";
+            for(int i = 0; i < this.counter; i++ ){
+                hr += "lwhp 0\n";     // lw r1 0(r1) :: r1 = MEMORY[r1 + 0]
+            }
+
+            String ar = "";
+            for(int i = 0; i < this.nestingLevel - entry.getNestinglevel(); i++ ){
+                ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
+            }
+
+            out += "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
+                    "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
+                    ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
+                    "lw1 "+ entry.getOffset()+"\n" +  // lw r1 entry.offset(al) :: r1 <- MEMORY[offset + al]; s -> []
+                    hr;                            // lw r1 0(r1) :: r1 = MEMORY[r1 + 0]; s -> []
+
+            return out;
         } else {
             // ID case
             String ar = "";
