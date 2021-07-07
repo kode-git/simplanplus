@@ -252,7 +252,7 @@ public class ExecuteVM {
                         System.out.println(r1);
                         break;
                     case SVMParser.PRINTHP:
-                        System.out.println('&'+r1);
+                        System.out.println("&"+r1);
                         break;
                     case SVMParser.NEW:
                         r1=hp--;

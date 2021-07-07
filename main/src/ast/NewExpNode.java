@@ -56,7 +56,7 @@ public class NewExpNode implements Node, Cloneable {
     // init the pointer in the heap
     @Override
     public String codeGeneration() {
-        return "";
+        return "new\n";
     }
 
 }
