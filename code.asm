@@ -2,20 +2,61 @@ lfp
 lfp
 cfp
 push 0
-lir1 1
-swfp 1
-push 0
 lfp
 lfp
 sal
 lal
-lir1 10
+lir1 0
 lr1
 mfp 1
 cra
 lra
 b fentry0
-pop
+print
+lfp
+lfp
+sal
+lal
+lir1 1
+lr1
+mfp 1
+cra
+lra
+b fentry0
+print
+lfp
+lfp
+sal
+lal
+lir1 2
+lr1
+mfp 1
+cra
+lra
+b fentry0
+print
+lfp
+lfp
+sal
+lal
+lir1 3
+lr1
+mfp 1
+cra
+lra
+b fentry0
+print
+lfp
+lfp
+sal
+lal
+lir1 4
+lr1
+mfp 1
+cra
+lra
+b fentry0
+print
 pop
 sal
 sfp
@@ -24,14 +65,14 @@ fentry0:
 lfp
 lfp
 cfp
-lir1 0
+lir1 1
 lr1
 lfp
 sal
 lw 0
 lw1 1
 sr2
-beq label2
+bleq label2
 lir1 0
 b label3
 label2:
@@ -43,11 +84,27 @@ lfp
 lfp
 cfp
 lfp
+lfp
+sal
+lw 0
+lw 0
+lw 0
+lal
+lir1 2
+lr1
+lfp
 sal
 lw 0
 lw 0
 lw1 1
-print
+sr2
+sub
+lr1
+mfp 1
+cra
+lra
+b fentry0
+lr1
 lfp
 lfp
 sal
@@ -69,6 +126,9 @@ mfp 1
 cra
 lra
 b fentry0
+sr2
+add
+srv
 sal
 sfp
 b label1
@@ -76,8 +136,12 @@ label0:
 lfp
 lfp
 cfp
-lir1 0
-print
+lfp
+sal
+lw 0
+lw 0
+lw1 1
+srv
 sal
 sfp
 label1:

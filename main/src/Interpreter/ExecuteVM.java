@@ -130,6 +130,26 @@ public class ExecuteVM {
                             return;
                         }
                         break;
+                    case SVMParser.LWHP: //
+                        offset = code[ip++];
+
+                        address = r1 + offset;
+                        if (memory[address] == -10000) {
+                            System.out.println("\nRuntime Error: Null pointer exception");
+                            return;
+                        }
+                        r1 = memory[r1 + offset];
+                        break;
+                    case SVMParser.SWHP: //
+                        offset = code[ip++];
+                        address = r1 + offset;
+                        try {
+                            memory[address] = r1;
+                        } catch(ArrayIndexOutOfBoundsException e){
+                            System.out.println("\nRuntime Error: Null pointer exception");
+                            return;
+                        }
+                        break;
                     case SVMParser.LIR1:
                         number = code[ip++];
                         r1 = number;
@@ -172,22 +192,9 @@ public class ExecuteVM {
                         //ra = pop();
                         address = ra;
                         ip = address;
-                        //System.out.println("JR RA:" + ra + " IP: " + ip + ", AL: " + al + "FP:  " + fp);
-                        //System.out.println("Memory: ");
-                        for(int i = 0; i < 50; i++){
-                            //System.out.print(memory[i] + " ");
-                        }
-
-                        //System.out.println("MEMORY ERROR AT: "+ memory[1202]);
-                        //System.out.println("CODE: " + code[ip]);
                         break;
                     case SVMParser.CRA:
-                        //System.out.println("CRA in the callNode: " + "IP: " + ip + ", RA: " + ra + ", AL: " + al + "; FP: " + fp);
                         ra = ip + 3; // Avoid the jal instruction
-                        //push(ra);
-                        // cra
-                        // jal f_entry
-                        // point here
                         break;
                     case SVMParser.STORER1:
                         r1 = pop();
@@ -236,13 +243,19 @@ public class ExecuteVM {
                         fp = sp - offset;
                         break;
                     case SVMParser.STOREHP: //
-                        hp = pop();
+                        hp = popHp();
                         break;
                     case SVMParser.LOADHP: //
-                        push(hp);
+                        pushHp(hp);
                         break;
                     case SVMParser.PRINT:
                         System.out.println(r1);
+                        break;
+                    case SVMParser.PRINTHP:
+                        System.out.println('&'+r1);
+                        break;
+                    case SVMParser.NEW:
+                        r1=hp--;
                         break;
                     case SVMParser.HALT:
                         //to print the result
@@ -260,5 +273,9 @@ public class ExecuteVM {
     private void push(int v) {
         memory[++sp] = v;
     }
+
+    private int popHp(){ return memory[hp++];}
+
+    private void pushHp(int v) { memory[--hp] = v;}
 
 }

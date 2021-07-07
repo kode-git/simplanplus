@@ -78,7 +78,19 @@ public class PrintNode implements Node, Cloneable {
   }
 
   public String codeGeneration() {
+
+    if(val instanceof DerExpNode) {
+      int counterST = ((LhsNode)((DerExpNode)val).getDerExp()).getCounterST();
+      int counter = ((LhsNode)((DerExpNode)val).getDerExp()).getCounter();
+      if ((counterST > 0 && counterST - counter > 0)) {
+        return val.codeGeneration()   // r1 <- cgen(stable, val); s -> []
+                + "printhp\n";           // print r1; s -> []
+      } else {
+        return val.codeGeneration()   // r1 <- cgen(stable, val); s -> []
+                + "print\n";           // print r1; s -> []
+      }
+    }
     return val.codeGeneration()   // r1 <- cgen(stable, val); s -> []
-            +"print\n";           // print r1; s -> []
+            + "print\n";           // print r1; s -> []
   }
 }  

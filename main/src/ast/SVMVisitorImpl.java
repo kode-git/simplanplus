@@ -98,8 +98,17 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 			case SVMLexer.MOVEFP:
 				code[i++] = SVMParser.MOVEFP;
 				code[i++] = Integer.parseInt(ctx.offset.getText());
+				break;
 			case SVMLexer.SWFP:  // tokens.size() = 3
 				code[i++] = SVMParser.SWFP; // token 1
+				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
+				break;
+			case SVMLexer.LWHP:
+				code[i++] = SVMParser.LWHP;
+				code[i++] = Integer.parseInt(ctx.offset.getText());
+				break;
+			case SVMLexer.SWHP:  // tokens.size() = 3
+				code[i++] = SVMParser.SWHP; // token 1
 				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
 				break;
 			case SVMLexer.LOADR1:
@@ -178,6 +187,12 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				break;
 			case SVMLexer.PRINT:
 				code[i++] = SVMParser.PRINT;
+				break;
+			case SVMLexer.PRINTHP:
+				code[i++] = SVMParser.PRINTHP;
+				break;
+			case SVMLexer.NEW:
+				code[i++] = SVMParser.NEW;
 				break;
 			case SVMLexer.HALT:
 				code[i++] = SVMParser.HALT;

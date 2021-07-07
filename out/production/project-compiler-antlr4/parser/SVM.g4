@@ -31,6 +31,8 @@ instruction:
 	  | SWR1   offset=NUMBER
 	  | LWFP  offset=NUMBER
 	  | SWFP offset=NUMBER
+	  | LWHP  offset=NUMBER
+      | SWHP offset=NUMBER
 	  | l=LABEL COL     
 	  | BRANCH l=LABEL
 	  | BRANCHEQ l=LABEL
@@ -49,6 +51,7 @@ instruction:
 	  | LOADHP          
 	  | STOREHP
 	  | PRINT
+	  | PRINTHP
 	  | HALT
 	  | CRA
 	  | STORER1
@@ -60,6 +63,7 @@ instruction:
 	  | LWAFP n=NUMBER
 	  | LIR1 n=NUMBER
 	  | LIR2 n=NUMBER
+	  | NEW
 	  ) ;
  	 
 /*------------------------------------------------------------------
@@ -92,6 +96,12 @@ LWR1	 : 'lw1' ;	// set the value of r1 at MEMORY[al + offset] :: r1 = MEMORY[al 
 SWFP    : 'swfp' ;  // set the value of r1 in the memory[offset + rsp] :: MEMORY[sp + offset] = r1
 LWFP	 : 'lwfp' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
 LWAFP    : 'lwafp'; // set the value of al at MEMORY[sp + offset] :: al = MEMORY[sp + offset]
+
+// -------------- HEAP INSTRUCTIONS -------------
+SWHP    : 'swhp' ;  // set the value of r1 in the memory[offset + hp] :: MEMORY[hp + offset] = r1
+LWHP	 : 'lwhp' ;	// set the value of r1 at MEMORY[hp + offset] :: r1 = MEMORY[hp + offset]
+NEW      : 'new';   // new pointer
+
 // -------------- JUMPING INSTRUCTIONS -------------
 CRA      : 'cra' ; // set ra to the address of caller
 JR	     : 'jr' ;	// jump to the instruction pointed by ra
@@ -111,13 +121,13 @@ LOADHP	 : 'lhp' ;	// load hp in the top of stack
 STOREHP	 : 'shp' ;	// store top into $hp
 
 STORER1  : 'sr1' ; // store top of stack into r1
-LOADR1   : 'lr1' ; // load r1 in the top of stack
+LOADR1   : 'lr1' ; // load r1 into the top of stack
 
 STORER2  : 'sr2' ; // store top into r2
-LOADR2   : 'lr2' ; // load r2 in the top of stack
+LOADR2   : 'lr2' ; // load r2 into the top of stack
 
 STOREAL : 'sal' ; // store top into al
-LOADAL :  'lal' ; // load al in the top of stack
+LOADAL :  'lal' ; // load al into the top of stack
 
 
 // -------------- LI ISTRUCTIONS -------------
@@ -126,6 +136,7 @@ LIR2        : 'lir2' ; //set r2 with the value number n
 
 // -------------- PRINT -------------
 PRINT	 : 'print' ;	// print top of stack
+PRINTHP : 'printhp'; // print hp value
 
 // -------------- REGISTER COPYING -------------
 COPYFP   : 'cfp' ;  // copy sp in fp :: fp <- sp
