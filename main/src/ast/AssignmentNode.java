@@ -196,7 +196,8 @@ public class AssignmentNode implements Node, Cloneable{
         if(lhs instanceof LhsNode){
             LhsNode lhsGen = (LhsNode) lhs;
             STentry entry = lhsGen.getEntry();
-            if(lhsGen.getLhVar() instanceof String){
+            int counterST = ((LhsNode<?>) lhs).getCounterST();
+            if(counterST <= 0 && lhsGen.getLhVar() instanceof String){
                 // case no pointer
 
                 String ar = "";
@@ -212,7 +213,59 @@ public class AssignmentNode implements Node, Cloneable{
 
             } else {
                 // pointer assignment
-                return "";
+                String out="";
+                String hr = "";
+                if(lhsGen.getLhVar() instanceof String && lhsGen.getCounter() == 0) {
+                    System.out.println("This is the x = new");
+                    // assignment of the first pointer to new (independent from the number of levels)
+                    // ^int x = new; x = new;
+                    for (int i = 0; i < ((LhsNode) lhs).getCounter(); i++) {
+                        hr += "lwh 0\n";     // lw r1 0(r1) :: r1 = MEMORY[r1 + 0]
+                    }
+
+                    String ar = "";
+                    for (int i = 0; i < this.nestingLevel - entry.getNestinglevel(); i++) {
+                        ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
+                    }
+
+                    out += exp.codeGeneration() +
+                            "lfp\n" +                        // fp -> top_of_stack :: s -> [fp]
+                            "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
+                            ar +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
+                            "sw1 " + entry.getOffset() + "\n";  // sw r1 entry.offset(al) :: r1 <- MEMORY[al + entry.offset]; s -> []
+
+
+                    return out;
+                }else{
+                    System.out.println("Assignment not in base case like x^ = 10");
+
+                    // TODO This is not completed
+
+                    // this is the internal pointer assignment
+                    System.out.println("This is the x = new");
+                    // assignment of the first pointer to new (independent from the number of levels)
+                    // ^int x = new; x = new;
+                    for (int i = 0; i < ((LhsNode) lhs).getCounter() - 1; i++) {
+                        hr += "lwhp 0\n";     // lw r1 0(r1) :: r1 = MEMORY[r1 + 0]
+                    }
+
+                    String ar = "";
+                    for (int i = 0; i < this.nestingLevel - entry.getNestinglevel(); i++) {
+                        ar += "lw 0\n";     // lw al 0(al) :: al = MEMORY[al + 0]
+                    }
+
+                    out += exp.codeGeneration() +
+                            "lr1\n" +                        // r1 -> top_of_stack :: s -> [r1]
+                            "lfp\n" +                        // fp -> top_of_stack :: s -> [fp,r1]
+                            "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> [r1]
+                            ar +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> [r1]
+                            "lw1 " + entry.getOffset() + "\n" +  // lw r1 entry.offset(al) :: r1 -> MEMORY[al + entry.offset]; s -> [r1]
+                            hr +                        // lw r1 0(r1) :: r1 = MEMORY[r1 + 0] for i = 0 to counter - 1; s-> [r1]
+                            "sr2\n" +                  // r2 <- top_of_stack :: s-> []
+                            "swhr2 0\n";                  // sw r2 0(r1) :: MEMORY[r1 + 0] = r2; :: MEMORY[heap] = exp;
+                    return out;
+                }
+
             }
 
         }

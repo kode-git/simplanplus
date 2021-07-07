@@ -111,6 +111,10 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				code[i++] = SVMParser.SWHP; // token 1
 				code[i++] = Integer.parseInt(ctx.offset.getText()); // token 2
 				break;
+			case SVMLexer.SWHR2:
+				code[i++] = SVMParser.SWHR2;
+				code[i++] = Integer.parseInt(ctx.offset.getText());
+				break;
 			case SVMLexer.LOADR1:
 				code[i++] = SVMParser.LOADR1;
 				break;
@@ -196,7 +200,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
 				break;
 			case SVMLexer.HALT:
 				code[i++] = SVMParser.HALT;
-				break;             
+				break;
 			default:
 	            break;	// Invalid instruction
     	}

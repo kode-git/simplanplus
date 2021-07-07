@@ -111,8 +111,14 @@ public class Test {
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				System.out.println("Output: ");
 				vm.cpu();
+				System.out.println("Stack Memory:");
 				for(int i=0;i<50;i++)
 				    System.out.print(vm.memory[i]+ " ");
+				System.out.println("\nHeap memory:");
+				for(int i = 9999; i > 9949; i--){
+                    System.out.print(vm.memory[i]+ " ");
+                }
+
 
         } catch(ParseCancellationException e){
             System.out.println("The program was not in the right format. Exiting the compilation process now");

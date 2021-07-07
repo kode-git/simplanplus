@@ -257,6 +257,10 @@ public class ExecuteVM {
                     case SVMParser.NEW:
                         r1=hp--;
                         break;
+                    case SVMParser.SWHR2:
+                        offset = code[ip++];
+                        memory[r1 + offset] = r2;
+                        break;
                     case SVMParser.HALT:
                         //to print the result
                         //System.out.println("\nResult: " + memory[sp] + "\n");

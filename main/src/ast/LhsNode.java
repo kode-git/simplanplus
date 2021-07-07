@@ -254,9 +254,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
                    "sal\n" +                        // al <- top_of_stack :: al <- fp; s -> []
                     ar     +                        // lw al 0(al) :: al = MEMORY[al + 0] to check the AR; s -> []
                     "lw1 "+ entry.getOffset()+"\n";  // lw r1 entry.offset(al) :: r1 <- MEMORY[entry.offset + al]; s -> []
-
         }
-
     }
 
 

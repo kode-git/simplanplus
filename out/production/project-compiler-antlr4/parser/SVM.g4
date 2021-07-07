@@ -33,6 +33,7 @@ instruction:
 	  | SWFP offset=NUMBER
 	  | LWHP  offset=NUMBER
       | SWHP offset=NUMBER
+      | SWHR2 offset=NUMBER
 	  | l=LABEL COL     
 	  | BRANCH l=LABEL
 	  | BRANCHEQ l=LABEL
@@ -93,13 +94,14 @@ STOREW	 : 'sw' ; 	// store the value of r1 in the MEMORY[offset + al] :: MEMORY[
 LOADW	 : 'lw' ;	// set the value of r1 at MEMORY[sp + offset] :: al = MEMORY[al + offset]
 SWR1      : 'sw1' ; // store the value of r1 in the MEMORY[offset + al] :: MEMORY[al + offset] = r1
 LWR1	 : 'lw1' ;	// set the value of r1 at MEMORY[al + offset] :: r1 = MEMORY[al + offset]
+SWHR2    : 'swhr2' ; // set the value of r2 into the MEMORY[r1 + offset] :: MEMORY[r1 + offset] = r2
 SWFP    : 'swfp' ;  // set the value of r1 in the memory[offset + rsp] :: MEMORY[sp + offset] = r1
 LWFP	 : 'lwfp' ;	// set the value of r1 at MEMORY[sp + offset] :: r1 = MEMORY[sp + offset]
 LWAFP    : 'lwafp'; // set the value of al at MEMORY[sp + offset] :: al = MEMORY[sp + offset]
 
 // -------------- HEAP INSTRUCTIONS -------------
 SWHP    : 'swhp' ;  // set the value of r1 in the memory[offset + hp] :: MEMORY[hp + offset] = r1
-LWHP	 : 'lwhp' ;	// set the value of r1 at MEMORY[hp + offset] :: r1 = MEMORY[hp + offset]
+LWHP	 : 'lwhp' ;	// set the value of r1 at MEMORY[hp + offset] :: r1 = MEMORY[r1 + offset]
 NEW      : 'new';   // new pointer
 
 // -------------- JUMPING INSTRUCTIONS -------------
