@@ -224,15 +224,21 @@ public class CallNode implements Node, Cloneable {
             if( !FixedPoint.functionsFp.containsKey(id)) {
                  res.addAll(function.checkSemantics(env));
             }else {
-                this.fixed.setPoint(this.fixed.getPoint() + 1);
-                function.setPointerEffectStatesArg(pointerEffectStates);
-                res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
-                this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
+
+                    System.out.println("SOLO UNA VOLTA");
+                    this.fixed.setPoint(this.fixed.getPoint() + 1);
+                    function.setPointerEffectStatesArg(pointerEffectStates);
+                    res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
+                    this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
+
+
             }
         }
 
         return res;
     }
+
+
 
     // TODO: Checking Offset and Pointer case
     public String codeGeneration() {

@@ -38,17 +38,18 @@ public class FixedPoint implements Serializable {
      */
     public ArrayList<SemanticError> fixedPointFunc(Environment env, DecFunNode function, int fixed ){
         boolean diff;
-        System.out.println("Nesting lvl passed in the fixed point: " + env.getNestingLevel());
         ArrayList<SemanticError> res = new ArrayList<>();
         do {
             diff = false; // hypothesis that there are not difference
             Environment fixedPointEnv = env.clone();
             ArrayList<HashMap<String, STentry>> symTableFixed = fixedPointEnv.getSymTable();
             ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
-            if(fixed == 0) {
+            if(fixed == 1) {
+
 
                 //fixed point computation
                 //first iteration of the fixed point on effects
+
                 res.addAll(function.checkSemantics(fixedPointEnv));
 
                 for(int c=0; c<symTableFixed.size();c++){
@@ -67,7 +68,6 @@ public class FixedPoint implements Serializable {
                 }
 
             }
-
         } while ( diff ); // until matching some differences between tables
         return res;
     }  // end of fixPoint method

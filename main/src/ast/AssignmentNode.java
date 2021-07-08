@@ -216,7 +216,6 @@ public class AssignmentNode implements Node, Cloneable{
                 String out="";
                 String hr = "";
                 if(lhsGen.getLhVar() instanceof String && lhsGen.getCounter() == 0) {
-                    System.out.println("This is the x = new");
                     // assignment of the first pointer to new (independent from the number of levels)
                     // ^int x = new; x = new;
                     for (int i = 0; i < ((LhsNode) lhs).getCounter(); i++) {
@@ -242,7 +241,6 @@ public class AssignmentNode implements Node, Cloneable{
                     // TODO This is not completed
 
                     // this is the internal pointer assignment
-                    System.out.println("This is the x = new");
                     // assignment of the first pointer to new (independent from the number of levels)
                     // ^int x = new; x = new;
                     for (int i = 0; i < ((LhsNode) lhs).getCounter() - 1; i++) {
