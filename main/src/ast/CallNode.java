@@ -15,6 +15,7 @@ public class CallNode implements Node, Cloneable {
   private Environment fixedPointEnv;
   private int nestinglevel;
   private String f_entry;
+  private Boolean myInnerStatus=false;
   
   public CallNode(String id, ArrayList<Node> exp){
     this.id = id;
@@ -214,25 +215,23 @@ public class CallNode implements Node, Cloneable {
         function.setParameters((ArrayList<Node>) exp.clone()); // need only for the size
         if(this.effectDecFun != 0){
             FixedPoint.functionsFp.put(id,0);
+            this.myInnerStatus=true;
+
 
             // inner invocation
             // do nothing
-        } else {
+        } else if(this.effectDecFun==0&&myInnerStatus==false) {
             // main invocation with fixed point
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
-            if( !FixedPoint.functionsFp.containsKey(id)) {
+
                  res.addAll(function.checkSemantics(env));
-            }else {
-
-                    System.out.println("SOLO UNA VOLTA");
-                    this.fixed.setPoint(this.fixed.getPoint() + 1);
-                    function.setPointerEffectStatesArg(pointerEffectStates);
-                    res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
-                    this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
-
-
-            }
+        }else if(this.fixed.getPoint()==0) {
+            System.out.println("SOLO UNA VOLTA");
+            this.fixed.setPoint(this.fixed.getPoint() + 1);
+            function.setPointerEffectStatesArg(pointerEffectStates);
+            res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
+            this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
         }
 
         return res;
