@@ -213,7 +213,7 @@ public class CallNode implements Node, Cloneable {
             return res;
         }
         function.setParameters((ArrayList<Node>) exp.clone()); // need only for the size
-        System.out.println(this.effectDecFun +" myeffectdecfun");
+
         if(this.effectDecFun != 0){
             FixedPoint.functionsFp.put(id,0);
             this.myInnerStatus=true;

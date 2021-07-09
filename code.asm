@@ -40,11 +40,6 @@ mfp 3
 cra
 lra
 b fentry0
-lfp
-sal
-lw1 1
-lwhp 0
-print
 pop
 pop
 pop
