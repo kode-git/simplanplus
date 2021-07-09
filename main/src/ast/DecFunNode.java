@@ -58,6 +58,9 @@ public class DecFunNode implements Node, Cloneable {
         this.pointerEffectStatesArg = new ArrayList<int[]>();
     }
 
+
+
+
     public String getfEntry() {
         return fEntry;
     }
@@ -215,7 +218,9 @@ public class DecFunNode implements Node, Cloneable {
     public int checkEffects(Environment env) {
         return 0;
     }
-
+    public int getNestingLevel(){
+        return this.nestingLevel;
+    }
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) { // this is the function invocation for the fixed point

@@ -216,22 +216,39 @@ public class CallNode implements Node, Cloneable {
         if(this.effectDecFun != 0){
             FixedPoint.functionsFp.put(id,0);
             this.myInnerStatus=true;
+            System.out.println("ONE");
 
 
             // inner invocation
             // do nothing
-        } else if(this.effectDecFun==0&&myInnerStatus==false) {
+        } else if(this.effectDecFun==0&&myInnerStatus==false&&(!FixedPoint.functionsFp.containsKey(id))) {
+
+            System.out.println("TWO");
             // main invocation with fixed point
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
+            //setting the nesting level to the original function nesting level in order to check the effects, then i restore it
+            int nlt=env.getNestingLevel();
+            env.setNestingLevel(function.getNestingLevel());
+            res.addAll(function.checkSemantics(env));
+            env.setNestingLevel(nlt);
+           // res.addAll(function.getBlock().checkSemantics(env));//TODO
+        }else if(FixedPoint.functionsFp.get(id)==0) {
 
-                 res.addAll(function.checkSemantics(env));
-        }else if(this.fixed.getPoint()==0) {
+            function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
+            function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
+            int nlt=env.getNestingLevel();
+            env.setNestingLevel(function.getNestingLevel());
             System.out.println("SOLO UNA VOLTA");
-            this.fixed.setPoint(this.fixed.getPoint() + 1);
+            FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
+           // this.fixed.setPoint(this.fixed.getPoint() + 1);
             function.setPointerEffectStatesArg(pointerEffectStates);
-            res.addAll(this.fixed.fixedPointFunc(env, function, this.fixed.getPoint())); // calling fixed point procedure
-            this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
+            res.addAll(this.fixed.fixedPointFunc(env, function, id)); // calling fixed point procedure
+            FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
+            //this.fixed.setPoint(this.fixed.getPoint() + 1); // setting minimum fixed point
+            env.setNestingLevel(nlt);
+
+
         }
 
         return res;

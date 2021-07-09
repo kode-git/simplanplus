@@ -36,22 +36,23 @@ public class FixedPoint implements Serializable {
 
      Used :: [CallNode]
      */
-    public ArrayList<SemanticError> fixedPointFunc(Environment env, DecFunNode function, int fixed ){
+    public ArrayList<SemanticError> fixedPointFunc(Environment env, DecFunNode function, String id ){
         boolean diff;
         ArrayList<SemanticError> res = new ArrayList<>();
         do {
+//TODO PROVA A MAXARE FIXED POINT!
             diff = false; // hypothesis that there are not difference
             Environment fixedPointEnv = env.clone();
             ArrayList<HashMap<String, STentry>> symTableFixed = fixedPointEnv.getSymTable();
             ArrayList<HashMap<String,STentry>>  symTableFinal = env.getSymTable();
-            if(fixed == 1) {
 
+            if(functionsFp.get(id) == 1) {
 
                 //fixed point computation
                 //first iteration of the fixed point on effects
 
-                res.addAll(function.checkSemantics(fixedPointEnv));
-
+                res.addAll(function.checkSemantics(env));
+                System.out.println("one");
                 for(int c=0; c<symTableFixed.size();c++){
                     for (Map.Entry<String, STentry> entry : symTableFinal.get(c).entrySet()) {
                         String key = entry.getKey();
@@ -59,6 +60,7 @@ public class FixedPoint implements Serializable {
                         //retrieve of the corresponding value in the second SymTable
                         int[] value2 = symTableFixed.get(c).get(key).getEffectState();
                         for(int i=0;i< value.length;i++){
+                            System.out.println(value[i] + " " +value2[i]);
                             if(value[i]!=value2[i]){
                                 diff = true; //there are some differences, needs a new iteration
                             }
@@ -68,6 +70,7 @@ public class FixedPoint implements Serializable {
                 }
 
             }
+            break;
         } while ( diff ); // until matching some differences between tables
         return res;
     }  // end of fixPoint method
