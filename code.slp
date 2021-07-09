@@ -1,23 +1,4 @@
-/*{
-^int x=new;
-^int f=new;
-int z=5;
-void g(^int x, ^int y){ print y^; if (y^==0) print x ; else { x^ = x^ - 1; y^=y^-1; g(y,x); delete y;  }  }
-x^=5;
-f^=9;
 
-{
-g(x,f);
-x^=6;
-}
-
-
-
-
-
-
-
-}*/
 
 
 
@@ -46,5 +27,6 @@ x^=6;
     b^=3;
     f(a, b, 1);
     print a^;
-    print b^;
+   // print b^;
 }
+

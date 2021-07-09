@@ -70,7 +70,7 @@ public class FixedPoint implements Serializable {
                 }
 
             }
-            break;
+           // break;
         } while ( diff ); // until matching some differences between tables
         return res;
     }  // end of fixPoint method
