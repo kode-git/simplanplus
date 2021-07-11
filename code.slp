@@ -14,15 +14,15 @@
         }
         else {
             ^int w = new; // nl -> 3 :: [w]
-            f(w, x, n-1);
-            delete y;
+            f(w, x, n-1); // x -> [d]
+            delete y;     // y -> [d]
         }
+
+        // [x -> d, y -> d]
     }
     a^=6;
     b^=3;
     f(a, b, 1);
-    a = new;
-    a^ = 10;
    print a^;
    print b^;
 }
