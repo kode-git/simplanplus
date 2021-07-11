@@ -5,14 +5,15 @@
     The correct type in the effect analysis of f is that x |-> d, y |-> d, n |-> rw.
     The program is well-formed and does not output anything, but a and b can both be possibly deleted hence a and b must be reassigned after calling f with them.
     */
+    // nl -> 1 :: [a,b,f]
     ^int a = new;
     ^int b = new;
-    void f(^int x, ^int y, int n) {
-        if (n == 0) {
+    void f(^int x, ^int y, int n) { // nl -> 2 :: [x,y,n]
+        if (n == 0) { // nl -> 3 :: []
             delete y;
         }
         else {
-            ^int w = new;
+            ^int w = new; // nl -> 3 :: [w]
             f(w, x, n-1);
             delete y;
         }
@@ -20,7 +21,9 @@
     a^=6;
     b^=3;
     f(a, b, 1);
-   // print a^;
-   // print b^;
+    a = new;
+    a^ = 10;
+   print a^;
+   print b^;
 }
 

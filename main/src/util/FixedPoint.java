@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FixedPoint implements Serializable {
 
-    // there is 1 instance for every callNode cloned and different instance for different callNode in the AST
+    // there is 1 instance for every callNode cld and different instance for different callNode in the AST
     int point; // using for fixed point on the effects controls for callNode
 
     public static  HashMap<String,Integer> functionsFp = new HashMap<>();
@@ -47,7 +47,7 @@ public class FixedPoint implements Serializable {
         ArrayList<HashMap<String,STentry>>  symTableUpd = env.getSymTable();
 
         do {
-//TODO PROVA A MAXARE FIXED POINT!
+
             diff = false; // hypothesis that there are not difference
             Environment startingPointEnv = env.clone();
             allEnv.add(startingPointEnv);
@@ -59,12 +59,12 @@ public class FixedPoint implements Serializable {
                 //first iteration of the fixed point on effects
 
                 res.addAll(function.checkSemantics(startingPointEnv));
-                System.out.println("one");
+                System.out.println("Did the decFun reference checkSemantics in the Fixed Point");
                 for(int c=0; c<startTable.size();c++){
                     for (Map.Entry<String, STentry> entry : startTable.get(c).entrySet()) {
                         String key = entry.getKey();
                         int[] value = entry.getValue().getEffectState();
-                        //retrieve of the corresponding value in the second SymTable
+                        // retrieve of the corresponding value in the second SymTable
                         int[] value2 = previousTable.get(c).get(key).getEffectState();
                         for(int i=0;i< value.length;i++){
                             if(value[i]>value2[i]){ // set the effect state to the worst case :: max[a,b] = a : a > b
@@ -76,7 +76,7 @@ public class FixedPoint implements Serializable {
                             }
                             if(value[i]!=value2[i]) {
                                 diff = true;
-                                System.out.println("is it true?");
+                                System.out.println(diff?"Diff is true at the level: " + c: "Diff is false at the level: " + c);
                             }
                         }
                     }

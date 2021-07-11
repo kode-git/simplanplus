@@ -13,7 +13,7 @@ public class SimpLanPlusBaseListener implements SimpLanPlusListener {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * <p>The default implementation does nothing.</p>
+	 * <p>The default implementation ds nothing.</p>
 	 */
 	@Override public void enterBlock(SimpLanPlusParser.BlockContext ctx) { }
 	/**

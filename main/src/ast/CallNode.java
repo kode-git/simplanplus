@@ -217,13 +217,13 @@ public class CallNode implements Node, Cloneable {
         if(this.effectDecFun != 0){
             FixedPoint.functionsFp.put(id,0);
             this.myInnerStatus=true;
-            System.out.println("ONE");
+            System.out.println("Inner invocation with the Fp putting in the FixedPoint HashMap and myInnerStatus = true");
 
             // inner invocation
             // do nothing
         } else if(this.effectDecFun==0&&myInnerStatus==false) {
 
-            System.out.println("TWO");
+            System.out.println("Main invocation starting the procedure for fixed point");
             // main invocation with fixed point
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
@@ -231,26 +231,33 @@ public class CallNode implements Node, Cloneable {
             int nlt=env.getNestingLevel();
             env.setNestingLevel(function.getNestingLevel());
             if(!FixedPoint.functionsFp.containsKey(id)) {
-                System.out.println("not recursive!");
+                System.out.println("not recursive calling function");
                 res.addAll(function.checkSemantics(env));
 
             }else {
-                System.out.println("recursive!");
+                System.out.println("recursive calling function: do fixed point");
                 FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
+                System.out.println("Fixed point before the invocation: " + FixedPoint.functionsFp.get(id));
                 res.addAll(this.fixed.fixedPointFunc(env, function, id)); // calling fixed point procedure
                 FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
+                System.out.println("Fixed point after the invocation: " + FixedPoint.functionsFp.get(id));
             }
 
             env.setNestingLevel(nlt);
-           // res.addAll(function.getBlock().checkSemantics(env));//TODO
+           // res.addAll(function.getBlock().checkSemantics(env)); //TODO
         }else if(FixedPoint.functionsFp.get(id)==1) {
 
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
-            //int nlt=env.getNestingLevel();
-           // env.setNestingLevel(function.getNestingLevel());
-            System.out.println("SOLO UNA VOLTA");
             /*
+            int nlt=env.getNestingLevel();
+            env.setNestingLevel(function.getNestingLevel());s
+             */
+
+            System.out.println("Need to recall this one time, env.nl: " + env.getNestingLevel() + " env.size: " + env.getSymTable().size());
+
+            /*
+
             FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
 
             function.setPointerEffectStatesArg(pointerEffectStates);
@@ -258,7 +265,8 @@ public class CallNode implements Node, Cloneable {
             FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
 
             env.setNestingLevel(nlt);
-                */
+
+            */
 
         }
 
