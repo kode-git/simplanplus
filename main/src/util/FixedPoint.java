@@ -46,17 +46,18 @@ public class FixedPoint implements Serializable {
         allEnv.add(env.clone()); // adding  a new environment in the list of environment used in the fixed point
         Environment finalResultEnv = env.clone(); // final env status
         ArrayList<HashMap<String,STentry>>  symTableUpd = finalResultEnv.getSymTable();
+        ArrayList<HashMap<String,STentry>>  updatingSymTable= env.getSymTable();
 
         do {
             System.out.println("Iteration of the while");
             System.out.println("-----------------------");
             System.out.println("Fixed Point for " + id + ": " + FixedPoint.functionsFp.get(id));
-            diff = false; // hypothesis that there are not difference
+            diff = false; // hypothesis that there are no differences
             Environment startingPointEnv = env.clone();
             allEnv.add(startingPointEnv);
-            ArrayList<HashMap<String, STentry>> startTable = env.getSymTable();
+            ArrayList<HashMap<String, STentry>> startTable = startingPointEnv.getSymTable();
             ArrayList<HashMap<String, STentry>> previousTable = allEnv.get(allEnv.size()-2).getSymTable();
-
+            System.out.println(allEnv.size()+ " size of all the env addes");
 
                 // fixed point computation
                 // first iteration of the fixed point on effects
@@ -76,39 +77,42 @@ public class FixedPoint implements Serializable {
                             if(value[i]>value2[i]){ // set the effect state to the worst case :: max[a,b] = a : a > b
                                 finalResultEnv.getSymTable().get(c).get(key).setEffectState(i,value[i]);
                                 System.out.println("Setting effect state as value 1 for key  " + key + ": " + value[i]+" "+value2[i]);
+                                //diff= true;
                             }else {
                                 finalResultEnv.getSymTable().get(c).get(key).setEffectState(i,value2[i]);
                                 System.out.println("Setting effect state as value 2 for key  " + key + ": "+ value[i]+" "+value2[i]);
                             }
                             if(value[i]!=value2[i]) {
-                                System.out.println(value[i] + " " + value2[i]);
+
                                 diff = true;
+                                System.out.println(value[i] + " " + value2[i] + "diff is true here! "+ diff);
                             }
                             System.out.println(diff?"Diff is true at the level: " + c: "Diff is false at the level: " + c);
+                           // System.out.println(finalResultEnv.getSymTable().get(c).get(key).getEffectState(i)+ " myupdated");
                         }
                     }
                 }
             if(diff == true){
-                System.out.println("exit from while");
+                System.out.println("stay in while");
             }
             // break;
             FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
             System.out.println("4 - Fixed Point for " + id + ": " + FixedPoint.functionsFp.get(id));
-        } while (!diff ); // until matching some differences between tables
+        } while (diff ); // until matching some differences between tables
 
         System.out.println("\n Printing of the value and value2:");
-        for(int c=0; c<symTableUpd.size();c++) {
-            for (Map.Entry<String, STentry> entry : symTableUpd.get(c).entrySet()) {
+        for(int c=0; c<updatingSymTable.size();c++) {
+            for (Map.Entry<String, STentry> entry : updatingSymTable.get(c).entrySet()) {
                 String key = entry.getKey();
                 int[] value = entry.getValue().getEffectState();
                 //retrieve of the corresponding value in the second SymTable
                 int[] value2 = finalResultEnv.getSymTable().get(c).get(key).getEffectState();
                 for (int i = 0; i < value.length; i++) {
                     if (value[i] > value2[i]) { // set the effect state to the worst case :: max[a,b] = a : a > b
-                        symTableUpd.get(c).get(key).setEffectState(i, value[i]);
+                        updatingSymTable.get(c).get(key).setEffectState(i, value[i]);
                         System.out.println(value[i]+" "+value2[i]);
                     } else {
-                        symTableUpd.get(c).get(key).setEffectState(i, value2[i]);
+                        updatingSymTable.get(c).get(key).setEffectState(i, value2[i]);
                         System.out.println(value[i]+" "+value2[i]);
                     }
                 }
