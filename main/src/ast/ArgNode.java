@@ -142,6 +142,7 @@ public class ArgNode implements Node, Cloneable {
 
     //used only with fixed point computation, in order to keep the nesting level right
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset, int nestingLevel) {
+        System.out.println("Arg Env: " + env);
         ArrayList<SemanticError> res = new ArrayList();
         SemanticError err = checkEffects(env,offset,nestingLevel);
         if (err!=null){

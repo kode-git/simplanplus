@@ -142,6 +142,8 @@ public class IteNode implements Node, Cloneable{
     
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
+
+        System.out.println("Ite env: " + env);
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 
         exp.setEffectDecFun(this.effectDecFun);
@@ -171,6 +173,8 @@ public class IteNode implements Node, Cloneable{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
+
+        System.out.println("Do not use this IteNode checkSemantic");
         return null;
     }
 

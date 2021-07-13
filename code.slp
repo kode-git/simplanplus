@@ -1,4 +1,5 @@
 {
+
     /*
     This example shows the importance of having a fix-point method implemented for performing the effects analysis on functions.
     Without a fix-point method, only y would be marked as deleted, while x would not.
@@ -8,22 +9,27 @@
     // nl -> 1 :: [a,b,f]
     ^int a = new;
     ^int b = new;
+
+    // Table :: [f()] -> [x,y,n] -> [block] -> [x,y,n] -> [block]
+
     void f(^int x, ^int y, int n) { // nl -> 2 :: [x,y,n]
         if (n == 0) { // nl -> 3 :: []
             delete y;
         }
         else {
             ^int w = new; // nl -> 3 :: [w]
-            f(w, x, n-1); // x -> [d]
+            f(w,x, n-1); // x -> [d]
             delete y;     // y -> [d]
         }
+
 
         // [x -> d, y -> d]
     }
     a^=6;
     b^=3;
-    f(a, b, 1);
+   f(a, b, 1);
    print a^;
    print b^;
+
 }
 

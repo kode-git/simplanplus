@@ -45,6 +45,11 @@ sal
 lw1 1
 lwhp 0
 print
+lfp
+sal
+lw1 2
+lwhp 0
+print
 pop
 pop
 pop

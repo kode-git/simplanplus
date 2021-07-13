@@ -224,6 +224,7 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) { // this is the function invocation for the fixed point
+        System.out.println("Dec Fun Node: " + env);
         int nestingLv = this.nestingLevel;
         //env.setNestingLevel(this.nestingLevel);
 
@@ -253,7 +254,7 @@ public class DecFunNode implements Node, Cloneable {
         } else {
             // making new scope :-> \Gamma - []
             env.addTable(new HashMap<String, STentry>());
-            /////////////////used only with fixed point computation, in order to keep the nesting level right
+            //used only with fixed point computation, in order to keep the nesting level right
             nestingLv++;
             int i = 0;
             Offset argOffset = new Offset();

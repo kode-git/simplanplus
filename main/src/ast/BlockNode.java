@@ -70,7 +70,7 @@ public class BlockNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
+        System.out.println("Env of BlockNode: " + env);
         // new scope entry, we need to make a new hashmap in the Symbol table
         env.addTable(new HashMap()); // env.nestingLevel++
         ArrayList<SemanticError> res = new ArrayList();
