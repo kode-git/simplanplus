@@ -1,12 +1,6 @@
-/*
+
 {
 
-    /*
-    This example shows the importance of having a fix-point method implemented for performing the effects analysis on functions.
-    Without a fix-point method, only y would be marked as deleted, while x would not.
-    The correct type in the effect analysis of f is that x |-> d, y |-> d, n |-> rw.
-    The program is well-formed and does not output anything, but a and b can both be possibly deleted hence a and b must be reassigned after calling f with them.
-    */
     // nl -> 1 :: [a,b,f]
     ^int a = new;
     ^int b = new;
@@ -15,10 +9,12 @@
 
     void f(^int x, ^int y, int n) { // nl -> 2 :: [x,y,n]
         if (n == 0) { // nl -> 3 :: []
-            delete y;
+           delete y;
         }
         else {
+
             ^int w = new; // nl -> 3 :: [w]
+
             f(w,x, n-1); // x -> [d]
             delete y;     // y -> [d]
         }
@@ -29,16 +25,15 @@
     a^=6;
     b^=3;
    f(a, b, 1);
-   print a^;
-   print b^;
+
 
 }
 
 
-*/
+
 
 // Fibonacci
-
+/*
 {
 
 int f(int x){
@@ -50,4 +45,4 @@ print(f(10));
 
 
 
-}
+}*/

@@ -239,7 +239,8 @@ public class CallNode implements Node, Cloneable {
             }
 
             env.setNestingLevel(nlt);
-        }else if(FixedPoint.functionsFp.get(id)==1) {
+        }else if(FixedPoint.functionsFp.get(id)>=1) {
+
             FixedPoint.pointerEffectStateFp.put(id, pointerEffectStates);
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
             //function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments

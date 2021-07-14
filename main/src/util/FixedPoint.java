@@ -246,7 +246,6 @@ public class FixedPoint implements Serializable {
 
             // reset environment
             resetEnvironment(env, env2);
-
         } while(diff);
         
         // Update the environment with the effect defined in the final environment
