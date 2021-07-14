@@ -13,7 +13,7 @@ public class FixedPoint implements Serializable {
 
     // there is 1 instance for every callNode cld and different instance for different callNode in the AST
     int point; // using for fixed point on the effects controls for callNode
-
+    static int i = 0;
     // fixed point of a callNode invocation
     public static  HashMap<String,Integer> functionsFp = new HashMap<>();
     // taking the same pointer effects state for every callNode of the fixed point procedure
@@ -36,7 +36,7 @@ public class FixedPoint implements Serializable {
         updated - Environment with changes
         before - Environment before changes
      */
-    public void resetEnvironment(Environment updated, Environment before){
+    public static void resetEnvironment(Environment updated, Environment before){
         Environment initial = before; // before update of the checkSemantics on DecFunNode
         for(int j = 0; j < before.getSymTable().size(); j++) {
             if(updated.getSymTable().size() == before.getSymTable().size()){ // the size is equal because changes are popped
@@ -53,6 +53,61 @@ public class FixedPoint implements Serializable {
             }
 
         }
+    }
+
+
+    public static void updateEnvironment(Environment prev, Environment cur, Environment finalEnvironment){
+
+        ArrayList<HashMap<String, STentry>> finalTable = finalEnvironment.getSymTable();
+        ArrayList<HashMap<String, STentry>> previous = prev.getSymTable();
+        // Variables in the current nesting level
+        ArrayList<HashMap<String, STentry>> current = cur.getSymTable(); // current symbol table
+
+        int nl = 0; // init the nl
+        for(nl = 0; nl < previous.size(); nl++){
+            // We are in nesting level nl
+
+            // this is temporal control
+            if(current.get(nl) != previous.get(nl)) {
+                System.out.println("Differences between current and previous matched");
+            }
+            for (Map.Entry<String, STentry> entry : current.get(nl).entrySet()) {
+                // We have the entry of the nesting level nl
+                // we need to compare this entry between current and previous tables
+                String key = entry.getKey(); // taking the entry key
+                // Effects state for an entry in the table for final, current and previous environment
+                int[] previousEffect = previous.get(nl).get(key).getEffectState();
+                int[] currentEffect = entry.getValue().getEffectState();
+                int[] finalEffect = finalTable.get(nl).get(key).getEffectState();
+
+                // control of the length of entry effectState (need to be both pointers of n level)
+                if(currentEffect.length != previousEffect.length) {
+                    System.out.println("Error in the reference effect state");
+                    System.exit(1);
+                }
+
+                for(int i = 0; i < currentEffect.length; i++){
+                    if(currentEffect[i] != previousEffect[i]){
+                        if(currentEffect[i] > previousEffect[i]){
+                            System.out.println(
+                                    "Case previous < current ::Entry: " + key + ", " +
+                                            "with state difference: current is:"
+                                            + currentEffect[i] +  ", previous: " + previousEffect[i]);
+                            finalEffect[i] = currentEffect[i];
+
+                        } else {
+                            finalEffect[i] = previousEffect[i];
+                            System.out.println(
+                                    "Case previous >= current :: Entry: " + key + ", " +
+                                            "with state difference: current is:"
+                                            + currentEffect[i] +  ", previous: " + previousEffect[i]);
+                        }
+                    }
+
+
+                } // end of the effectState for a specific entry
+            } // end of the iteration for entry of a nesting level hashmap in the current table
+        } // end of the iteration for the nesting level 0 to previous.size() - 1
     }
     /*
      * Pre-condition:
@@ -159,10 +214,31 @@ public class FixedPoint implements Serializable {
 
             // update the function pointer effect state for next iteration
             if(FixedPoint.pointerEffectStateFp.containsKey(id)) {
-                ArrayList currentPointerEffect = FixedPoint.pointerEffectStateFp.get(id);
-                //function.setPointerEffectStatesArg(currentPointerEffect);
-            } else {
-                System.out.println("Poiter Effect State in the Fixed Point do not contain the id");
+
+                    ArrayList<int[]> currentPointerEffect = FixedPoint.pointerEffectStateFp.get(id);
+                    //System.out.println(function.getPointerEffectStatesArg().get(0) + " and " + function.getPointerEffectStatesArg().get(1));
+                    //System.out.println("Function.get " + "0: " + function.getPointerEffectStatesArg().get(0)  + ", 1:" + function.getPointerEffectStatesArg().get(1));
+                    function.setPointerEffectStatesArg(currentPointerEffect);
+                    //System.out.println("Function.get " + "0: " + function.getPointerEffectStatesArg().get(0)  + ", 1:" + function.getPointerEffectStatesArg().get(1));
+
+/*
+                ArrayList<int[]> tmp = new ArrayList<int[]>();
+                ArrayList<int[]> currentPointerEffect = FixedPoint.pointerEffectStateFp.get(id);
+                if(i == 0) {
+                    tmp.add(function.getPointerEffectStatesArg().get(1));
+                    System.out.println("Set 0 the element 1:" + currentPointerEffect.get(1) + " in " + tmp.get(0));
+                    tmp.add(function.getPointerEffectStatesArg().get(0));
+                    System.out.println("Set 1 the element 0:" + currentPointerEffect.get(0) + " in " + tmp.get(1));
+                    function.setPointerEffectStatesArg(tmp);
+                    i++;
+                }
+
+ */
+
+
+
+                } else {
+                System.out.println("Pointer Effect State in the Fixed Point do not contain the id");
                 System.exit(1);
             }
             // update the fixed point

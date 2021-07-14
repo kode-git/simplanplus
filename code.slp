@@ -1,3 +1,5 @@
+
+/*
 {
 
     /*
@@ -33,3 +35,16 @@
 
 }
 
+*/
+
+// Fibonacci
+
+{
+
+int f(int x){
+    if(x == 0) return x;
+    else return f(x - 1) + f( x - 2);
+}
+
+f(10);
+}

@@ -232,6 +232,7 @@ public class CallNode implements Node, Cloneable {
                 res.addAll(function.checkSemantics(env));
 
             }else {
+
                 FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
                 res.addAll(this.fixed.fixedPointProc(env, function, id)); // calling fixed point procedure
                 FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);

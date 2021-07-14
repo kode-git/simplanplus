@@ -1,9 +1,6 @@
 package ast;
 
-import util.Environment;
-import util.Offset;
-import util.SemanticError;
-import util.SimpLanlib;
+import util.*;
 
 import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
@@ -154,11 +151,20 @@ public class IteNode implements Node, Cloneable{
             st.get(0).setEffectDecFun(this.effectDecFun);
             //checking the semantic/effects of the second statement with the cloned env
             st.get(1).setEffectDecFun(this.effectDecFun);
-            Environment env1 = env.clone();
-            Environment env2 = env.clone();
+            Environment env1 = env.clone(); // \Gamma'
+            Environment env2 = env.clone(); // \Gamma''
+            // \Gamma :-> Max[\Gamma', \Gamma'']
 
-            res.addAll(st.get(0).checkSemantics(env1));
-            res.addAll(st.get(1).checkSemantics(env2));
+            //res.addAll(st.get(0).checkSemantics(env1));
+            //res.addAll(st.get(1).checkSemantics(env2));
+
+            res.addAll(st.get(0).checkSemantics(env));
+            FixedPoint.updateEnvironment(env1,env, env2);
+            FixedPoint.resetEnvironment(env, env1);
+            res.addAll(st.get(1).checkSemantics(env));
+            FixedPoint.updateEnvironment(env1,env, env2);
+            FixedPoint.resetEnvironment(env, env1);
+
             if(res.size() == 0)
                 this.checkEffects(env, env1, env2);
 
