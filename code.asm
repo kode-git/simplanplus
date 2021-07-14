@@ -12,6 +12,7 @@ mfp 1
 cra
 lra
 b fentry0
+print
 pop
 sal
 sfp
@@ -20,14 +21,14 @@ fentry0:
 lfp
 lfp
 cfp
-lir1 0
+lir1 1
 lr1
 lfp
 sal
 lw 0
 lw1 1
 sr2
-beq label2
+bleq label2
 lir1 0
 b label3
 label2:
