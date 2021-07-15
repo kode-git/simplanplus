@@ -148,8 +148,16 @@ public class AssignmentNode implements Node, Cloneable{
                 } else {
                     // nothing
                 }
-                // End Effect Propagation checking
-            } else {
+
+            }else if(effectsLhs.length>1&&((LhsNode<?>) lhs).getCounter()==0&& exp instanceof NewExpNode){
+                effectsLhs[0]=1;
+                for (int c=1; c<effectsLhs.length;c++){
+                    effectsLhs[c]=0;
+                }
+
+            }
+            // End Effect Propagation checking
+            else {
                 res.add(new SemanticError("error: cannot find symbol " + ((LhsNode<?>) lhs).getId()));
                 return res;
             }

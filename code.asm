@@ -2,46 +2,17 @@ lfp
 lfp
 cfp
 push 0
-new
-swfp 1
-push 0
-new
-swfp 2
-push 0
-lir1 6
-lr1
-lfp
-sal
-lw1 1
-sr2
-swhr2 0
-lir1 3
-lr1
-lfp
-sal
-lw1 2
-sr2
-swhr2 0
 lfp
 lfp
 sal
 lal
-lfp
-sal
-lw1 1
+lir1 10
 lr1
-lfp
-sal
-lw1 2
-lr1
-lir1 1
-lr1
-mfp 3
+mfp 1
 cra
 lra
 b fentry0
-pop
-pop
+print
 pop
 sal
 sfp
@@ -50,14 +21,14 @@ fentry0:
 lfp
 lfp
 cfp
-lir1 0
+lir1 1
 lr1
 lfp
 sal
 lw 0
-lw1 3
+lw1 1
 sr2
-beq label2
+bleq label2
 lir1 0
 b label3
 label2:
@@ -68,19 +39,7 @@ beq label0
 lfp
 lfp
 cfp
-push 0
-new
-swfp 1
-lfp
-lfp
-sal
-lw 0
-lw 0
-lw 0
-lal
-lfp
-sal
-lw1 1
+lir1 2
 lr1
 lfp
 sal
@@ -94,15 +53,60 @@ lfp
 sal
 lw 0
 lw 0
-lw1 3
+lw1 1
+sr2
+sub
+sr2
+add
+sr2
+sub
+print
+lfp
+lfp
+sal
+lw 0
+lw 0
+lw 0
+lal
+lir1 2
+lr1
+lfp
+sal
+lw 0
+lw 0
+lw1 1
 sr2
 sub
 lr1
-mfp 3
+mfp 1
 cra
 lra
 b fentry0
-pop
+lr1
+lfp
+lfp
+sal
+lw 0
+lw 0
+lw 0
+lal
+lir1 1
+lr1
+lfp
+sal
+lw 0
+lw 0
+lw1 1
+sr2
+sub
+lr1
+mfp 1
+cra
+lra
+b fentry0
+sr2
+add
+srv
 sal
 sfp
 b label1
@@ -110,14 +114,24 @@ label0:
 lfp
 lfp
 cfp
+lfp
+sal
+lw 0
+lw 0
+lw1 1
+print
+lfp
+sal
+lw 0
+lw 0
+lw1 1
+srv
 sal
 sfp
 label1:
 sal
 sfp
 sra
-pop
-pop
 pop
 pop
 sfp

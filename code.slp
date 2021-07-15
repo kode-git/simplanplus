@@ -1,7 +1,12 @@
-
+/*
 {
 
     // nl -> 1 :: [a,b,f]
+    int j(int x){
+        if(x <= 1) return x;
+        else return j(x - 1) + j(x -2);
+    }
+
     ^int a = new;
     ^int b = new;
 
@@ -14,6 +19,7 @@
         else {
 
             ^int w = new; // nl -> 3 :: [w]
+            print(j(10));
             f(w,x, n-1); // x -> [d]
             delete y;     // y -> [d]
         }
@@ -23,13 +29,12 @@
     }
     a^=6;
     b^=3;
-   f(a, b, 1);
-
+   f(a, b, 2);
 
 
 }
 
-
+*/
 
 
 // Fibonacci
@@ -37,13 +42,29 @@
 {
 
 int f(int x){
-    if(x <= 1) return x;
-    else return f(x - 1) + f(x -2);
+    if(x <= 1){  return x;}
+    else {  return f(x - 1) + f(x -2);}
 }
 
-print(f(10));
+print f(10);
 
 
 
-}*/
+}
 
+*/
+
+
+{
+
+
+
+^int u = new ;
+void f(^int x, int n){
+	if (n == 0) { print(x) ; delete x ; }
+	else { ^int y = new ; y^ = x^ * n ; f(y,n-1) ; }
+}
+u^=3;
+
+f(u,6) ;
+}
