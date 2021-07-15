@@ -78,7 +78,22 @@ public class AssignmentNode implements Node, Cloneable{
         if(effectDecFun == 0) {
             // getting the lhsEffects in the table
             int lhsEffects = ((LhsNode) lhs).getEffectsST();
+            STentry lhsEntry = ((LhsNode<?>) lhs).getEntry();
+            int[] effectsLhs = lhsEntry.getEffectState();
             if (lhsEffects >= 0 && lhsEffects <= 1) {
+
+                //checking the effect's level, if previous new is missing, it starts an error
+                if(effectsLhs.length>1){
+                int counterLhsE = ((LhsNode) lhs).getCounter();
+
+                for(int c=counterLhsE-1; c>=0; c--){
+                    if(effectsLhs[c]!=1){
+                        res.add(new SemanticError(("error: new assignment not defined for previous pointer level" )));
+                        return res;
+                    }
+
+                 }
+                }
 
                 // check if the left-side of the assignment is deleted or not,
                 // if we are here, the left-a-side is bottom or rw state
@@ -86,6 +101,7 @@ public class AssignmentNode implements Node, Cloneable{
 
                 // Pointer Reference Assignment
                 if(((exp instanceof DerExpNode))&&(typeExp instanceof PointerTypeNode)){
+
                     // Pointer assignment when x = exp, exp is a DerExp with LhsNode as PointerType
                     int diffCount= (((LhsNode<?>) lhs).getCounterST()-((LhsNode<?>) lhs).getCounter());
                     LhsNode<?> myDerExp = ((LhsNode<?>)((DerExpNode)exp).getDerExp());
@@ -238,7 +254,6 @@ public class AssignmentNode implements Node, Cloneable{
                 }else{
                     System.out.println("Assignment not in base case like x^ = 10");
 
-                    // TODO This is not completed
 
                     // this is the internal pointer assignment
                     // assignment of the first pointer to new (independent from the number of levels)
