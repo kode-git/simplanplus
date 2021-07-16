@@ -118,7 +118,8 @@ public class DeclarationNode implements Node, Cloneable{
         }
     }
 
-    // assignNode
+    // assignNode: analyze the type of the node and assign the respective declaration to a
+    // variable or to a function
     private void assignNode(Node node){
         if(node instanceof DecVarNode){
             // It is a DecVarNode

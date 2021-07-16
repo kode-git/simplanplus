@@ -1,4 +1,6 @@
-/*
+// Hard example for fixed point
+
+
 {
 
     // nl -> 1 :: [a,b,f]
@@ -27,12 +29,13 @@
    f(a, b, 2);
     //a^=3;
 
-} */
+}
 
 
 
 
-// Fibonacci
+// Execution of Fibonacci
+
 /*
 {
 
@@ -43,20 +46,20 @@ int f(int x){
 
 print f(10);
 
-
-
 }
 
 */
+
+// Fixed Point with propagation for recursive effects
 
 /*
 {
 
 
-
+// this code has an error
 ^int u = new ;
 void f(^int x, int n){
-	if (n == 0) { print(x) ; delete x ; }
+	if (n == 0) { print(x^) ; delete x ; }
 	else { ^int y = new ; y^ = x^ * n ; f(y,n-1) ; }
 }
 u^=3;
@@ -64,12 +67,15 @@ u^=3;
 ^int u = new ;
 u^=5;
 f(u,6) ;
-u^=3;
+
 }
 u^=3;
 
 }
 */
+
+
+// Nesting calling with fixed point
 
 
 /*
@@ -83,9 +89,8 @@ z^=6;
 ^int u = new ;
 u^=5;
         h(u,z);
-        u^=6;
+        u^=6; // this is an error
 }
 
-
-} */
-
+*/
+}

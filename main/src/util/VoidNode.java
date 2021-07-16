@@ -11,6 +11,7 @@ This class is used for.
 1. Case of void block
 2. Case of void type for CallNode
 3. Case of delete statement
+4. Node placeholder
  */
 public class VoidNode implements Node {
 

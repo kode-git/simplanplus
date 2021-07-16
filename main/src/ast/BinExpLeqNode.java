@@ -56,7 +56,7 @@ public class BinExpLeqNode implements Node , Cloneable{
     public Node typeCheck() {
         if (!(SimpLanlib.isSubtype(left.typeCheck(), new IntTypeNode()) &&
                 SimpLanlib.isSubtype(right.typeCheck(), new IntTypeNode()))) {
-            System.out.println("error: bad operand types for binary operator '<='");
+            System.out.println("LEQ Error: bad operand types for binary operator '<='");
             System.exit(0);
         }
         return new BoolTypeNode();

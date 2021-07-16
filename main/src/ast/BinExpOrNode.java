@@ -52,7 +52,7 @@ public class BinExpOrNode implements Node, Cloneable {
     public Node typeCheck() {
         if (!(SimpLanlib.isSubtype(left.typeCheck(), new BoolTypeNode()) &&
                 SimpLanlib.isSubtype(right.typeCheck(), new BoolTypeNode()))) {
-            System.out.println("error: bad operand types for binary operator '||'");
+            System.out.println("OR Error: bad operand types for binary operator '||'");
             System.exit(0);
         }
         return new BoolTypeNode();

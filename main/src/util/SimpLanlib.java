@@ -13,8 +13,8 @@ public class SimpLanlib {
 
   //if a <: b return true, a,b :: int | bool && (int <: bool || bool <: int != true)
   public static boolean isSubtype (Node a, Node b) {
-    return a.getClass().equals(b.getClass()) ; //||
-    	  // ( (a instanceof BoolTypeNode) && (b instanceof IntTypeNode) ); //
+    return a.getClass().equals(b.getClass()) ;
+
   } 
   
   public static String freshLabel() { 

@@ -159,7 +159,7 @@ public class ExecuteVM {
                         r2 = number;
                         break;
                     case SVMParser.BRANCH:
-                        address = code[ip]; // TODO Why is ip and not ip++
+                        address = code[ip]; //
                         ip = address;
                         break;
                     case SVMParser.BRANCHEQ: //
@@ -262,8 +262,6 @@ public class ExecuteVM {
                         memory[r1 + offset] = r2;
                         break;
                     case SVMParser.HALT:
-                        //to print the result
-                        //System.out.println("\nResult: " + memory[sp] + "\n");
                         return;
                 }
             }

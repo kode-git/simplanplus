@@ -66,7 +66,7 @@ public class AssignmentNode implements Node, Cloneable{
         Node expType= exp.typeCheck();
         Node lhsType= lhs.typeCheck();
         if (!SimpLanlib.isSubtype(expType,lhsType)) {
-            System.out.println("Assignment type failed");
+            System.out.println("Assignment Error: Assignment type failed");
             System.exit(0);
         }
         // return void because this statement don't need to be checked in high level
@@ -88,7 +88,7 @@ public class AssignmentNode implements Node, Cloneable{
 
                 for(int c=counterLhsE-1; c>=0; c--){
                     if(effectsLhs[c]!=1){
-                        res.add(new SemanticError(("error: new assignment not defined for previous pointer level" )));
+                        res.add(new SemanticError(("Assignment Error: new assignment not defined for previous pointer level" )));
                         return res;
                     }
 
@@ -116,7 +116,7 @@ public class AssignmentNode implements Node, Cloneable{
                             counterExp++;
                         }
                     }else {
-                        res.add(new SemanticError(("error: Wrong pointer assignment" )));
+                        res.add(new SemanticError(("Assignment Error: Wrong pointer assignment" )));
                         return res;
                     }
                 }
@@ -131,22 +131,25 @@ public class AssignmentNode implements Node, Cloneable{
                     LhsNode right = (LhsNode) ((DerExpNode) exp).getDerExp();
 
                     if(left.getCounterST() > 0 && right.getCounterST() > 0) {
-                        // in this case they are pointer
-                        // adding propagation to the left from the right
-                        // this is needed to focus the deletion on EffectState[] of the leftEntry from
-                        // the Counter to 0 index equals to d
-                        // getting the entry of the left and right terms
+                        /*
+                         in this case they are pointer
+                         adding propagation to the left from the right
+                         this is needed to focus the deletion on EffectState[] of the leftEntry from
+                         the Counter to 0 index equals to d
+                         getting the entry of the left and right terms
+                        */
+
                         STentry rightEntry = right.getEntry();
                         STentry tmp = env.lookup(env.getNestingLevel(), left.getId());
                         if (tmp == null) {
                             // this case is caught from checkSemantics
-                            res.add(new SemanticError("error: cannot find symbol " + left.getId()));
+                            res.add(new SemanticError("Assignment Error: cannot find symbol " + left.getId()));
                             return res;
                         }
                         rightEntry.addPropagation(left.getId(), left.getCounterST() - left.getCounter());
                     }
                 } else {
-                    // nothing
+                    // do nothing
                 }
 
             }else if(effectsLhs.length>1&&((LhsNode<?>) lhs).getCounter()==0&& exp instanceof NewExpNode){
@@ -158,7 +161,7 @@ public class AssignmentNode implements Node, Cloneable{
             }
             // End Effect Propagation checking
             else {
-                res.add(new SemanticError("error: cannot find symbol " + ((LhsNode<?>) lhs).getId()));
+                res.add(new SemanticError("Assignment Error: cannot find symbol " + ((LhsNode<?>) lhs).getId()));
                 return res;
             }
         } else {
@@ -202,16 +205,6 @@ public class AssignmentNode implements Node, Cloneable{
         }
     }
 
-    /*
-    cgen(stable,x = e;) =
-               cgen(e)
-               lw $al 0($fp)
-               for (i=0;
-                      i < nesting_level -
-                          lookup(stable, x).nesting_level;
-                      i++) lw $al 0($al) ;
-                 sw $a0 lookup(stable, x).offset($al)
-     */
     @Override
     public String codeGeneration() {
 
@@ -222,7 +215,7 @@ public class AssignmentNode implements Node, Cloneable{
             STentry entry = lhsGen.getEntry();
             int counterST = ((LhsNode<?>) lhs).getCounterST();
             if(counterST <= 0 && lhsGen.getLhVar() instanceof String){
-                // case no pointer
+                // case of no pointer
 
                 String ar = "";
                 for(int i = 0; i < this.nestingLevel - entry.getNestinglevel(); i++ ){
@@ -236,7 +229,7 @@ public class AssignmentNode implements Node, Cloneable{
                         "sw1 "+ entry.getOffset()+"\n";  // sw r1 entry.offset(al) :: r1 <- MEMORY[al + entry.offset]; s -> []
 
             } else {
-                // pointer assignment
+                // case of pointer assignment
                 String out="";
                 String hr = "";
                 if(lhsGen.getLhVar() instanceof String && lhsGen.getCounter() == 0) {
@@ -260,7 +253,6 @@ public class AssignmentNode implements Node, Cloneable{
 
                     return out;
                 }else{
-                    System.out.println("Assignment not in base case like x^ = 10");
 
 
                     // this is the internal pointer assignment
@@ -290,7 +282,7 @@ public class AssignmentNode implements Node, Cloneable{
             }
 
         }
-        // is always an LhsNode
+        // is always an LhsNode if come here
         return "";
     }
 }

@@ -46,9 +46,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
 
     }
 
-
     // getter and setter
-
 
     public int getCounter() {
         return counter;
@@ -122,7 +120,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
     public Node typeCheck() {
         if (!(lhVar instanceof LhsNode)) {
             if (entry.getType() instanceof ArrowTypeNode) { //
-                System.out.println("error: Wrong usage of function identifier");
+                System.out.println("Lhs Error: Wrong usage of function identifier");
                 System.exit(0);
             }
 
@@ -137,7 +135,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
                 return ((Node)val);
             }
             if(counter>counterST){
-                System.out.println("Incompatible pointer type error, you haven't declared enough pointers" + counter + " " + counterST);
+                System.out.println("Lhs Error: incompatible pointer type error, you haven't declared enough pointers" + counter + " " + counterST);
                 System.exit(0);
             }
             return entry.getType();
@@ -183,7 +181,7 @@ public class LhsNode<T extends Object>implements Node,Cloneable{
         if (lhVar instanceof String) {
              myEntry = env.lookup( env.getNestingLevel(), (String)lhVar);
             if (myEntry == null) {
-                res.add(new SemanticError("error: Id " + (String)lhVar + " not declared"));
+                res.add(new SemanticError("Lhs Error: id " + (String)lhVar + " not declared"));
             } else {
                 this.entry = myEntry;
                 this.nestingLevel = env.getNestingLevel();

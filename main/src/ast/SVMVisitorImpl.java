@@ -15,7 +15,7 @@ public class SVMVisitorImpl extends SVMBaseVisitor<Void> {
     
     @Override 
     public Void visitAssembly(SVMParser.AssemblyContext ctx) { 
-    	visitChildren(ctx); // case SVMLexer.LABEL don't match
+    	visitChildren(ctx);
     	for (Integer refAdd: labelRef.keySet()) {
             code[refAdd]=labelAdd.get(labelRef.get(refAdd));
     	}

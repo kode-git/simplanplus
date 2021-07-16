@@ -70,7 +70,6 @@ public class BlockNode implements Node {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-        System.out.println("Env of BlockNode: " + env);
         // new scope entry, we need to make a new hashmap in the Symbol table
         env.addTable(new HashMap()); // env.nestingLevel++
         ArrayList<SemanticError> res = new ArrayList();
@@ -167,13 +166,13 @@ public class BlockNode implements Node {
                 }
                 if (((StatementNode) statements.get(i)).getChRet()) {
                     if(hasIteRet && hasElse){  // hasIteRet is the return inside IteNode and hasElse is if IteNode has an else statement
-                        System.out.println("Multiple return conflicts with iteration statement" );
+                        System.out.println("Block Error: Multiple return conflicts with iteration statement" );
                         System.exit(0);
                     }
 
 
                     if (i != statements.size() - 1) {
-                        System.out.println("Mutiple return");
+                        System.out.println("Block Error: Multiple return");
                         System.exit(0);
                     } else return true;
                 }

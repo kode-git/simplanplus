@@ -15,10 +15,7 @@ public class DeletionNode implements Node, Cloneable{
         this.id=id;
     }
 
-
-
     // getter and setter
-
 
     public String getId() {
         return id;
@@ -40,12 +37,10 @@ public class DeletionNode implements Node, Cloneable{
         return effectDecFun;
     }
 
-
     @Override
     public void setEffectDecFun(int effectDecFun) {
         this.effectDecFun = effectDecFun;
     }
-
 
     // toPrint, typeCheck, checkSemantics, checkEffects, codeGeneration
 
@@ -65,6 +60,7 @@ public class DeletionNode implements Node, Cloneable{
     Environment env :: the current environment of the checkSemantics
     STentry entry :: the entry where to get list of propagations
      */
+
     public void propagateDelete(Environment env, STentry entry){
         for(String id : entry.getPropagation().keySet()){
             // Getting the id of the entry in the symbol table where these variables are assigned
@@ -85,7 +81,7 @@ public class DeletionNode implements Node, Cloneable{
 
             STentry entry = env.lookup(env.getNestingLevel(), id);
             if(entry.getPointerCounter() == 0){
-                res.add(new SemanticError("can't delete a no pointer variable"));
+                res.add(new SemanticError("Deletion Error: can't delete a no pointer variable"));
                 return res;
             }
             effectsST = entry.getEffectState(0);
@@ -100,7 +96,7 @@ public class DeletionNode implements Node, Cloneable{
                 propagateDelete(env, entry); // propagate deletion to assigned pointers
 
             } else {
-                res.add(new SemanticError(("error: cannot find symbol " + id)));
+                res.add(new SemanticError(("Deletion Error: cannot find symbol " + id)));
                 return res;
             }
         } else {
@@ -114,7 +110,7 @@ public class DeletionNode implements Node, Cloneable{
        ArrayList<SemanticError> res = new ArrayList<SemanticError>();
        STentry entry = env.lookup(env.getNestingLevel(), id);
         if(entry == null){
-            res.add(new SemanticError("error: Id " +this.id + " not declared"));
+            res.add(new SemanticError("Deletion Error: id " +this.id + " not declared"));
         }
         if(res.size()==0){
 
@@ -138,7 +134,6 @@ public class DeletionNode implements Node, Cloneable{
         }
     }
 
-    // TODO with offset setting
     @Override
     public String codeGeneration() {
         return "";

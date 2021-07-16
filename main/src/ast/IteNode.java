@@ -93,12 +93,12 @@ public class IteNode implements Node, Cloneable{
     public Node typeCheck() {
 
         if (!(SimpLanlib.isSubtype(exp.typeCheck(), new BoolTypeNode()))) {
-            System.out.println("error: bad condition type ");
+            System.out.println("Iteration Error: bad condition type ");
             System.exit(0);
         } else {
             if (st.size() > 1) {
                 if (!(SimpLanlib.isSubtype(st.get(1).typeCheck(), st.get(0).typeCheck()))) {
-                    System.out.println("error: statements type are different");
+                    System.out.println("Iteration Error: statements type are different");
                     System.exit(0);
                 }
             }
@@ -112,7 +112,6 @@ public class IteNode implements Node, Cloneable{
     Environment env :: Environment before the iteration effects control
     Environment env1 :: Environment with effects of the if condition
     Environment env2 :: Environment with effects of the else condition
-
     Rule :: env :-> if(e) st1 else st2 : max(env1, env2)
     */
     public void checkEffects(Environment env, Environment env1, Environment env2) {
@@ -139,8 +138,6 @@ public class IteNode implements Node, Cloneable{
     
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) {
-
-        System.out.println("Ite env: " + env);
         ArrayList<SemanticError> res = new ArrayList<SemanticError>();
 
         exp.setEffectDecFun(this.effectDecFun);
@@ -153,15 +150,12 @@ public class IteNode implements Node, Cloneable{
             st.get(1).setEffectDecFun(this.effectDecFun);
             Environment env1 = env.clone(); // \Gamma'
             Environment env2 = env.clone(); // \Gamma''
-            // \Gamma :-> Max[\Gamma', \Gamma'']
-
-            //res.addAll(st.get(0).checkSemantics(env1));
-            //res.addAll(st.get(1).checkSemantics(env2));
 
             res.addAll(st.get(0).checkSemantics(env));
             FixedPoint.updateEnvironment(env1,env, env2);
             FixedPoint.resetEnvironment(env, env1);
             res.addAll(st.get(1).checkSemantics(env));
+            // \Gamma -> Max[\Gamma', \Gamma'']
             FixedPoint.updateEnvironment(env1,env, env2);
             FixedPoint.resetEnvironment(env, env1);
 
@@ -179,8 +173,6 @@ public class IteNode implements Node, Cloneable{
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env, Offset offset) {
-
-        System.out.println("Do not use this IteNode checkSemantic");
         return null;
     }
 

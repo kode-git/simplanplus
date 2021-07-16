@@ -59,7 +59,7 @@ public class BinExpEqNode implements Node , Cloneable{
     public Node typeCheck() {
         GenericTypeNode typeLeft = (GenericTypeNode) left.typeCheck();
         if (!SimpLanlib.isSubtype(typeLeft, right.typeCheck())){
-            System.out.println("error: bad pair statements types for binary operator '=='");
+            System.out.println("Equals Error: bad pair statements types for binary operator '=='");
             System.exit(0);
         }
         return new BoolTypeNode();

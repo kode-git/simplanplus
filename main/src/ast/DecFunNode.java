@@ -196,21 +196,21 @@ public class DecFunNode implements Node, Cloneable {
         // case: void with return in function
         if(this.type instanceof VoidNode && this.block.checkRet()) {
             // return error - case of return in void func
-            System.out.println("error: Function " + id + " is void and can't have return statement");
+            System.out.println("Function Declaration Error: function " + id + " is void and can't have return statement");
             System.exit(0);
         }
 
         // here if type is not void, need to check if return statement is present
         else if(!this.block.checkRet() && !(this.type instanceof VoidNode)){
             // no return statement in type != void
-            System.out.println("error: Function " + id + " don't have return statement");
+            System.out.println("Function Declaration Error: function " + id + " don't have return statement");
             System.exit(0);
         }
 
 
         // here type != void and there is return as block.typeCheck()
         if (!(SimpLanlib.isSubtype(block.typeCheck(), type))) {
-            System.out.println("error: Wrong return type for function " + id);
+            System.out.println("Function Declaration Error: wrong return type for function " + id);
             System.exit(0);
         }
 
@@ -228,7 +228,6 @@ public class DecFunNode implements Node, Cloneable {
 
     @Override
     public ArrayList<SemanticError> checkSemantics(Environment env) { // this is the function invocation for the fixed point
-        System.out.println("Dec Fun Node: " + env);
         int nestingLv = this.nestingLevel;
         //env.setNestingLevel(this.nestingLevel);
 
@@ -256,7 +255,7 @@ public class DecFunNode implements Node, Cloneable {
         if (err != null) {
             res.add(err);
         } else {
-            // making new scope :-> \Gamma - []
+            // making new scope :-> \Gamma°[]
             env.addTable(new HashMap<String, STentry>());
             //used only with fixed point computation, in order to keep the nesting level right
             nestingLv++;
@@ -279,7 +278,7 @@ public class DecFunNode implements Node, Cloneable {
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
                 // for callNode parameter and counterST != 0 for the arg reference in DecFun (pointer type)
-                res.add(new SemanticError("error: Wrong reference for the pointer argument in the function " + id));
+                res.add(new SemanticError("Function Declaration Error: wrong reference for the pointer argument in the function " + id));
                 return res;
             }
             // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap
@@ -324,7 +323,7 @@ public class DecFunNode implements Node, Cloneable {
         if (err != null) {
             res.add(err);
         } else {
-            // making new scope :-> \Gamma - []
+            // making new scope :-> \Gamma°[]
             env.addTable(new HashMap<String, STentry>());
             int i = 0;
             Offset argOffset = new Offset();
@@ -345,7 +344,7 @@ public class DecFunNode implements Node, Cloneable {
             } catch(IndexOutOfBoundsException e){
                 // the code goes to IndexOutOfBoundException when the counterST = 0 (normal integer/boolean)
                 // for callNode parameter and counterST != 0 for the arg reference in DecFun (pointer type)
-                res.add(new SemanticError("error: Wrong reference for the pointer argument in the function " + id));
+                res.add(new SemanticError("Function Declaration Error: wrong reference for the pointer argument in the function " + id));
                 return res;
             }
             // this is because in BlockNode checkSemantics we have NestingLevel + 1 and we need to going back to the previous Hashmap

@@ -56,10 +56,10 @@ public class BinExpAndNode implements Node, Cloneable {
 
     @Override
     public Node typeCheck() {
-        System.out.println("Enter here");
+
         if (!(SimpLanlib.isSubtype(left.typeCheck(), new BoolTypeNode()) &&
                 SimpLanlib.isSubtype(right.typeCheck(), new BoolTypeNode()))) {
-            System.out.println("error: bad operand types for binary operator '&&'");
+            System.out.println("AND Error: bad operand types for binary operator '&&'");
             System.exit(0);
         }
         return new BoolTypeNode();

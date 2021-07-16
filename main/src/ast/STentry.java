@@ -119,7 +119,7 @@ public class STentry implements Cloneable {
         try {
             return effectState[i];
         } catch(IndexOutOfBoundsException e){
-            System.out.println("Pointer referent error, used more pointers than " + pointerCounter + " ^ ");
+            System.out.println("Entry Error: Pointer referent error, used more pointers than " + pointerCounter + " ^ ");
             System.exit(1);
         }
         return effectState[i];
@@ -130,7 +130,7 @@ public class STentry implements Cloneable {
         try {
             this.effectState[i] = effectState;
         } catch(ArrayIndexOutOfBoundsException ex){
-            System.out.println("PointerType mismatch");
+            System.out.println("Entry Error: PointerType mismatch");
             System.exit(1);
         }
     }
@@ -148,7 +148,7 @@ public class STentry implements Cloneable {
     // toPrint
 
     public String toPrint(String s) { //
-        String tmp = "--------- STENTRY ---------\n";
+        String tmp = "";
         tmp += s+"STentry: nestlev " + Integer.toString(nl) +"\n"+
                 s+"STentry: type " +
                 type.toPrint("") + "\n" +
@@ -159,7 +159,7 @@ public class STentry implements Cloneable {
         }
         tmp += "]\n";
         tmp +=  s+"STentry: offset " + Integer.toString(offset) + "\n";
-        tmp += "-------------------------\n";
+
         return tmp;
     }
 

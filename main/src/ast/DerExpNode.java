@@ -74,11 +74,11 @@ public class DerExpNode implements Node, Cloneable {
                 effectsST = myEntry.getEffectState(0);
             }
             if (effectsST == 0) {
-                res.add(new SemanticError("error: variable " + derExp.toPrint("") + " not initialized"));
+                res.add(new SemanticError("DerExp Error: variable " + derExp.toPrint("") + " not initialized"));
                 return res;
 
             } else if (effectsST == 2) {
-                res.add(new SemanticError("error: variable " + derExp.toPrint("") + " previously deleted"));
+                res.add(new SemanticError("DerExp Error: variable " + derExp.toPrint("") + " previously deleted"));
                 return res;
 
             }
@@ -102,7 +102,7 @@ public class DerExpNode implements Node, Cloneable {
             // derExp :: String
             myEntry=env.lookup(env.getNestingLevel(), derExp + "");
             if(myEntry==null){
-                res.add(new SemanticError("error: Id " + derExp + " not declared"));
+                res.add(new SemanticError("DerExp Error: id " + derExp + " not declared"));
             }
         }
         if(res.size()==0 && effectDecFun == 0) {

@@ -57,6 +57,13 @@ public class FixedPoint implements Serializable {
     }
 
 
+    /*
+        Update Environment :
+        prev : Previous Step Environment
+        cur : Current Step Environment
+        finalEnvironment: Final Environment
+        finalEnvironment.entry |- Max[cur.entry, prev.entry]
+     */
     public static void updateEnvironment(Environment prev, Environment cur, Environment finalEnvironment){
 
         ArrayList<HashMap<String, STentry>> finalTable = finalEnvironment.getSymTable();
@@ -68,10 +75,6 @@ public class FixedPoint implements Serializable {
         for(nl = 0; nl < previous.size(); nl++){
             // We are in nesting level nl
 
-            // this is temporal control
-            if(current.get(nl) != previous.get(nl)) {
-                System.out.println("Differences between current and previous matched");
-            }
             for (Map.Entry<String, STentry> entry : current.get(nl).entrySet()) {
                 // We have the entry of the nesting level nl
                 // we need to compare this entry between current and previous tables
@@ -83,47 +86,40 @@ public class FixedPoint implements Serializable {
 
                 // control of the length of entry effectState (need to be both pointers of n level)
                 if(currentEffect.length != previousEffect.length) {
-                    System.out.println("Error in the reference effect state");
+                    System.out.println("FixedPoint Error: different length in the reference effect state detected");
                     System.exit(1);
                 }
 
                 for(int i = 0; i < currentEffect.length; i++){
                     if(currentEffect[i] != previousEffect[i]){
                         if(currentEffect[i] > previousEffect[i]){
-                            System.out.println(
-                                    "Case previous < current ::Entry: " + key + ", " +
-                                            "with state difference: current is:"
-                                            + currentEffect[i] +  ", previous: " + previousEffect[i]);
                             finalEffect[i] = currentEffect[i];
-
                         } else {
                             finalEffect[i] = previousEffect[i];
-                            System.out.println(
-                                    "Case previous >= current :: Entry: " + key + ", " +
-                                            "with state difference: current is:"
-                                            + currentEffect[i] +  ", previous: " + previousEffect[i]);
                         }
                     }
-
-
                 } // end of the effectState for a specific entry
             } // end of the iteration for entry of a nesting level hashmap in the current table
         } // end of the iteration for the nesting level 0 to previous.size() - 1
     }
+
+
     /*
      * Pre-condition:
-     * functionsFp set with the respective id
-     * pointerEffectStateFp set with the pointerEffectState on id
-     * fp = 1 at the start of the invocation 
-     * env is in the nesting level of decFunNode reference of the callNode
+     * 1. functionsFp set with the respective id
+     * 2- pointerEffectStateFp set with the pointerEffectState on id
+     * 3. fp = 1 at the start of the invocation
+     * 4. env is in the nesting level of decFunNode reference of the callNode
      *
+     * fixedPointProc :
+     * env - Starting Environment of the callNode
+     * function - Reference of the declaration of the function called
+     * id - Id of the entry in the environment for the function
      *
+     * Execute the fixed point method to propagate effects states on environment entries in recursive functions
      */
     public ArrayList<SemanticError> fixedPointProc(Environment env, DecFunNode function, String id ){
 
-        System.out.println("-----------------");
-        System.out.println("ENTER IN THE FIX POINT PROC");
-        System.out.println("-----------------");
         // is false if no difference is reached, true otherwise
         ArrayList<SemanticError> res = new ArrayList<>();
         Boolean diff = false;
@@ -138,15 +134,9 @@ public class FixedPoint implements Serializable {
 
         envCollection.add(env.clone()); // env before changes
         do {
-            System.out.println("-----------------");
-            System.out.println("DO WHILE FIX POINT");
-            System.out.println("-----------------");
             diff = false; // set false for the next iteration
-
-            System.out.println("Banana");
             res.addAll(function.checkSemantics(env)); // called only in the inner callNode
             envCollection.add(env.clone()); // env after changes
-
 
             // env is updated here
             // find differences between finalEnvironment and env updated by line 62
@@ -169,11 +159,6 @@ public class FixedPoint implements Serializable {
             int nl = 0; // init the nl
             for(nl = 0; nl < previous.size(); nl++){
                 // We are in nesting level nl
-
-                // this is temporal control
-                if(current.get(nl) != previous.get(nl)) {
-                    System.out.println("Differences between current and previous matched");
-                }
                 for (Map.Entry<String, STentry> entry : current.get(nl).entrySet()) {
                     // We have the entry of the nesting level nl
                     // we need to compare this entry between current and previous tables
@@ -185,7 +170,7 @@ public class FixedPoint implements Serializable {
 
                     // control of the length of entry effectState (need to be both pointers of n level)
                     if(currentEffect.length != previousEffect.length) {
-                        System.out.println("Error in the reference effect state");
+                        System.out.println("FixedPoint Error:different length in the reference effect state");
                         System.exit(1);
                     }
 
@@ -193,21 +178,12 @@ public class FixedPoint implements Serializable {
                         if(currentEffect[i] != previousEffect[i]){
                             diff = true;
                             if(currentEffect[i] > previousEffect[i]){
-                                System.out.println(
-                                        "Case previous < current ::Entry: " + key + ", " +
-                                                "with state difference: current is:"
-                                                + currentEffect[i] +  ", previous: " + previousEffect[i]);
                                 finalEffect[i] = currentEffect[i];
 
                             } else {
                                 finalEffect[i] = previousEffect[i];
-                                System.out.println(
-                                        "Case previous >= current :: Entry: " + key + ", " +
-                                                "with state difference: current is:"
-                                                + currentEffect[i] +  ", previous: " + previousEffect[i]);
                             }
                         }
-
 
                     } // end of the effectState for a specific entry
                 } // end of the iteration for entry of a nesting level hashmap in the current table
@@ -217,17 +193,11 @@ public class FixedPoint implements Serializable {
             if(FixedPoint.pointerEffectStateFp.containsKey(id)) {
 
                     ArrayList<int[]> currentPointerEffect = FixedPoint.pointerEffectStateFp.get(id);
-                    //System.out.println(function.getPointerEffectStatesArg().get(0) + " and " + function.getPointerEffectStatesArg().get(1));
-                    //System.out.println("Function.get " + "0: " + function.getPointerEffectStatesArg().get(0)  + ", 1:" + function.getPointerEffectStatesArg().get(1));
                     function.setPointerEffectStatesArg(currentPointerEffect);
-                    //System.out.println("Function.get " + "0: " + function.getPointerEffectStatesArg().get(0)  + ", 1:" + function.getPointerEffectStatesArg().get(1));
-
-
-
 
 
                 } else {
-                System.out.println("Pointer Effect State in the Fixed Point do not contain the id");
+                System.out.println("FixedPoint Error: pointer effect state in the Fixed Point do not contain the id");
                 System.exit(1);
             }
             // update the fixed point

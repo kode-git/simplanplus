@@ -22,7 +22,7 @@ public class Environment implements Cloneable {
 
 	public SemanticError addEntry(int nestingLevelIntern, String id, STentry entry){
 		HashMap<String, STentry> hm = (HashMap)symTable.get(nestingLevelIntern);
-		if(hm.put(id, entry)!=null) return new SemanticError( "entry " + id + " already declared");
+		if(hm.put(id, entry)!=null) return new SemanticError( "Environment Error: entry " + id + " already declared");
 		return null;
 	}
 
@@ -32,7 +32,7 @@ public class Environment implements Cloneable {
 			// lookup
 		}
 		if (tmp == null) {
-			return null;//TODO making SemanticError when call this method
+			return null;
 		} else {
 			return tmp;
 

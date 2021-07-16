@@ -123,7 +123,7 @@ public class CallNode implements Node, Cloneable {
       this.entry = env.lookup(nestingLevel, this.id);
       if(entry == null){
           // decFun doesn't exist in the Environment
-          res.add(new SemanticError("error: Function " +this.id + " not declared"));
+          res.add(new SemanticError("Call Error: function " +this.id + " not declared"));
       } else{
           for(Node e : this.exp){
               e.setEffectDecFun(this.effectDecFun); // Setting 1 of effectDecFun of exp
@@ -167,19 +167,19 @@ public class CallNode implements Node, Cloneable {
       ArrowTypeNode t=null;
       if (entry.getType() instanceof ArrowTypeNode) t=(ArrowTypeNode) entry.getType();
       else {
-          System.out.println("error: Invocation of a non-function "+id);
+          System.out.println("Call Error: invocation of a non-function "+id);
           System.exit(0);
       }
       ArrayList<Node> p = t.getArgList();
 
       // Checking of number of arguments equals to the number of parameters in DecFun
       if ( !(p.size() == exp.size()) ) {
-          System.out.println("Wrong number of parameters in the invocation of "+id);
+          System.out.println("Call Error: wrong number of parameters in the invocation of "+id);
           System.exit(0);
       }
       for (int i=0; i<exp.size(); i++) {
           if (!(SimpLanlib.isSubtype((exp.get(i)).typeCheck(), ((ArgNode)p.get(i)).getType()))) {
-              System.out.println("Wrong type for " + (i + 1) + "-th parameter in the invocation of " + id);
+              System.out.println("Call Error: wrong type for " + (i + 1) + "-th parameter in the invocation of " + id);
               System.exit(0);
           }
       }
@@ -209,7 +209,7 @@ public class CallNode implements Node, Cloneable {
 
         DecFunNode function = entry.getReference();
         if(function == null){
-            res.add(new SemanticError("Error: Function identifier mismatch for the call: " + id));
+            res.add(new SemanticError("Call Error: function identifier mismatch for the call: " + id));
             return res;
         }
         function.setParameters((ArrayList<Node>) exp.clone()); // need only for the size
@@ -228,8 +228,7 @@ public class CallNode implements Node, Cloneable {
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
             //setting the nesting level to the original function nesting level in order to check the effects, then i restore it
             int nlt=env.getNestingLevel();
-            //env.setNestingLevel(function.getNestingLevel());
-            int oldNl=function.getNestingLevel();
+            int oldNl=function.getNestingLevel(); // calling in different block (nesting level greater than DecFun)
             if(!FixedPoint.functionsFp.containsKey(id)) {
                 res.addAll(function.checkSemantics(env));
 
@@ -246,7 +245,6 @@ public class CallNode implements Node, Cloneable {
 
             FixedPoint.pointerEffectStateFp.put(id, pointerEffectStates);
             function.setCallingDecFun(0); // calling DecFun is 0 because we didn't recall the internal invocation yet
-            //function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
 
 
         }
@@ -256,7 +254,6 @@ public class CallNode implements Node, Cloneable {
 
 
 
-    // TODO: Checking Offset and Pointer case
     public String codeGeneration() {
         String parameters = "" ;
         for (int i=0; i< exp.size(); i++)

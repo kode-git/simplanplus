@@ -140,7 +140,7 @@ public class DecVarNode implements Node, Cloneable {
     public Node typeCheck() {
         if(exp != null) {
             if (!(SimpLanlib.isSubtype( typeNode, exp.typeCheck() ))) {
-                System.out.println("incompatible value for variable " + id);
+                System.out.println("Variable Declaration Error: incompatible value for variable " + id);
                 System.exit(0);
             }
         }
@@ -174,8 +174,7 @@ public class DecVarNode implements Node, Cloneable {
         }
     }
 
-    // int x = 10;
-    // int x;
+
     public String codeGeneration() {
         if(this.exp != null) {
 

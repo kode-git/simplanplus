@@ -59,12 +59,12 @@ public class Test {
 
         try {
             ast = visitor.visit(parser.block()); //generazione AST
+            System.out.println("-----------------");
             System.out.println("Compiling on...");
-            //System.out.println(ast.toPrint(""));
-
+            System.out.println("File: " + file);
             Environment env = new Environment();
 
-
+            System.out.println("-----------------");
             System.out.println("Check if there are semantics errors...");
             ArrayList<SemanticError> err = ast.checkSemantics(env);
 
@@ -74,16 +74,15 @@ public class Test {
                 System.out.println("\t" + e);
             System.exit(0);
         } else {
-            System.out.println("Check Semantics ok! Visualizing AST ");
-            System.out.print("--------------------");
-            System.out.println(ast.toPrint(""));
-            System.out.println("--------------------");
+            System.out.println("Check Semantics ok!");
+            System.out.println("-----------------");
         }
 
             System.out.println("Type checking...");
             Node type = ast.typeCheck(); //type-checking bottom-up
 
             System.out.println(type.toPrint("Type checking ok! Type of the program is: "));
+            System.out.println("-----------------");
 
         // Code Generation
             System.out.println("Generating code...");
@@ -92,7 +91,7 @@ public class Test {
 				out.write(code + "halt" + SimpLanlib.getCode());
 				out.close();
 				System.out.println("Code generated! Assembling and running generated code.");
-
+                System.out.println("File: " + fileName + ".asm");
 				FileInputStream isASM = new FileInputStream(fileName+".asm");
 				ANTLRInputStream inputASM = new ANTLRInputStream(isASM);
 				SVMLexer lexerASM = new SVMLexer(inputASM);
@@ -111,13 +110,7 @@ public class Test {
 				ExecuteVM vm = new ExecuteVM(visitorSVM.code);
 				System.out.println("Output: ");
 				vm.cpu();
-				System.out.println("Stack Memory:");
-				for(int i=0;i<50;i++)
-				    System.out.print(vm.memory[i]+ " ");
-				System.out.println("\nHeap memory:");
-				for(int i = 9999; i > 9949; i--){
-                    System.out.print(vm.memory[i]+ " ");
-                }
+            System.out.println("-----------------");
 
 
         } catch(ParseCancellationException e){
