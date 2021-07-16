@@ -39,28 +39,6 @@ beq label0
 lfp
 lfp
 cfp
-lir1 2
-lr1
-lfp
-sal
-lw 0
-lw 0
-lw1 1
-lr1
-lir1 1
-lr1
-lfp
-sal
-lw 0
-lw 0
-lw1 1
-sr2
-sub
-sr2
-add
-sr2
-sub
-print
 lfp
 lfp
 sal
@@ -114,12 +92,6 @@ label0:
 lfp
 lfp
 cfp
-lfp
-sal
-lw 0
-lw 0
-lw1 1
-print
 lfp
 sal
 lw 0

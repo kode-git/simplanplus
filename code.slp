@@ -32,9 +32,9 @@
    f(a, b, 2);
 
 
-}
+} */
 
-*/
+
 
 
 // Fibonacci
@@ -54,7 +54,7 @@ print f(10);
 
 */
 
-
+/*
 {
 
 
@@ -67,4 +67,23 @@ void f(^int x, int n){
 u^=3;
 
 f(u,6) ;
+
+}
+
+*/
+
+
+{
+
+^int z = new ;
+void h(^int x, ^int y){ if (y^==0) delete x ; else { x^ = x^ - 1; h(y,x) ;} }
+
+z^=6;
+{
+^int u = new ;
+u^=5;
+        h(u,z);
+}
+u^=6;
+z^=3;
 }
