@@ -228,15 +228,17 @@ public class CallNode implements Node, Cloneable {
             function.setPointerEffectStatesArg(pointerEffectStates); // Setting of effects from the pointer arguments
             //setting the nesting level to the original function nesting level in order to check the effects, then i restore it
             int nlt=env.getNestingLevel();
-            env.setNestingLevel(function.getNestingLevel());
+            //env.setNestingLevel(function.getNestingLevel());
+            int oldNl=function.getNestingLevel();
             if(!FixedPoint.functionsFp.containsKey(id)) {
                 res.addAll(function.checkSemantics(env));
 
             }else {
-
+                function.setNestingLevel(nlt);
                 FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
                 res.addAll(this.fixed.fixedPointProc(env, function, id)); // calling fixed point procedure
                 FixedPoint.functionsFp.put(id, FixedPoint.functionsFp.get(id) + 1);
+                function.setNestingLevel(oldNl);
             }
 
             env.setNestingLevel(nlt);

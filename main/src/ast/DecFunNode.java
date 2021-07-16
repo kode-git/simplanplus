@@ -137,6 +137,10 @@ public class DecFunNode implements Node, Cloneable {
         this.pointerEffectStatesArg = pointerEffectStatesArg;
     }
 
+    public void setNestingLevel(int nl){
+        this.nestingLevel=nl;
+    }
+
     @Override
     public void setEffectDecFun(int effectDecFun) {
         // not used
