@@ -58,13 +58,17 @@ public class Test {
         Node ast;
 
         try {
-            ast = visitor.visit(parser.block()); //generazione AST
-            System.out.println("-----------------");
             System.out.println("Compiling on...");
             System.out.println("File: " + file);
+            System.out.println("-----------------");
+            System.out.println("Starting AST Generation...");
+            System.out.println("-----------------");
+
+            ast = visitor.visit(parser.block()); //generazione AST
+            System.out.println("AST generated");
+            System.out.println("-----------------");
             Environment env = new Environment();
 
-            System.out.println("-----------------");
             System.out.println("Check if there are semantics errors...");
             ArrayList<SemanticError> err = ast.checkSemantics(env);
 
