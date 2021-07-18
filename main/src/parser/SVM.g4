@@ -90,8 +90,8 @@ OR : 'or'; // r1 = 0 if r1 || r2 is false else r1 = 1
 NOT : 'not'; // if r1 = 1 then r1 = 0 else r1 = 1
 
 // -------------- LOAD WORD AND STORE WORD -------------
-STOREW	 : 'sw' ; 	// store the value of r1 in the MEMORY[offset + al] :: MEMORY[al + offset] = r1
-LOADW	 : 'lw' ;	// set the value of r1 at MEMORY[sp + offset] :: al = MEMORY[al + offset]
+STOREW	 : 'sw' ; 	// store the value of al in the MEMORY[offset + al] :: MEMORY[al + offset] = al
+LOADW	 : 'lw' ;	// set the value of al at MEMORY[al + offset] :: al = MEMORY[fp + offset]
 SWR1      : 'sw1' ; // store the value of r1 in the MEMORY[offset + al] :: MEMORY[al + offset] = r1
 LWR1	 : 'lw1' ;	// set the value of r1 at MEMORY[al + offset] :: r1 = MEMORY[al + offset]
 SWHR2    : 'swhr2' ; // set the value of r2 into the MEMORY[r1 + offset] :: MEMORY[r1 + offset] = r2

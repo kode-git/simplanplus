@@ -124,7 +124,7 @@ public class AssignmentNode implements Node, Cloneable{
                 this.effectsST = 1;
                 // End of Pointer Reference Assignment
 
-                // Effect propagation checking
+                // Effect propagation
                 if (lhs instanceof LhsNode && exp instanceof DerExpNode){
 
                     LhsNode left = (LhsNode) lhs;
@@ -146,7 +146,12 @@ public class AssignmentNode implements Node, Cloneable{
                             res.add(new SemanticError("Assignment Error: cannot find symbol " + left.getId()));
                             return res;
                         }
+                        // reset the propagation for id = left in any other variables
+                        SemanticError err = env.resetPropagation(left.getId(), nestingLevel);
                         rightEntry.addPropagation(left.getId(), left.getCounterST() - left.getCounter());
+                        if(err != null){
+                            res.add(err);
+                        }
                     }
                 } else {
                     // do nothing

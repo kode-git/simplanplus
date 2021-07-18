@@ -103,7 +103,7 @@ public class IteNode implements Node, Cloneable{
                 }
             }
         }
-        return st.get(0).typeCheck();
+        return st.get(0).typeCheck(); // This is void except in case of return
     }
 
 

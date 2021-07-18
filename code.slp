@@ -1,96 +1,13 @@
-// Hard example for fixed point
 
 
 {
 
-    // nl -> 1 :: [a,b,f]
+        ^int p = new;
+        ^int x = new;
+        x^ = 10;
+        p = x; // p^ = 10;
+        print p^; // 10
+        delete x; // delete x :: delete p
+        print p^; // errore :: p -> 2 :: d
 
-    ^int a = new;
-    ^int b = new;
-
-    // Table :: [f()] -> [x,y,n] -> [block] -> [x,y,n] -> [block]
-
-    void f(^int x, ^int y, int n) { // nl -> 2 :: [x,y,n]
-        if (n == 0) { // nl -> 3 :: []
-           delete y;
-        }
-        else {
-
-            ^int w = new; // nl -> 3 :: [w]
-            f(w,x, n-1); // x -> [d]
-            delete y;     // y -> [d]
-        }
-
-
-        // [x -> d, y -> d]
-    }
-    a^=6;
-    b^=3;
-   f(a, b, 2);
-    //a^=3;
-
-}
-
-
-
-
-// Execution of Fibonacci
-
-/*
-{
-
-int f(int x){
-    if(x <= 1){  return x;}
-    else {  return f(x - 1) + f(x -2);}
-}
-
-print f(10);
-
-}
-
-*/
-
-// Fixed Point with propagation for recursive effects
-
-/*
-{
-
-
-// this code has an error
-^int u = new ;
-void f(^int x, int n){
-	if (n == 0) { print(x^) ; delete x ; }
-	else { ^int y = new ; y^ = x^ * n ; f(y,n-1) ; }
-}
-u^=3;
-{
-^int u = new ;
-u^=5;
-f(u,6) ;
-
-}
-u^=3;
-
-}
-*/
-
-
-// Nesting calling with fixed point
-
-
-/*
-{
-
-^int z = new ;
-void h(^int x, ^int y){ if (y^==0) delete x ; else { x^ = x^ - 1; h(y,x) ;} }
-
-z^=6;
-{
-^int u = new ;
-u^=5;
-        h(u,z);
-        u^=6; // this is an error
-}
-
-*/
 }
