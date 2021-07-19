@@ -59,11 +59,12 @@ public class Environment implements Cloneable {
 		}
 		int entryLvl = entry.getNestinglevel(); // when the variable is declared
 
-		if(entry.getPointerCounter() > 1){
+		if(entry.getPointerCounter() > 0){
 			// is a pointer
 			for(int i = nestingLevel ; i >= entryLvl; i--){
 				for(Map.Entry<String, STentry> right: this.getSymTable().get(i).entrySet() ){
 					STentry rightValue = right.getValue();
+					System.out.println(right.getKey()); // id
 					// find if id is in propagation, in case it is... delete it
 					HashMap<String, Integer> propagation = rightValue.getPropagation();
 					if(propagation.containsKey(id)){

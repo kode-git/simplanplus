@@ -1,13 +1,29 @@
 
-
+{
+      ^int p = new;
+      ^int z = new;
+      z^= 40;
+      p = z;
+      print p^; // 40
 {
 
-        ^int p = new;
+        {
+
+        }
+
+
         ^int x = new;
+        ^int y = new;
+
+        y^ = 20;
         x^ = 10;
         p = x; // p^ = 10;
         print p^; // 10
+        p = y; // p^ = 20;
+        print p^;
         delete x; // delete x :: delete p
-        print p^; // errore :: p -> 2 :: d
+        delete z;
+        print p^;
 
+}
 }
