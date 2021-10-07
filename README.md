@@ -1,5 +1,5 @@
 
-# Compilatore SimpLanPlus 
+# Linguaggio SimpLanPlus 
 
 <p>
         <img src="https://img.shields.io/static/v1?label=build&message=passing&color=%3CCOLOR%3E" alt="alternatetext">
