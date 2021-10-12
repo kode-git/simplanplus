@@ -1,5 +1,5 @@
 
-# Linguaggio SimpLanPlus 
+# SimpLanPlus 
 
 <p>
         <img src="https://img.shields.io/static/v1?label=build&message=passing&color=%3CCOLOR%3E" alt="alternatetext">
@@ -8,38 +8,37 @@
   <img src="https://img.shields.io/badge/ANTLR-9.2.1-yellow" alt="alternatetext">
   <img src="https://img.shields.io/badge/Java-13.2-white" alt="alternatetext">
 </p>
-Progetto per il corso di Compilatori ed Interpreti presso Alma Mater Studiorum di Bologna, laura magistrale in Informatica. Il compilatore è basato su grammatiche ANTL4 e programmato in Java (JDK 13.0.6).
+Compiler based on ANTLR4 gramar and implemented in Java (JDK 13.0.6). It is used to Compiler and Interpreter exam at Alma Mater Studiorum - DISI Course
 
-## Caratteristiche
+## Features
 
-Il sistema controllerà i seguenti casi in ambito compilativo:
+The system will check the following cases in the compilation field:
 <ul>
-  <li>Variabili/Funzioni non dichiarate</li>
-  <li>Variabili dichiarate piu` volte nello stesso ambiente </li>
-  <li>Uso di variabili non inizializzate</li>
-  <li>Corretto uso dei puntatori</li>
-  <li>Parametri attuali non conformi ai parametri formali (inclusa la verifica sui parametri passati per var)</li>
-  <li>La correttezza dei tipi </li>
+   <li> Undeclared Variables / Functions </li>
+   <li> Variables declared multiple times in the same environment </li>
+   <li> Using uninitialized variables </li>
+   <li> Correct use of pointers </li>
+   <li> Current parameters not conforming to formal parameters (including checking on parameters passed for var) </li>
+   <li> The correctness of types </li>
 </ul>
 
-Inoltre controlla gli accessi a identificatori "cancellati" con particolare
-attenzione all'<b>aliasing</b> implementandone il sistema.
+It also controls access to "deleted" identifiers with particular
+pay attention to <b> aliasing </b> by implementing the system.
 
-In tutto il progetto, si assuma che i programmi possano essere <b>ricorsivi</b> ma <b>non mutuamente ricorsivi</b>.
+Throughout the project, assume that programs can be <b> recursive </b> but <b> not mutually recursive </b>.<br><br>
+We introduced also the <b>interpreter simulator</b>:
+<br>
+A. The bytecode has instructions for a stacked machine that stores in a
+    appropriate register the value of the last calculated instruction <br>
+B. Implement an interpreter for the bytecode. <br>
+C. Compile and execute high-level language programs. <br>
 
-Infine:
-
-A. Il bytecode ha istruzioni per una macchina a pila che memorizza in un 
-   apposito registro il valore dell'ultima istruzione calcolata<br>
-B. Implementare un interprete per il bytecode.<br>
-C. Compilare ed esegue i programmi del linguaggio ad alto livello.<br>
-
-## Autori
+## Authors
 
 - Andrea Gurioli (@andreagurioli1995)
 - Giovanni Pietrucci (@giovanniPi997)
 - Mario Sessa (@kode-git)
 
-## Licenza
+## License
 
 &copy; Apache License Version 2.0, January 2004
